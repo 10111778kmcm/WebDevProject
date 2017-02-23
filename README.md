@@ -1,6 +1,10 @@
-## Welcome to GitHub Pages
+## Group 9 - Grad Dips Web Development Project
 
-You can use the [editor on GitHub](https://github.com/10111778kmcm/WebDevProject/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+### Contributors
+Cynthia Alarcon - 
+Kevin Murphy - 
+Jack Kelleher - 
+Kieran McMahon - 
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
