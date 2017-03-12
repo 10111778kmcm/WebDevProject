@@ -76,14 +76,14 @@
         <form action="" method="post" class="form-horizontal">
           <div class="form-group row">
             <h1>Log in to UL Review</h1></br>
-            <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Email (valid UL.ie address)</label>
+            <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Email</label>
             <div class="col-sm-5 col-md-4">
               <input type="text" class="form-control" id="inputEmail3" type ="email" name="emailInput"placeholder="JacKel@ul.ie" required>
             </div>
           </div>
 
           <div class="form-group row">
-            <label for="inputPassword3" class="col-sm-4  col-md-4 control-label">Password (minimum 6 characters)</label>
+            <label for="inputPassword3" class="col-sm-4  col-md-4 control-label">Password</label>
             <div class="col-sm-5 col-md-4">
               <input type="password" class="form-control" id="inputPassword3" name="passwordInput" minLength="2" placeholder="Password" required>
             </div>
