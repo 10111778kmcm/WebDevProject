@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script>
 </head>
 <body>
 <!-- Navbar -->
@@ -73,19 +74,19 @@
              }
          ?> 
           
-        <form action="" method="post" class="form-horizontal">
+        <form action="" method="post" name="loginFields" class="form-horizontal">
           <div class="form-group row">
             <h1>Log in to UL Review</h1></br>
             <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Email (valid UL.ie address)</label>
             <div class="col-sm-5 col-md-4">
-              <input type="text" class="form-control" id="inputEmail3" type ="email" name="emailInput"placeholder="JacKel@ul.ie" required>
+              <input class="form-control" id="inputEmail3" type="email" name="emailInput" placeholder="JacKel@ul.ie" required>
             </div>
           </div>
 
           <div class="form-group row">
             <label for="inputPassword3" class="col-sm-4  col-md-4 control-label">Password (minimum 6 characters)</label>
             <div class="col-sm-5 col-md-4">
-              <input type="password" class="form-control" id="inputPassword3" name="passwordInput" minLength="2" placeholder="Password" required>
+              <input type="password" class="form-control" id="inputPassword3" name="passwordInput" minLength="6" placeholder="Password" required>
             </div>
           </div>
 
@@ -96,18 +97,16 @@
               </label>
             </div>
           </div>
-
+			
           <div class="form-group">
             <div class="col-xs-6 col-xs-offset-4 col-sm-7 col-sm-offset-5 col-md-2 col-md-offset-5">
-              <button class="btn btn-primary"> Log in</button>
+              <button class="btn btn-primary" name="loginButton"> Log in</button>
             </div>
           </div>
         </form>
-        <script>
-            $("#NAME").validate();
-        </script>
-        
-        
+		<script>
+		("#loginFields").validate();
+        </script> 
       </div>
     </div>
 
@@ -180,7 +179,7 @@
 	       }
 	}else if (!isset($_POST) || count($_POST) == 0) { ?>
         
-      <form method ="post">
+      <form method ="post" name="registrationFields>
         <div class="form-group">
           <label for="name">First Name</label>
           <input class=" form-control" type="text" id="Firstname" name="firstname" placeholder="Jack">
@@ -193,7 +192,7 @@
 
         <div class="form-group">
           <label for="Username">Username</label>
-          <input class=" form-control" type="text" id="Username" name="username"placeholder="JackKelleher">
+          <input class=" form-control" type="text" id="Username" name="username" minlength="4" placeholder="JackKelleher">
         </div>
 
         <div class="form-group"> 
@@ -203,7 +202,7 @@
 
         <div class="form-group">
           <label for="email">UL email address</label>
-          <input class=" form-control" type="text" id="email" name="email" placeholder="12345678@studentmail.ul.ie">
+          <input class=" form-control" id="email" name="email" placeholder="12345678@studentmail.ul.ie">
         </div>
 
         <div class="form-group">
@@ -216,9 +215,12 @@
           <input class=" form-control" type="password" id="re-password" name="pass2" placeholder="xxxxxxxxx">
         </div>
 
-        <button class="btn btn-primary">Register</button>
+        <button class="btn btn-primary" name="registerButton">Register</button>
       </div>
     </form>
+	<script>
+		("#registrationFields").validate();
+    </script> 
 <?php 
    } 
    ?>	
@@ -263,7 +265,7 @@
      
           <button class="btn btn-primary">Enviar</button>
         </form>
-   <? } ?>
+   <?php } ?>
     </div>
    
     
