@@ -1,0 +1,300 @@
+html{
+    position: relative;
+    min-height: 100%;
+}
+
+body{
+    background-color: #8CD3FF;
+    align-content: center;
+    font-family: 'Roboto', sans-serif, Georgia, Times;
+    color: #315B7F;
+
+}
+
+.index{
+
+}
+
+.navbar{
+    background-color: #fff;
+}
+
+h1{
+    text-align: center;
+    color: #182E40;
+    font-family: 'Lobster Two', cursive;
+}
+
+h2{
+    color: #182E40;
+    font-family: 'Lobster Two', cursive;
+}
+
+
+h1 p{
+    text-align: center;
+}
+
+.tasks-main{
+    display: block;
+
+}
+
+.white-card{
+    background-color: #fff;
+    box-shadow: 10px 10px 5px #888888;
+    border-radius: 20px;
+    width: 100%;
+    height: 50%;
+}
+
+.step-num{
+    width: 50%;
+    height: 10%;
+    float: left;
+    display: block;
+}
+
+.step-description{
+    width: 50%;
+    height: 10%;
+    float: right;
+    display: block;
+}
+
+.main{
+    background:#DCB2F7;
+
+}
+
+.panel{
+    box-shadow: 8px 8px 40px #267294;
+}
+
+.description-of-page{
+    margin-right: 20px;
+    margin-left: 20px;
+}
+.color1{
+    background color:#CEF7B2;
+}
+
+aside{
+    background-color:#F7B9B2;
+}
+
+footer{
+    background-color:#B2F0F7;
+}
+.icon{
+    margin-bottom: 10px;
+}
+
+.btn{
+    background-color: #182E40;
+}
+
+.btn-stickyNav{
+    background-color: #E15BE3;
+    color: #fff;
+}
+
+.btn-stickyNav:hover{
+    background-color: #3B7194;
+    color: #fff;
+}
+
+.btn-FlaggedTasks{
+    background-color:#31E3E3;
+}
+
+.btn-FlaggedTasks:hoover{
+    background-color: #2A9DE3;
+    color: #fff;
+}
+
+.btn-sm{
+    background-color: #3B7194;
+    color: #fff;
+}
+.btn-sm:hover{
+    background-color:#428bca;
+    color:#fff;
+}
+
+.btn-center{
+    align-self: center;
+}
+
+.btn-default{
+    background-color: #3B7194;
+    color: #fff;
+}
+
+.btn-default:hover{
+    background-color:#428bca;
+    color:#fff;
+}
+
+.btn-TasksIndex{
+    align-self: center;
+    background-color: #bce8f1;
+    opacity: 0.95;
+    width: 220px;
+    height: 150px;
+    font-color:#737373;
+    border-radius: 20px;
+    margin: 15px;
+    box-shadow: 10px 10px 30px #A9D1CF;
+}
+
+.btn-TasksIndex:hover{
+    align-self: center;
+    background-color: #bce8f1;
+    opacity: 0.95;
+    width: 220px;
+    height: 150px;
+    font-color:#737373;
+    border-radius: 20px;
+    margin: 15px;
+    box-shadow: 10px 10px 30px #A9D1CF;
+}
+
+.btn-MyTasksAvailable{
+    border-style: double;
+    border-width: 4px;
+    border-color: #28B4FA;
+    align-self: center;
+    background-color:#fff;
+    width: 180px;
+    height: 120px;
+    font-color:#3A738F;
+    border-radius: 20px;
+    margin: 15px;
+    box-shadow: 8px 8px 25px #BFC2C2;
+    -webkit-transition: all 0.1s ease-in-out;
+    font-size: 15px;
+}
+
+.btn-MyTasksAvailable:hover{
+     -webkit-transform: scale(1.1);
+}
+
+.btn-MyTasksExpired{
+    border-style: double;
+    border-width: 4px;
+    border-color: #FA2828;
+    align-self: center;
+    background-color:#fff;
+    width: 180px;
+    height: 120px;
+    font-color:#3A738F;
+    border-radius: 20px;
+    margin: 15px;
+    box-shadow: 8px 8px 25px #BFC2C2;
+    -webkit-transition: all 0.1s ease-in-out;
+    font-size: 15px;
+}
+
+.btn-MyTasksExpired:hover{
+     -webkit-transform: scale(1.1);
+}
+
+.btn-MyTasksPending{
+    border-style: double;
+    border-width: 4px;
+    border-color: #804B94;
+    align-self: center;
+    background-color: #fff;
+    width: 180px;
+    height: 120px;
+    font-color:#3A738F;
+    border-radius: 20px;
+    margin: 15px;
+    box-shadow: 8px 8px 25px #BFC2C2;
+    -webkit-transition: all 0.1s ease-in-out;
+    font-size: 15px;
+}
+
+.btn-MyTasksPending:hover{
+     -webkit-transform: scale(1.1);
+}
+
+.btn-MyTasksClaimed{
+    border-style: double;
+    border-width: 4px;
+    border-color: #FAB028;
+    align-self: center;
+    background-color: #fff;
+    width: 180px;
+    height: 120px;
+    font-color:#3A738F;
+    border-radius: 20px;
+    margin: 15px;
+    box-shadow: 8px 8px 25px #BFC2C2;
+    -webkit-transition: all 0.1s ease-in-out;
+    font-size: 15px;
+}
+
+.btn-MyTasksClaimed:hover{
+     -webkit-transform: scale(1.1);
+}
+
+.btn-MyTasksCancelled{
+    border-style: double;
+    border-width: 4px;
+    border-color: #FA2828;
+    align-self: center;
+    background-color: #fff;
+    width: 180px;
+    height: 120px;
+    font-color:#3A738F;
+    border-radius: 20px;
+    margin: 15px;
+    box-shadow: 8px 8px 25px #BFC2C2;
+    -webkit-transition: all 0.1s ease-in-out;
+    font-size: 15px;
+}
+
+.btn-MyTasksCancelled:hover{
+     -webkit-transform: scale(1.1);
+}
+
+.btn-MyTasksCompleted{
+    border-style: double;
+    border-width: 4px;
+    border-color: #16BA34;
+    align-self: center;
+    background-color: #fff;
+    width: 180px;
+    height: 120px;
+    font-color:#3A738F;
+    border-radius: 20px;
+    margin: 15px;
+    box-shadow: 8px 8px 25px #BFC2C2;
+    -webkit-transition: all 0.1s ease-in-out;
+    font-size: 15px;
+}
+
+.btn-MyTasksCompleted:hover{
+     -webkit-transform: scale(1.1);
+}
+
+footer{
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+width: 100%;
+height: 60px;
+overflow: hidden;
+background-color: #fff;
+}
+
+.button:hover:nth-of-type(8) {
+  -webkit-transform: scale(1.2);
+      -ms-transform: scale(1.2);
+          transform: scale(1.2);
+}
+.button:hover:nth-of-type(8):after {
+  width: 0%;
