@@ -17,29 +17,39 @@
   <!-- Navbar -->
   <nav class="navbar navbar-default">
     <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
-        <img src="images/ULlogo-azul.png" alt="UL Review logo" style="width: 182px; height: 50px;"">
-      </div><!-- /.navbar-header -->
-    </div><!-- /.container -->
-  </nav>
-
-  <!-- Content step 1 -->
-  <div class="container">
-    <div class="panel panel-info">
-      <div class="panel-heading"><h2>Step 1</h2></div>
-      <div class="panel-body">
-        <h4>Select your prefered language</h4>
-        <button class="btn btn-sm">Español</button>
-        <button class="btn btn-sm">Deutsche</button>
-        <button class="btn btn-sm">Gaeilge</button>
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href="indexULReview.html" target="_self"><img src="images/ULlogo-azul.png" alt="UL Review logo" style="width: 182px; height: 50px;""></a>
+        <!-- <a class="navbar-brand" href="#">UL Review</a> -->
       </div>
-    </div>
-  </div>
+
+<ul class="nav navbar-nav navbar-right">
+      <!--   Dropdown Languages -->
+      <li class="dropdown ">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Language <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Español</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a href="#">Deutsche</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a href="#">Gaeilge</a></li>
+        </ul>
+      </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container -->
+    </nav>
 
   <!-- Content Step 2 -->
   <div class="container">
     <div class="panel panel-info">
-      <div class="panel-heading"><h2>Step 2:</h2></div>
+      <div class="panel-heading"><h2>Choose one:</h2></div>
       <div class="panel-body">
         <ul class="nav nav-tabs">
           <li class="active"><a data-toggle="tab" href="#Log-in">Log in</a></li>
