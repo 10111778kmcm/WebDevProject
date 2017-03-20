@@ -65,16 +65,16 @@
             <form action="" class="form-horizontal">
               <div class="form-group row">
                 <h1>Log in</h1></br>
-                <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">Email</label>
+                <label for="inputEmail3" class="col-sm-4 col-md-4 control-label">UL Email</label>
                 <div class="col-sm-5 col-md-5">
-                  <input type="email" class="form-control" id="inputEmail3" placeholder="123456789@studentmail.ul.ie">
+                  <input class="form-control" id="inputEmail3" pattern=".+@studentmail.ul.ie" placeholder="123456789@studentmail.ul.ie">
                 </div>
               </div>
 
               <div class="form-group row">
-                <label for="inputPassword3" class="col-sm-4  col-md-4 control-label">Password</label>
+                <label for="inputPassword3" class="col-sm-4  col-md-4 control-label">Password (8 characters, 1 uppercase, 1 digit)  </label>
                 <div class="col-sm-5 col-md-5">
-                  <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                  <input pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength = "8" class="form-control" id="inputPassword3" placeholder="Password">
                 </div>
               </div>
 
@@ -129,17 +129,17 @@
 
             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <label for="email">UL email address</label>
-              <input class=" form-control" type="text" id="email" placeholder="12345678@studentmail.ul.ie">
+              <input class=" form-control" pattern=".+@studentmail.ul.ie" id="email" placeholder="12345678@studentmail.ul.ie">
             </div>
 
             <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-              <label for="password">Password</label>
-              <input class=" form-control" type="text" id="password" placeholder="xxxxxxxxx">
+              <label for="password">Password (8 characters, 1 uppercase, 1 digit) </label>
+              <input class=" form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8" id="password" placeholder="xxxxxxxxx">
             </div>
 
             <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
               <label for="re-password">Re-enter password</label>
-              <input class=" form-control" type="text" id="re-password" placeholder="xxxxxxxxx">
+              <input class=" form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8" id="re-password" placeholder="xxxxxxxxx">
             </div>
             <br>
             <button class="btn btn-primary center-block">Register</button>
@@ -153,14 +153,14 @@
         <div class="container">
           <div class="description-of-page">
             <h1>Forgot your password?</h1>
-            <h4>Type your email address and we will send a temporary password that you can change at any time in Setings.</h4>
+            <h4>Type your email address and we will send a temporary password that you can change at any time in Settings.</h4>
           </div>
         </br>
         <form action="" class="form-horizontal">
           <div class="form-group row">
-            <label for="emailaddress" class="col-sm-4  col-md-4 control-label">Email</label>
+            <label for="emailaddress" class="col-sm-4  col-md-4 control-label">UL Email</label>
             <div class="col-sm-5 col-md-5">
-              <input type="text" class="form-control" id="emailaddress" placeholder="12345678@studentmail.ul.ie">
+              <input pattern=".+@studentmail.ul.ie" class="form-control" id="emailaddress" placeholder="12345678@studentmail.ul.ie">
             </div>
           </div>
 
