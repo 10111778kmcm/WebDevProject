@@ -94,22 +94,16 @@ footer{
     background-color: #182E40;
 }
 
-.btn-stickyNav{
-    background-color: #E15BE3;
-    color: #fff;
-}
-
-.btn-stickyNav:hover{
-    background-color: #3B7194;
-    color: #fff;
-}
 
 .btn-FlaggedTasks{
-    background-color:#31E3E3;
+    background-color:#F5F715;
+    border-radius: 10px;
+    height: 10%;
+
 }
 
-.btn-FlaggedTasks:hoover{
-    background-color: #2A9DE3;
+.btn-FlaggedTasks:hover{
+    background-color: #8CD3FF;
     color: #fff;
 }
 
