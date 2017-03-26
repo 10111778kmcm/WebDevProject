@@ -10,6 +10,12 @@
   <title>UL Review</title>
 </head>
 <body id="body">
+     <?php 
+        session_start();
+        if (!isset($_SESSION['username']) && $_SESSION['moderator'] != 1) {
+			header("Location:./logIn.php");					
+        }
+    ?>
   <nav class="navbar navbar-default">
     <div class="container">
       <!-- Brand and toggle get grouped for better mobile display -->
@@ -20,7 +26,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a href="indexULReview.html" target="_self"><img src="images/ULlogo-azul.png" alt="UL Review logo" style="width: 182px; height: 50px;""></a>
+        <a href="indexULReview.html" target="_self"><img src="images/ULlogo-azul.png" alt="UL Review logo" style="width: 182px; height: 50px;"></a>
         <!-- <a class="navbar-brand" href="#">UL Review</a> -->
       </div>
 
@@ -62,181 +68,109 @@
     <div class="panel panel-info">
       <div class="panel-heading"><h2>Flagged Tasks</h2></div>
 
-      <!-- Panel body -->
+     <!-- Panel body -->
       <div class="panel-body">
-        <!-- Modal ONE -->
-        <button type="button1" class="btn btn-MyTasksAvailable btn-lg" data-toggle="modal" data-target="#myModalAvailable">Title: Computing notes</br> Status: Available </br> Date: 20/01/17</button>
-        <!-- Button type has to be unique -->
-        <!-- data-target has to be unique for each -->
+          <script src="js/functions.js"></script>
+          <script src="js/jquery.js"></script>
+          <script src="js/bootstrap.min.js"></script>
+       <?php try {
+            $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
+		    $counter = 0;
+            
+            $stmt = $dbh->query("SELECT task_Id, title, flagged_count, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline FROM tasks WHERE flagged_count > 0 order by flagged_count ASC");
+        
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $taskID = $row['task_Id']; 
+                $title = $row['title'];              
+                $flagCount = $row['flagged_count'];
+                $type = $row['type'];
+                $pageNo = $row['page_no'];
+                $wordCount = $row['word_Count'];
+                $fileFormat = $row['file_format'];
+                $description = $row['description'];
+                $claimDeadline = $row['claim_deadline'];
+                $submissionDeadline = $row['submission_deadline'];
+                $targetIdentifier = "#myModelAvailable";
+                $target = "myModelAvailable";
+                $buttonIdentifier = "buttonAvailable";
+                $buttonID = $buttonIdentifier.$counter;
+                $targetID  = $targetIdentifier.$counter;               
+                $target = $target.$counter;
+                
+                //going to need to do some funny stuff to display tags
+                printf('<button type= %s class="btn btn-MyTasksAvailable btn-lg" data-toggle="modal" data-target= %s >Title: %s</br> No. of Flags: %s </br> Date: %s</button>
 
-        <!-- Modal -->
-        <div class="modal fade" id="myModalAvailable" role="dialog">
-          <div class="modal-dialog">
-            <!-- ID has to be = to data-target, also unique -->
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button1" class="close" data-dismiss="modal">&times;</button>
-                <!--        Button type has to match with the on in line 44, that's how they connect -->
-                <h4 class="modal-title title">Title:Computing notes</h4>
-              </div>
-              <div class="modal-body">
-                <!--         Not sure if this classes will help when allocating information from "Create Task", if not, remove. -->
-                <div class="type">
-                  Type: notes
-                </div>
-                <div class="tags">
-                  Tags: CSIS, Java, computing
-                </div>
-                <div class="no-of-pages">
-                  No of pages: 5
-                </div>
-                <div class="no-of-words">
-                  No of word:150
-                </div>
-                <div class="file-Format">
-                  File Format: word
-                </div>
-                <div class="description">
-                  Description: My notes from java lecture
-                </div>
-                <div class="claimed-deadline">
-                  Claimed Deadline: 01/04/17
-                </div>
-                <div class="completion-deadline">
-                  Completion Deadline: 29/05/07
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Claim</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Unflag</button>
-                <p>Status: Available</p>
-              </div>
-            </div>
-          </div>
-        </div> <!-- finish modal -->
-
-
-        <!-- Other TWO-->
-
-        <button type="button1" class="btn btn-MyTasksAvailable btn-lg" data-toggle="modal" data-target="#myModalAvailable1">Title: FYP Engineering <br> processes </br> Status: Available </br> Date: 20/01/17</button>
-        <!-- Button type has to be unique -->
-        <!-- data-target has to be unique for each -->
-
-        <!-- Modal -->
-        <div class="modal fade" id="myModalAvailable1" role="dialog">
-          <div class="modal-dialog">
-            <!-- ID has to be = to data-target, also unique -->
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button1" class="close" data-dismiss="modal">&times;</button>
-                <!--        Button type has to match with the on in line 44, that's how they connect -->
-                <h4 class="modal-title title">Title: FYP Engineering processes</h4>
-              </div>
-              <div class="modal-body">
-                <!--         Not sure if this classes will help when allocating information from "Create Task", if not, remove. -->
-                <div class="type">
-                  Type: FYP
-                </div>
-                <div class="tags">
-                  Tags: Engineering, civil engineering
-                </div>
-                <div class="no-of-pages">
-                  No of pages: 25
-                </div>
-                <div class="no-of-words">
-                  No of word:1526
-                </div>
-                <div class="file-Format">
-                  File Format: word
-                </div>
-                <div class="description">
-                  Description: FYP Engineering
-                </div>
-                <div class="claimed-deadline">
-                  Claimed Deadline: 01/04/17
-                </div>
-                <div class="completion-deadline">
-                  Completion Deadline: 29/05/07
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Claim</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Unflag</button>
-                <p>Status: Available</p>
-              </div>
-            </div>
-          </div>
-        </div> <!-- finish modal -->
-
-        <!-- Other THREE-->
-
-        <button type="button3" class="btn btn-MyTasksAvailable btn-lg" data-toggle="modal" data-target="#myModalAvailable3">Title: Volunteering side <br>effects</br> Status: Available </br> Date: 20/01/17</button>
-        <!-- Button type has to be unique -->
-        <!-- data-target has to be unique for each -->
-
-        <!-- Modal -->
-        <div class="modal fade" id="myModalAvailable3" role="dialog">
-          <div class="modal-dialog">
-            <!-- ID has to be = to data-target, also unique -->
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button3" class="close" data-dismiss="modal">&times;</button>
-                <!--        Button type has to match with the on in line 44, that's how they connect -->
-                <h4 class="modal-title title">Title: Volunteering side effects</h4>
-              </div>
-              <div class="modal-body">
-                <!--         Not sure if this classes will help when allocating information from "Create Task", if not, remove. -->
-                <div class="type">
-                  Type: essay
-                </div>
-                <div class="tags">
-                  Tags: occupational therapy, volunteering, effects
-                </div>
-                <div class="no-of-pages">
-                  No of pages: 25
-                </div>
-                <div class="no-of-words">
-                  No of word:1526
-                </div>
-                <div class="file-Format">
-                  File Format: word
-                </div>
-                <div class="description">
-                  Description: side effects of volunteering
-                </div>
-                <div class="claimed-deadline">
-                  Claimed Deadline: 01/04/17
-                </div>
-                <div class="completion-deadline">
-                  Completion Deadline: 29/05/07
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Delete </button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Unflag</button>
-                <p>Status: Available</p>
-              </div>
-            </div>
-          </div>
-        </div> <!-- finish modal -->
-
-
-
+                        <!-- Modal -->
+                        <div class="modal fade" id= %s role="dialog">
+                            <div class="modal-dialog">
+                            <!-- ID has to be = to data-target, also unique -->
+                            <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type= %s class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title title">Title: %s</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="type">
+                                           Type: %s
+                                        </div>
+                                        <div class="tags">
+                                            Tags: need to work on this
+                                        </div>
+                                        <div class="no-of-pages">
+                                            No of pages: %s
+                                        </div>
+                                        <div class="no-of-words">
+                                            No of word: %s
+                                        </div>
+                                        <div class="file-Format">
+                                            File Format: %s
+                                        </div>
+                                        <div class="description">
+                                            Description: %s
+                                        </div>
+                                        <div class="claimed-deadline">
+                                            Claim Deadline: %s
+                                        </div>
+                                        <div class="completion-deadline">
+                                            Completion Deadline: %s
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form method="post">
+                                           <button type="submit" class="btn btn-default" name="delete" value="%s">Delete</button>
+                                           <button type="submit" class="btn btn-default" name="unflag" value="%s">Unflag</button>
+                                        </form>
+                                        <p>Status: Flagged</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $flagCount, $claimDeadline, $target, $buttonID, $title, $type, $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $taskID, $taskID);
+                $counter++;
+            }
+        }catch(PDOException $exception){
+             printf("Connection error: %s", $exception->getMessage());       
+        }
+        
+        if(isset($_POST['delete'])){
+           $val = $_POST['delete'];
+           $stmt = $dbh->prepare("DELETE FROM tasks WHERE task_Id = ?");
+           $stmt->execute(array($val));
+           $stmt = $dbh->prepare("DELETE FROM task_status WHERE task_Id = ?");
+           $stmt->execute(array($val));
+           $stmt = $dbh->prepare("DELETE FROM assigned_tags WHERE task_Id = ?");
+           $stmt->execute(array($val));
+        }else if(isset($_POST['unflag'])){
+           $val = $_POST['unflag'];
+           $stmt = $dbh->prepare("UPDATE tasks SET flagged_count = 0 WHERE task_Id = ?");
+           $stmt->execute(array($val));
+        }
+?>
 
 
       </div> <!-- panel-body -->
     </div> <!-- panel panel-default -->
   </div> <!-- container -->
-
 </div>
-<script src="js.functions.js"></script>
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
