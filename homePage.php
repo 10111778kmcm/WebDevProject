@@ -16,8 +16,9 @@
   <?php 
      session_start();
      if (!isset($_SESSION['username'])) {
-       header("Location:/index.php");					
+       header("Location:/login.php");					
      }
+    //echo exec('whoami'); 
   ?>
   <!-- Nav Bar -->
   <nav class="navbar navbar-default">
@@ -57,14 +58,6 @@
           <li><a href="#availableTasks">Available Tasks</a></li>
         </ul>
       </li>
-
-      <!--     Search bar
-      <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form> -->
 
       <!--   Dropdown Languages -->
       <li class="dropdown btn-stickyNav">
@@ -160,7 +153,7 @@
                    $buttonID = $buttonIdentifier.$counter;
                    $targetID  = $targetIdentifier.$counter;               
                    $target = $target.$counter;
-                
+                   $relatedFile = "FileUploads/".$taskID.".pdf";
                     
                     //need to add code for submit rating
                     
@@ -209,6 +202,9 @@
                                         <div class="completion-deadline">
                                             Completion Deadline: %s
                                         </div>
+                                        
+                                        <embed src= %s width="200px" height="500px" />
+                                        
                                         <div class="modal-footer">
                                            <form method="post">
                                               <button type="submit" class="btn btn-default" name="delete" value= %s>Delete</button>
@@ -218,7 +214,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $taskID);
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $taskID);
                      break;
                      
                      case "2":
@@ -259,6 +255,9 @@
                                         <div class="completion-deadline">
                                             Completion Deadline: %s
                                         </div>
+                                        
+                                        <embed src= %s width="200px" height="500px" />
+                                        
                                         <div class="modal-footer">
                                            <form method="post">
                                               <button type="submit" class="btn btn-default" name="cancel" value= %s>Cancel</button>
@@ -268,7 +267,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $taskID);
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $taskID);
                      break;
                          
                      case "3":
@@ -308,6 +307,9 @@
                                         <div class="completion-deadline">
                                             Completion Deadline: %s
                                         </div>
+                                        
+                                        <embed src= %s width="200px" height="500px" />
+                                        
                                     </div>
                                     <div class="modal-footer">
                                         <form method="post">
@@ -318,7 +320,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $taskID, $taskID);
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $taskID, $taskID);
                      break;
                          
                      case "4":
@@ -358,6 +360,9 @@
                                         <div class="completion-deadline">
                                             Completion Deadline: %s
                                         </div>
+                                        
+                                        <embed src= %s width="200px" height="500px" />
+                                        
                                     </div>
                                     <div class="modal-footer">
                                         <form method="post">
@@ -368,7 +373,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $taskID, $taskID);
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $taskID, $taskID);
                      break;
                          
                      case "5":
@@ -442,11 +447,40 @@
            $wordNum = htmlspecialchars(trim($_POST["wordNum"]));
            $fileFormat = htmlspecialchars(trim($_POST["fileFormat"]));
            $description = htmlspecialchars(trim($_POST["description"]));
+            
 	       $claimDeadline = str_ireplace("/","-",$_POST["claimDeadline"]);
            $submissionDeadline = str_ireplace("/","-",$_POST["submissionDeadline"]);
-           $username = $_SESSION['username'];
             
+           $username = $_SESSION['username'];
+      
            $tagArray = explode(",", $tags);
+           $createTask = true; 
+            
+           //file stuff $taskID taken from https://davidwalsh.name/basic-file-uploading-php and //https://www.w3schools.com/php/php_file_upload.asp
+               
+           $targetDirectory = "FileUploads/";
+           $target_file = $targetDirectory.basename($_FILES["fileUpload"]["name"]);
+           $fileType = ".".strtolower(pathinfo($target_file,PATHINFO_EXTENSION)); 
+          
+           //printf("<h2> fileFormat: %s</h2>", $fileFormat);
+           //printf("<h2> fileType: %s</h2>", $fileType);
+           if($_FILES['fileUpload']['name']){
+             if(!$_FILES['fileUpload']['error']){ //if there is no errors
+                 if(is_uploaded_file($_FILES['fileUpload']['tmp_name'])){
+                     if(strcasecmp($fileFormat, $fileType) != 0){
+                         print("<h2>File Types must match!</h2>");
+                         $createTask = false; 
+                     }
+                  }
+              }else{
+                 print("<h2>Error with upload!</h2>");
+                 $createTask = false; 
+              }
+            }else{
+              print("<h2>No file uploaded!</h2>");
+              $createTask = false; 
+            }
+          if($createTask){              
            try{
 	         $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
              $query = "INSERT INTO tasks VALUES(:username, NULL, :title, :type, :pageNum, :wordCount, :fileFormat, :description, :claimDeadline, :submissionDeadline, 0)";
@@ -461,6 +495,11 @@
              $stmt = $dbh->prepare("INSERT INTO task_status VALUES (?, 1)");
              $stmt->execute(array($taskID));
              
+             //using taskID to name uploaded file
+             $newFileName = $taskID;
+             move_uploaded_file($_FILES['fileUpload']['tmp_name'], $targetDirectory.$newFileName.$fileType);
+            
+             //inserting tags
              foreach($tagArray as $tag){
                 $tag = htmlspecialchars(trim($tag));
                 $stmt = $dbh->prepare("SELECT COUNT(*) FROM tag_ids WHERE tag_Name = ?" );
@@ -484,9 +523,12 @@
            }catch(PDOException $exception){
               print("<h2> Uh Oh1</h2>"); 
            }            
+        }else{
+           print("<h2> Uh OhBottom</h2>");    
         }
+      }
       ?>   
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="title">Title</label>
         <input class=" form-control" type="text" id="title" name="title"  placeholder="World War II">
@@ -551,6 +593,14 @@
               <p> Date: <input type="text" id="datepicker" name="submissionDeadline" ></p>  
            </div>
          </div>
+        
+        <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+           <label for="re-password">File Upload (A short summary of your task)</label>
+           <div>
+              <input type="file" name="fileUpload" id="fileToUpload"> 
+           </div>
+         </div>
+        
          <br>
          <button class="btn btn-primary center-block" type="submit" name="createTaskSubmit">Create</button>
          <br>
