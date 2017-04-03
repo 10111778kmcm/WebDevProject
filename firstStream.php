@@ -66,7 +66,7 @@
                     $stmt = $dbh->prepare("INSERT INTO user_tags VALUES (:tagID, :username)");
                     $affectedRows = $stmt->execute(array(':tagID' => $tagID, ':username' => $username));
                     if($affectedRows > 0){
-                       header("Location:./main.php");
+                       header("Location:./homePage.php");
                     }else{
                        printf("<h2>ERROR</h2>");  
                     } 
