@@ -10,51 +10,6 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-  <?php
-  session_start();
-  header('Cache-control: private'); // IE 6 FIX
-  if(isSet($_GET['lang']))
-  {
-  $lang = $_GET['lang'];
-  // register the session and set the cookie
-  $_SESSION['lang'] = $lang;
-  setcookie('lang', $lang, time() + (3600 * 24 * 30));
-  }
-  else if(isSet($_SESSION['lang']))
-  {
-  $lang = $_SESSION['lang'];
-  }
-  else if(isSet($_COOKIE['lang']))
-  {
-  $lang = $_COOKIE['lang'];
-  }
-  else
-  {
-  $lang = 'en';
-  }
-  switch ($lang) {
-  case 'ga':
-  $lang_file = 'lang.ga.php';
-  break;
-
-  case 'de':
-  $lang_file = 'lang.de.php';
-  break;
-
-  case 'es':
-  $lang_file = 'lang.es.php';
-  break;
-
-  default:
-  $lang_file = 'lang.en.php';
-  }
-  include_once 'languages/'.$lang_file;
-  ?>
-
-
-
-
 </head>
 
 
@@ -62,6 +17,38 @@
     <?php
         if (!isset ($_SESSION)) {
            session_start();
+           header('Cache-control: private'); // IE 6 FIX
+           if(isSet($_GET['lang'])){
+             $lang = $_GET['lang'];
+             // register the session and set the cookie
+             $_SESSION['lang'] = $lang;
+             setcookie('lang', $lang, time() + (3600 * 24 * 30));
+           }else if(isSet($_SESSION['lang'])){
+             $lang = $_SESSION['lang'];
+           }else if(isSet($_COOKIE['lang'])){
+             $lang = $_COOKIE['lang'];
+           }else{
+             $lang = 'en';
+           }
+  
+           switch ($lang) {
+             case 'ga':
+                $lang_file = 'lang.ga.php';
+             break;
+
+             case 'de':
+               $lang_file = 'lang.de.php';
+             break;
+
+             case 'es':
+               $lang_file = 'lang.es.php';
+             break;
+
+             default:
+               $lang_file = 'lang.en.php';
+           }
+  
+           include_once 'languages/'.$lang_file;
         }
     ?>
   <!-- Navbar -->
@@ -164,14 +151,15 @@
                 <h1><?php echo $lang['menu_logIn']; ?></h1></br>
                 <label for="inputEmail3" class="col-sm-4 col-md-4 control-label"><?php echo $lang['menu_ulMail']; ?></label>
                 <div class="col-sm-5 col-md-5">
-                  <input class="form-control" id="inputEmail3" name="emailInput" pattern=".+@studentmail.ul.ie" placeholder="123456789@studentmail.ul.ie">
+                  <input class="form-control" id="inputEmail3" name="emailInput" pattern=".+@ul.ie" placeholder="123456789@ul.ie">
                 </div>
               </div>
 
               <div class="form-group row">
                 <label for="inputPassword3" class="col-sm-4  col-md-4 control-label"><?php echo $lang['menu_password']; ?> <small><?php echo $lang['menu_passwordDetails']; ?></small></label>
                 <div class="col-sm-5 col-md-5">
-                  <input pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength = "8" name="passwordInput" class="form-control" id="inputPassword3" placeholder="Password">
+                  <!--<input pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength = "8" name="passwordInput" class="form-control" id="inputPassword3" placeholder="Password">-->
+                    <input name="passwordInput" class="form-control" id="inputPassword3" placeholder="Password" type="password">
                 </div>
               </div>
 
