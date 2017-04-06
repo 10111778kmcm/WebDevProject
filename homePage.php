@@ -185,7 +185,7 @@
                      case "1":
                         //Pending Claim
                         printf('<button type= %s class="btn btn-MyTasksPending btn-lg" data-toggle="modal"
-                        data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Pending </br> <b>Date:</b> </br>%s</button>
+                        data-target= %s><b>Title:</b></br>%s</br> <b>Status:</b></br> Pending </br> <b>Date:</b> </br>%s</button>
 
                         <!-- Modal -->
                         <div class="modal fade" id= %s role="dialog">
@@ -233,7 +233,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $taskID);
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $tags[0],
+                        $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline,
+                        $relatedFile, $taskID);
                      break;
 
                      case "2":
@@ -287,7 +289,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $taskID);
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $tags[0],
+                        $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline,
+                        $relatedFile, $taskID);
                      break;
 
                      case "3":
@@ -342,7 +346,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $taskID, $taskID);
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $tags[0],
+                        $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline,
+                        $relatedFile, $taskID, $taskID);
                      break;
 
                      case "4":
@@ -397,7 +403,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $taskID, $taskID);
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $tags[0],
+                        $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline,
+                        $relatedFile, $taskID, $taskID);
                      break;
 
                      case "5":
@@ -758,7 +766,9 @@
                                        </div>
                                     </div>
                                 </div>
-                             </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $taskID, $taskID);
+                             </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $tags[0],
+                             $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline,
+                             $taskID, $taskID);
                     break;
 
                     case"3":
@@ -802,7 +812,8 @@
                                        </div>
                                     </div>
                                   </div>
-                               </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $tags[0],  $tags[1], $tags[2], $tags[3], $type, $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline);
+                               </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $tags[0],
+                               $tags[1], $tags[2], $tags[3], $type, $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline);
                     break;
 
                     //this shouldnt be in here
@@ -960,7 +971,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $taskID, $taskID);
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $tags[0],
+                        $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $taskID, $taskID);
                 $counter++;
             }
         }catch(PDOException $exception){
