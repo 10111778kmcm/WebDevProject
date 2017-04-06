@@ -17,6 +17,10 @@ body{
 
 .navbar{
     background-color: #fff;
+    border-radius: 0;
+	  border: none;
+	  margin-bottom: 0;
+
 }
 
 h1{
@@ -38,6 +42,10 @@ h1 p{
 .tasks-main{
     display: block;
 
+}
+
+.topSpace{
+  margin-top: 70px;
 }
 
 .white-card{

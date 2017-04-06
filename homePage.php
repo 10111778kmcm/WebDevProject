@@ -24,69 +24,71 @@
   ?>
 
   <!-- Nav Bar -->
-  <nav class="navbar navbar-default">
-    <div class="container">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a href="#body"><img src="images/ULlogo-azul.png" alt="UL Review logo" style="width: 182px; height: 50px;"></a>
-        <!-- <a class="navbar-brand" href="#">UL Review</a> -->
-      </div>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="#body"><img src="images/ULlogo-azul.png" alt="UL Review logo" style="width: 182px; height: 50px;"></a>
+      <!-- <a class="navbar-brand" href="#">UL Review</a> -->
+    </div>
 
-      <ul class="nav navbar-nav navbar-right">
-     <?php
-        if($_SESSION['moderator'] == 1){
-      ?>
-         <ul class="nav navbar-nav navbar-right">
-            <li><a href="flaggedTasks.php">Flagged Tasks</a></li>
-     <?php
-        }
-     ?>
-
-       <!--   Dropdown Tasks -->
-       <li class="dropdown btn-stickyNav">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tasks <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="#myTasks">My tasks</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="#createTask">Create Task</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="#claimedTasks">Claimed Tasks</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="#availableTasks">Available Tasks</a></li>
-        </ul>
-      </li>
-
-      <!--   Dropdown Languages -->
-      <li class="dropdown btn-stickyNav">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Language <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="#">Español</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="#">Deutsche</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="#">Gaeilge</a></li>
-        </ul>
-      </li>
-
-      <ul class="nav navbar-nav btn-stickyNav">
-        <li><a href="#LogOut">My rating</a></li>
-      </ul>
-
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav navbar-right">
+   <?php
+      if($_SESSION['moderator'] == 1){
+    ?>
        <ul class="nav navbar-nav navbar-right">
-            <li><a href="logout.php">Log out</a></li>
-       </ul>
+          <li><a href="flaggedTasks.php">Flagged Tasks</a></li>
+   <?php
+      }
+   ?>
 
+     <!--   Dropdown Tasks -->
+     <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tasks <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="#myTasks">My tasks</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#createTask">Create Task</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#claimedTasks">Claimed Tasks</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#availableTasks">Available Tasks</a></li>
+      </ul>
+    </li>
+
+    <!--   Dropdown Languages -->
+    <!-- <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Language <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="#">Español</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#">Deutsche</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#">Gaeilge</a></li>
+      </ul>
+    </li> -->
+
+    <ul class="nav navbar-nav">
+      <li><a href="#LogOut">My rating</a></li>
     </ul>
-  </div><!-- /.container -->
+
+     <ul class="nav navbar-nav navbar-right">
+          <li><a href="logout.php">Log out</a></li>
+     </ul>
+
+  </ul>
+</div><!-- /.container -->
 </nav>
 
 <!-- Welcome panel -->
+<div class="topSpace">
 <div class="container">
   <!-- Tasks Bottons -->
   <div class="panel panel-default">
@@ -120,10 +122,12 @@
     </div> <!-- panel body -->
   </div> <!-- panel panel-default -->
 </div> <!-- container -->
+</div><!-- topSpace -->
 
 
 <!-- My tasks -->
-<div class="container" id="myTasks">
+<div class="topSpace" id="myTasks">
+<div class="container">
   <div class="panel panel-info">
     <div class="panel-heading"><h2>My Tasks</h2></div>
     <div class="panel-body">
@@ -480,9 +484,11 @@
     </div> <!-- panel-body -->
   </div> <!-- panel panel-default -->
 </div> <!-- container -->
+</div> <!-- topSpace -->
 
 <!-- Create task -->
-<div class="container" id="createTask">
+<div class="topSpace" id="createTask">
+<div class="container" >
   <div class="panel panel-info">
     <div class="panel-heading"><h2>Create Task</h2></div>
     <div class="panel-body">
@@ -664,9 +670,11 @@
   </div> <!-- panel-body -->
 </div> <!-- panel panel-default -->
 </div> <!-- container -->
+</div> <!-- topSpace -->
 
 <!-- Claimed tasks -->
-<div class="container" id="claimedTasks">
+<div class="topSpace" id="claimedTasks">
+<div class="container" >
   <div class="panel panel-info">
     <div class="panel-heading"><h2>Claimed Tasks</h2></div>
     <div class="panel-body">
@@ -876,9 +884,11 @@
     </div> <!-- panel-body -->
   </div> <!-- panel panel-default -->
 </div> <!-- container -->
+</div> <!-- topSpace -->
 
 <!-- Available tasks -->
-<div class="container" id="availableTasks">
+<div class="topSpace" id="availableTasks">
+<div class="container" >
   <div class="panel panel-info">
     <div class="panel-heading">
         <h2>Available Tasks</h2>
@@ -998,6 +1008,7 @@
     </div> <!-- panel-body -->
   </div> <!-- panel panel-default -->
 </div> <!-- container -->
+</div> <!-- topSpace -->
 </div>
 </body>
 </html>
