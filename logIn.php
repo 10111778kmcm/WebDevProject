@@ -256,11 +256,20 @@
             <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
               <label for="Major"><?php echo $lang['menu_majorSubject']; ?></label>
               <select class="form-control" id="sel1" name="major">
-                <option>Arts, Humanities and Social Sciences</option>
-                <option>Kemmy Business School</option>
-                <option>Education and Health Sciences</option>
-                <option>Science and Engineering</option>
-                <option>Irish World Academy of Music and Dance</option>
+                <option>IT</option>
+                <option>Chemistry</option>
+                <option>Physics</option>
+                <option>Biology</option>
+                <option>Music</option>
+                <option>History</option>
+                <option>Law</option>
+                <option>Literature</option>
+                <option>Dance</option>
+                <option>Maths</option>
+                <option>Engineering</option>
+                <option>Journalism</option>
+                <option>Buisness</option>
+                <option>Electrical Engineering</option>                  
               </select>
             </div>
 
