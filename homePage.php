@@ -1006,6 +1006,8 @@
            $stmt->execute(array($taskID));
            $stmt = $dbh->prepare("INSERT INTO claimed_tasks VALUES(:taskID, 2017-00-00, :username)");
            $stmt->execute(array(':taskID' => $taskID, ':username' => $username));
+		   $stmt = $dbh->prepare("UPDATE user_info SET points = points + 10 WHERE username = ?");
+		   $stmt->execute(array($username));
         }else if(isset($_POST['flag'])){
             
            $taskID = $_POST['flag'];
