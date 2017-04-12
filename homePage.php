@@ -1017,6 +1017,8 @@
              
            $stmt = $dbh->prepare("UPDATE tasks SET flagged_count = :flaggedCount WHERE task_Id = :taskID");
            $stmt->execute(array(':flaggedCount' => $flaggedCount, ':taskID' => $taskID));
+		   $stmt = &dbh->prepare("UPDATE user_info SET points = points + 2 WHERE username = ?")
+		   $stmt->execute(array($username));
         }
 ?>
     </div> <!-- panel-body -->
