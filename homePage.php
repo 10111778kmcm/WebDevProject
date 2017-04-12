@@ -474,11 +474,14 @@
             $stmt = $dbh->prepare("DELETE FROM assigned_tags WHERE task_Id = ?");
             $stmt->execute(array($taskID));
           }else if(isset($_POST['good'])){ 
-              
+			$stmt = $dbh->prepare("UPDATE user_info SET points = points + 5 WHERE username = SELECT username FROM claimed_tasks WHERE taskID = ?");
+			$stmt->execute(array($taskID);
           }else if(isset($_POST['middle'])){ 
-              
+            $stmt = $dbh->prepare("UPDATE user_info SET points = points + 2 WHERE username = SELECT username FROM claimed_tasks WHERE taskID = ?");
+			$stmt->execute(array($taskID);
           }else if(isset($_POST['bad'])){
-              
+			$stmt = $dbh->prepare("UPDATE user_info SET points = points - 5 WHERE username = SELECT username FROM claimed_tasks WHERE taskID = ?");
+			$stmt->execute(array($taskID);
           }
             
           //$value = 0; 
