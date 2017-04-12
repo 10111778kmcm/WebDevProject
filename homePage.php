@@ -473,19 +473,25 @@
             $stmt->execute(array($taskID));
             $stmt = $dbh->prepare("DELETE FROM assigned_tags WHERE task_Id = ?");
             $stmt->execute(array($taskID));
+          }else if(isset($_POST['good'])){ 
+              
+          }else if(isset($_POST['middle'])){ 
+              
+          }else if(isset($_POST['bad'])){
+              
           }
             
-          $value = 0; 
-          if($_GET){
-             if(isset($_GET['bad'])){
-                $value = -5; 
-             }elseif(isset($_GET['middle'])){
-                $value = 2; 
-             }elseif(isset($_GET['good'])){
-                $value = 5; 
-            }
-          }
-          printf('<p>%s</p>', $value);
+          //$value = 0; 
+          //if($_GET){
+            // if(isset($_GET['bad'])){
+              //  $value = -5; 
+            // }elseif(isset($_GET['middle'])){
+              //  $value = 2; 
+            /// }elseif(isset($_GET['good'])){
+               /// $value = 5; 
+        //    }
+        //  }
+          //printf('<p>%s</p>', $value);
     ?>
     </div> <!-- panel-body -->
   </div> <!-- panel panel-default -->
