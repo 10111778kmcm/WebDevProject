@@ -573,7 +573,9 @@
                 }else{
                     //header("Refresh:0");
                     //need a way to refresh the page so that the new task will appear in my tasks straight away
-                }        
+                }
+                $stmt = $dbh->prepare("INSERT INTO assigned_tags VALUES(:taskID, :tagID)");
+                $stmt->execute(array('taskID' => $taskID, ':tagID' => $tagID));
              }
            }catch(PDOException $exception){
               print("<h2> Uh Oh1</h2>"); 
@@ -625,7 +627,8 @@
             <option>Engineering</option>
             <option>Journalism</option>
             <option>Buisness</option>
-            <option>Electrical Engineering</option>                  
+            <option>Electrical Engineering</option> 
+            <option>Other</option>
          </select>
       </div>
 
