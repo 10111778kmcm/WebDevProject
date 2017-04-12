@@ -226,13 +226,12 @@
 			          $saltedHash = hash('sha256', $pass1.$siteSalt);
 			          $affectedRows = $stmt->execute(array(':username' => $username, ':email' => $email, ':password' => $saltedHash, ':first_Name' => $firstname, ':surname' => $surname, ':major' => $major));
 			          header("Location:./createSucsessful.php");
-			         /*if ($affectedRows > 0) {
-					       //$insertId = $dbh->lastInsertId();
-                           header("Location:./createSucsessful.php");
-                     }else{
-                        print("<h2> Uh Oh2</h2>");
-                         $test = False;
-                     }*/
+			         //http://stackoverflow.com/questions/27123470/redirect-in-php-without-use-of-header-method
+                       ?>
+                        <script type="text/javascript">
+                            window.location.href = './createSucsessful.php';
+                        </script>
+                        <?php
 			       }
 	           }
 	       }
