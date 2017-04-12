@@ -10,24 +10,7 @@
   <title>UL Review</title>
 </head>
 <body id="body">
-    <?php 
-        /*http://php.net/manual/en/function.session-unset.php*/
-        //session_start();
-        //if(!isset ($_SESSION['username'])) {
-          // header("Location:./index.php");					
-        //}else{
-            				           
-            //logout first
-            /*http://php.net/manual/en/function.session-unset.php*/
-            //session_unset();
-            //session_destroy();
-            //session_write_close();
-            //setcookie(session_name(),'',0,'/');
-            //session_regenerate_id(true);
-        //}
-    ?>
-    
-  <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default">
     <div class="container">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -37,7 +20,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a href="index.php" target="_self"><img src="images/ULlogo-azul.png" alt="UL Review logo" style="width: 182px; height: 50px;"></a>
+        <a href="logIn.php" target="_self"><img src="images/ULlogo-azul.png" alt="UL Review logo" style="width: 182px; height: 50px;"></a>
       </div> 
     </div><!-- /.navbar-collapse **need to look at closing div tags-->
       </div><!-- /.container -->
@@ -53,7 +36,7 @@
              <div class="index col-xs-12 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 col-xl-6 col-xl-offset-3">
                 <br>
                 <h1>You have created you account!</h1>
-                <h2>Please <a href="index.php">login</a> to access the UL Review website.</h2>
+                <h2>Please <a href="logIn.php">login</a> to access the UL Review website.</h2>
                 <br>
              </div>
            </div>
