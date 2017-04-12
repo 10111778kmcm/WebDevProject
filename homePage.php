@@ -884,6 +884,8 @@
             $stmt->execute(array($taskID));
             $stmt = $dbh->prepare("UPDATE task_status SET status_Id = 1 WHERE task_Id = ?");
             $stmt->execute(array($taskID));
+			$stmt = $dbh->prepare("UPDATE user_info SET points = points - 15 WHERE username = ?");
+			$stmt->execute(array($username));
        }else if(isset($_POST['complete'])){         
             $taskID = $_POST['complete'];
             $stmt = $dbh->prepare("UPDATE task_status SET status_Id = 5 WHERE task_Id = ?");
