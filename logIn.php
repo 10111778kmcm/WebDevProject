@@ -145,7 +145,7 @@
                 <h1><?php echo $lang['menu_logIn']; ?></h1></br>
                 <label for="inputEmail3" class="col-sm-4 col-md-4 control-label"><?php echo $lang['menu_ulMail']; ?></label>
                 <div class="col-sm-5 col-md-5">
-                  <input class="form-control" id="inputEmail3" name="emailInput" pattern=".+@ul.ie" placeholder="123456789@ul.ie">
+                  <input class="form-control" id="inputEmail3" name="emailInput" pattern=".+@studentmail.ul.ie" placeholder="123456789@studentmail.ul.ie">
                 </div>
               </div>
 
@@ -220,7 +220,7 @@
                        printf("<h2> An account already exists with the given username.</h2>");
                         $test = False;
                     }else {
-			          $query = "INSERT INTO user_info VALUES (:username, :email, :password, :first_Name, :surname, :major, 40, 'N')";
+			          $query = "INSERT INTO user_info VALUES (:username, :email, :password, :first_Name, :surname, :major, 0)";
                       $stmt = $dbh->prepare($query);
 			          $siteSalt  = "paperreview";
 			          $saltedHash = hash('sha256', $pass1.$siteSalt);
