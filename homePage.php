@@ -24,69 +24,71 @@
   ?>
     
   <!-- Nav Bar -->
-  <nav class="navbar navbar-default">
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a href="#body"><img src="images/ULlogo-azul.png" alt="UL Review logo" style="width: 182px; height: 50px;"></a>
-        <!-- <a class="navbar-brand" href="#">UL Review</a> -->
-      </div>
+    <!-- Brand and toggle get grouped for better mobile display -->
+     <div class="navbar-header">
+       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="#body"><img src="images/ULlogo-azul.png" alt="UL Review logo" style="width: 182px; height: 50px;"></a>
+      <!-- <a class="navbar-brand" href="#">UL Review</a> -->
+    </div>
 
-      <ul class="nav navbar-nav navbar-right">
-     <?php
-        if($_SESSION['moderator'] == 1){
-      ?>
-         <ul class="nav navbar-nav navbar-right">
-            <li><a href="flaggedTasks.php">Flagged Tasks</a></li>   
-     <?php
-        }
-     ?>
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav navbar-right">
+   <?php
+      if($_SESSION['moderator'] == 1){
+    ?>    
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="flaggedTasks.php">Flagged Tasks</a></li>
+   <?php
+      }
+   ?>
 
-       <!--   Dropdown Tasks -->
-       <li class="dropdown btn-stickyNav">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tasks <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="#myTasks">My tasks</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="#createTask">Create Task</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="#claimedTasks">Claimed Tasks</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="#availableTasks">Available Tasks</a></li>
-        </ul>
-      </li>
-
-      <!--   Dropdown Languages -->
-      <li class="dropdown btn-stickyNav">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Language <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="#">Español</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="#">Deutsche</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="#">Gaeilge</a></li>
-        </ul>
-      </li>
-
-      <ul class="nav navbar-nav btn-stickyNav">
-        <li><a href="#LogOut">My rating</a></li>
+     <!--   Dropdown Tasks -->
+     <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tasks <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="#myTasks">My tasks</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#createTask">Create Task</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#claimedTasks">Claimed Tasks</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#availableTasks">Available Tasks</a></li>
       </ul>
+    </li>
 
-       <ul class="nav navbar-nav navbar-right">
-            <li><a href="logout.php">Log out</a></li>
-       </ul>
+    <!--   Dropdown Languages -->
+    <!-- <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Language <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="#">Español</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#">Deutsche</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#">Gaeilge</a></li>
+      </ul>
+    </li> -->
 
+    <ul class="nav navbar-nav">
+      <li><a href="#LogOut">My rating</a></li>
     </ul>
-  </div><!-- /.container -->
+        
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="logout.php">Log out</a></li>
+    </ul>
+  </ul>
+</div><!-- /.container -->
+
 </nav>
 
 <!-- Welcome panel -->
+      <div class="topSpace">
 <div class="container">
   <!-- Tasks Bottons -->
   <div class="panel panel-default">
@@ -120,10 +122,12 @@
     </div> <!-- panel body -->
   </div> <!-- panel panel-default -->
 </div> <!-- container -->
+</div><!-- topSpace -->
 
 
 <!-- My tasks -->
-<div class="container" id="myTasks">
+<div class="topSpace" id="myTasks">
+<div class="container">
   <div class="panel panel-info">
     <div class="panel-heading"><h2>My Tasks</h2></div>
     <div class="panel-body">
@@ -185,7 +189,8 @@
                    switch($status){                    
                      case "1":
                         //Pending Claim
-                        printf('<button type= %s class="btn btn-MyTasksPending btn-lg" data-toggle="modal" data-target= %s >Title: %s </br> Status: Pending Claim</br> Date: %s</button>
+                        printf('<button type= %s class="btn btn-MyTasksPending btn-lg" data-toggle="modal"
+                        data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Pending </br> <b>Date:</b> </br>%s</button>
 
                         <!-- Modal -->
                         <div class="modal fade" id= %s role="dialog">
@@ -243,7 +248,8 @@
                      
                      case "2":
                         //Claimed
-                        printf('<button type= %s class="btn btn-MyTasksClaimed btn-lg" data-toggle="modal" data-target= %s >Title: %s</br> Status: Claimed </br> Date: %s</button>
+                        printf('<button type= %s class="btn btn-MyTasksClaimed btn-lg" data-toggle="modal"
+                        data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Claimed </br> <b>Date:</b> </br>%s</button>
 
                         <!-- Modal -->
                         <div class="modal fade" id= %s role="dialog">
@@ -299,7 +305,8 @@
                          
                      case "3":
                         //Expired Claim - may need to get different deadline
-                        printf('<button type= %s class="btn btn-MyTasksExpired btn-lg" data-toggle="modal" data-target= %s >Title: %s</br> Status: Expired </br> Date: %s</button>
+                        printf('<button type= %s class="btn btn-MyTasksExpired btn-lg" data-toggle="modal"
+                        data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Expired </br> <b>Date:</b> </br>%s</button>
                         <!-- Modal -->
                         <div class="modal fade" id= %s role="dialog">
                             <div class="modal-dialog">
@@ -355,7 +362,9 @@
                          
                      case "4":
                         //Cancelled Claim
-                        printf('<button type= %s class="btn btn-MyTasksCancelled btn-lg" data-toggle="modal" data-target= %s >Title: %s</br> Status: Cancelled By Claiment </br> Date: %s</button>
+                        printf('<button type= %s class="btn btn-MyTasksCancelled btn-lg"
+                        data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Cancelled </br> <b>Date:</b> </br>%s</button>
+
                         <!-- Modal -->
                         <div class="modal fade" id= %s role="dialog">
                             <div class="modal-dialog">
@@ -411,7 +420,8 @@
                          
                      case "5":
                         //Completed
-                        printf('<button type= %s class="btn btn-MyTasksCompleted btn-lg" data-toggle="modal" data-target= %s >Title: %s </br> Status: Completed </br> Date: %s</button>
+                        printf('<button type= %s class="btn btn-MyTasksCompleted btn-lg" data-toggle="modal"
+                        data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Completed </br> <b>Date:</b> </br>%s</button>
 
                         <div class="modal fade" id= %s role="dialog">
                              <div class="modal-dialog">
@@ -480,9 +490,11 @@
     </div> <!-- panel-body -->
   </div> <!-- panel panel-default -->
 </div> <!-- container -->
+</div> <!-- topSpace -->
 
 <!-- Create task -->
-<div class="container" id="createTask">
+<div class="topSpace" id="createTask">
+<div class="container" >
   <div class="panel panel-info">
     <div class="panel-heading"><h2>Create Task</h2></div>
     <div class="panel-body">
@@ -687,9 +699,11 @@
   </div> <!-- panel-body -->
 </div> <!-- panel panel-default -->
 </div> <!-- container -->
+</div> <!-- topSpace -->
 
 <!-- Claimed tasks -->
-<div class="container" id="claimedTasks">
+<div class="topSpace" id="claimedTasks">
+<div class="container" >
   <div class="panel panel-info">
     <div class="panel-heading"><h2>Claimed Tasks</h2></div>
     <div class="panel-body">
@@ -743,7 +757,8 @@
                 //5 - Completed
                 switch($status){
                     case "2":
-                       printf('<button type= %s class="btn btn-MyTasksClaimed btn-lg" data-toggle="modal" data-target= %s >Title: %s </br> Status: Claimed </br> Date: %s</button>
+                       printf('<button type= %s class="btn btn-MyTasksClaimed btn-lg"
+                       data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Claimed </br> <b>Date:</b> </br>%s</button>
                                <!-- Modal -->
                                <div class="modal fade" id= %s role="dialog">
                                   <div class="modal-dialog">
@@ -795,7 +810,8 @@
                     break;
                     
                     case"3":
-                        printf('<button type= %s class="btn btn-MyTasksExpired btn-lg" data-toggle="modal" data-target= %s >Title: %s </br> Status: Expired </br> Date: %s </button>
+                        printf('<button type= %s class="btn btn-MyTasksExpired btn-lg" data-toggle="modal"
+                        data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Expired </br> <b>Date:</b> </br>%s</button>
 
                                <!-- Modal -->
                                <div class="modal fade" id= %s role="dialog">
@@ -842,7 +858,8 @@
                     
                     //this shouldnt be in here
                     case"5":
-                         printf('<button type= %s class="btn btn-MyTasksCompleted btn-lg" data-toggle="modal" data-target= %s >Title: %s </br> Status: Completed </br> Date: %s </button>
+                         printf('<button type= %s class="btn btn-MyTasksCompleted btn-lg" data-toggle="modal"
+                         data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Completed </br> <b>Date:</b> </br>%s </button>
 
                                <div class="modal fade" id= %s role="dialog">
                                   <div class="modal-dialog">
@@ -901,9 +918,11 @@
     </div> <!-- panel-body -->
   </div> <!-- panel panel-default -->
 </div> <!-- container -->
+</div> <!-- topSpace -->
 
 <!-- Available tasks -->
-<div class="container" id="availableTasks">
+<div class="topSpace" id="availableTasks">
+<div class="container" >
   <div class="panel panel-info">
     <div class="panel-heading">
         <h2>Available Tasks</h2>
@@ -950,7 +969,8 @@
                        $tagCounter++;
                    } 
                 
-                printf('<button type= %s class="btn btn-MyTasksAvailable btn-lg" data-toggle="modal" data-target= %s>Title: %s</br> Status: Available </br> Date: %s</button>
+                printf('<button type= %s class="btn btn-MyTasksAvailable btn-lg" data-toggle="modal"
+                data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Available </br> <b>Date:</b> </br>%s</button>
 
                         <!-- Modal -->
                         <div class="modal fade" id= %s role="dialog">
@@ -1029,6 +1049,7 @@
     </div> <!-- panel-body -->
   </div> <!-- panel panel-default -->
 </div> <!-- container -->
+    </div> <!-- topSpace -->
 </div>
 </body>
 </html>
