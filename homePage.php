@@ -758,7 +758,7 @@
                 switch($status){
                     case "2":
                        printf('<button type= %s class="btn btn-MyTasksClaimed btn-lg"
-                       data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Claimed </br> <b>Date:</b> </br>%s</button>
+                       data-target= %s data-toggle="modal"><b>Title:</b></br> %s</br> <b>Status:</b></br> Claimed </br> <b>Date:</b> </br>%s</button>
                                <!-- Modal -->
                                <div class="modal fade" id= %s role="dialog">
                                   <div class="modal-dialog">
