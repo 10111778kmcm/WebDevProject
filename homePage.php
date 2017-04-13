@@ -2,27 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">  
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link href="https://fonts.googleapis.com/css?family=Lobster+Two:400,700|Roboto:400,700" rel="stylesheet">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-    
- 
-    
+
+
+
   <title>UL Review</title>
 </head>
 <body id="body">
   <script src="js/functions.js"></script>
   <script src="js/jquery.js"></script>
   <script src="js/bootstrap.min.js"></script>
-   
-  <?php 
+
+  <?php
      session_start();
      if (!isset($_SESSION['username'])) {
-       header("Location:/logIn.php");					
+       header("Location:/logIn.php");
      }
   ?>
-    
+
   <!-- Nav Bar -->
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
@@ -42,7 +42,7 @@
     <ul class="nav navbar-nav navbar-right">
    <?php
       if($_SESSION['moderator'] == 1){
-    ?>    
+    ?>
     <ul class="nav navbar-nav navbar-right">
         <li><a href="flaggedTasks.php">Flagged Tasks</a></li>
    <?php
@@ -76,9 +76,9 @@
     </li> -->
 
     <ul class="nav navbar-nav">
-      <li><a href="#LogOut">My rating</a></li>
+      <li><a href="profilePage.php">Profile</a></li>
     </ul>
-        
+
     <ul class="nav navbar-nav navbar-right">
         <li><a href="logout.php">Log out</a></li>
     </ul>
@@ -132,19 +132,19 @@
     <div class="panel-heading"><h2>My Tasks</h2></div>
     <div class="panel-body">
      <?php
-            
-        try{ 
+
+        try{
             $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
 		    $counter = 0;
-            $username = $_SESSION['username'];          
+            $username = $_SESSION['username'];
             $stmt = $dbh->prepare("SELECT task_Id, title, flagged_count, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline, major, status_Id FROM tasks JOIN task_status USING(task_Id) WHERE username = ?");
             $stmt->execute(array($username));
             if($stmt->rowCount() == 0){
-                printf("<h2 class='description-of-page'>You have not created any tasks yet.</h2>", $username); 
+                printf("<h2 class='description-of-page'>You have not created any tasks yet.</h2>", $username);
             }else{
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                   $taskID = $row['task_Id']; 
-                   $title = $row['title'];              
+                   $taskID = $row['task_Id'];
+                   $title = $row['title'];
                    $flagCount = $row['flagged_count'];
                    $type = $row['type'];
                    $pageNo = $row['page_no'];
@@ -159,40 +159,40 @@
                    $target = "myModel";
                    $buttonIdentifier = "button";
                    $buttonID = $buttonIdentifier.$counter;
-                   $targetID  = $targetIdentifier.$counter;               
+                   $targetID  = $targetIdentifier.$counter;
                    $target = $target.$counter;
                    $relatedFile = "FileUploads/".$taskID.$fileFormat;
-                   
-                    
+
+
                   $ClaimDateFormat = explode("-", $claimDeadline);
                   $SubmissionDateFormat = explode("-", $submissionDeadline);
                   $claimDeadline = $ClaimDateFormat[2]."/".$ClaimDateFormat[1]."/".$ClaimDateFormat[0];
-                  $submissionDeadline = $SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]."/".$SubmissionDateFormat[0];    
-                    
+                  $submissionDeadline = $SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]."/".$SubmissionDateFormat[0];
+
                    $tags[0] = "";
                    $tags[1] = "";
-                   $tags[2] = "";  
-                   $tags[3] = "";  
+                   $tags[2] = "";
+                   $tags[3] = "";
                    $tagCounter = 0;
                    $stmt2 = $dbh->prepare("SELECT tag_Name FROM tag_ids JOIN assigned_tags USING(tag_Id) WHERE task_Id = ?");
                    $stmt2->execute(array($taskID));
                    while($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)){
                        if($tagCounter < 3){
-                          $tags[$tagCounter] = $row2['tag_Name'].","; 
+                          $tags[$tagCounter] = $row2['tag_Name'].",";
                        }else{
                           $tags[$tagCounter] = $row2['tag_Name'];
                        }
                        $tagCounter++;
-                   } 
+                   }
                     //need to add code for submit rating
-                    
+
                    //This switch works off the status id's and are as follows
                    //1 - Pending Claim
                    //2 - Claimed
                    //3 - Expired
                    //4 - Cancelled By Claiment
                    //5 - Completed
-                   switch($status){                    
+                   switch($status){
                      case "1":
                         //Pending Claim
                         printf('<button type= %s class="btn btn-MyTasksPending btn-lg" data-toggle="modal"
@@ -211,11 +211,11 @@
                                         <div class="type">
                                            Type: %s
                                         </div>
-                                        
+
                                         <div class="type">
                                            Major: %s
                                         </div>
-                                        
+
                                         <div class="tags">
                                             Tags: %s %s %s %s
                                         </div>
@@ -237,9 +237,9 @@
                                         <div class="completion-deadline">
                                             Completion Deadline: %s
                                         </div>
-                                        
+
                                         <embed src= %s width="200px" height="360px" />
-                                        
+
                                         <div class="modal-footer">
                                            <form method="post">
                                               <button type="submit" class="btn btn-default" name="delete" value= %s>Delete</button>
@@ -251,7 +251,7 @@
                             </div>
                         </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $taskID);
                      break;
-                     
+
                      case "2":
                         //Claimed
                         printf('<button type= %s class="btn btn-MyTasksClaimed btn-lg" data-toggle="modal"
@@ -294,9 +294,9 @@
                                         <div class="completion-deadline">
                                             Completion Deadline: %s
                                         </div>
-                                        
+
                                         <embed src= %s width="200px" height="500px" />
-                                        
+
                                         <div class="modal-footer">
                                            <form method="post">
                                               <button type="submit" class="btn btn-default" name="cancel" value= %s>Cancel</button>
@@ -308,7 +308,7 @@
                             </div>
                         </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $taskID);
                      break;
-                         
+
                      case "3":
                         //Expired Claim - may need to get different deadline
                         printf('<button type= %s class="btn btn-MyTasksExpired btn-lg" data-toggle="modal"
@@ -350,9 +350,9 @@
                                         <div class="completion-deadline">
                                             Completion Deadline: %s
                                         </div>
-                                        
+
                                         <embed src= %s width="200px" height="500px" />
-                                        
+
                                     </div>
                                     <div class="modal-footer">
                                         <form method="post">
@@ -365,7 +365,7 @@
                             </div>
                         </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $taskID, $taskID);
                      break;
-                         
+
                      case "4":
                         //Cancelled Claim
                         printf('<button type= %s class="btn btn-MyTasksCancelled btn-lg"
@@ -408,9 +408,9 @@
                                         <div class="completion-deadline">
                                             Completion Deadline: %s
                                         </div>
-                                        
+
                                         <embed src= %s width="200px" height="500px" />
-                                        
+
                                     </div>
                                     <div class="modal-footer">
                                         <form method="post">
@@ -423,7 +423,7 @@
                             </div>
                         </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $taskID, $taskID);
                      break;
-                         
+
                      case "5":
                         //Completed
                         printf('<button type= %s class="btn btn-MyTasksCompleted btn-lg" data-toggle="modal"
@@ -441,13 +441,13 @@
                                     <h3> Please rate the feedback you have recieved</h3>
                                     <form method="get">
                                        <button name ="good" type="submit" class="btn btn-lg btn-info">
-                                          <img src="images/happy.jpg" alt="submit" width="120px" height="120px"> 
+                                          <img src="images/happy.jpg" alt="submit" width="120px" height="120px">
                                        </button>
                                        <button name ="middle" type="submit" class="btn btn-lg btn-info">
-                                          <img src="images/neutral.jpg" alt="submit" width="120px" height="120px"> 
+                                          <img src="images/neutral.jpg" alt="submit" width="120px" height="120px">
                                        </button>
                                        <button name ="bad" type="submit" class="btn btn-lg btn-info">
-                                          <img src="images/sad.jpg" alt="submit" width="120px" height="120px"> 
+                                          <img src="images/sad.jpg" alt="submit" width="120px" height="120px">
                                        </button>
                                     </form>
                                  </div>
@@ -464,12 +464,12 @@
            } catch (PDOException $exception) {
                 printf("Connection error: %s", $exception->getMessage());
           }
-    
-          if(isset($_POST['cancel'])){         
-            $taskID = $_POST['cancel'];        
+
+          if(isset($_POST['cancel'])){
+            $taskID = $_POST['cancel'];
             $stmt = $dbh->prepare("UPDATE task_status SET status_Id = 6 WHERE task_Id = ?");
             $stmt->execute(array($taskID));
-          }else if(isset($_POST['delete'])){         
+          }else if(isset($_POST['delete'])){
             $taskID = $_POST['delete'];
             $stmt = $dbh->prepare("DELETE FROM tasks WHERE task_Id = ?");
             $stmt->execute(array($taskID));
@@ -477,18 +477,18 @@
             $stmt->execute(array($taskID));
             $stmt = $dbh->prepare("DELETE FROM assigned_tags WHERE task_Id = ?");
             $stmt->execute(array($taskID));
-          }else if(isset($_POST['good'])){ 
+          }else if(isset($_POST['good'])){
 			$stmt = $dbh->prepare("UPDATE user_info SET points = points + 5 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
 			$stmt->execute(array($taskID));
-          }else if(isset($_POST['middle'])){ 
+          }else if(isset($_POST['middle'])){
             $stmt = $dbh->prepare("UPDATE user_info SET points = points + 2 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
 			$stmt->execute(array($taskID));
           }else if(isset($_POST['bad'])){
 			$stmt = $dbh->prepare("UPDATE user_info SET points = points - 5 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
 			$stmt->execute(array($taskID));
           }
-            
-          
+
+
     ?>
     </div> <!-- panel-body -->
   </div> <!-- panel panel-default -->
@@ -501,11 +501,11 @@
   <div class="panel panel-info">
     <div class="panel-heading"><h2>Create Task</h2></div>
     <div class="panel-body">
-        
-        
-     
-        
-        
+
+
+
+
+
       <h4>Create a task to get a peer to review it.</h4>
     </br>
       <?php
@@ -521,20 +521,20 @@
            $claimDeadline = str_ireplace("/","-",$_POST["claimDeadline"]);
            $submissionDeadline = str_ireplace("/","-",$_POST["submissionDeadline"]);
 
-            
-            
-            
+
+
+
            $username = $_SESSION['username'];
-      
+
            $tagArray = explode(",", $tags);
-           $createTask = true; 
-            
+           $createTask = true;
+
            //file stuff $taskID taken from https://davidwalsh.name/basic-file-uploading-php and //https://www.w3schools.com/php/php_file_upload.asp
-               
+
            $targetDirectory = "FileUploads/";
            $target_file = $targetDirectory.basename($_FILES["fileUpload"]["name"]);
-           $fileType = ".".strtolower(pathinfo($target_file,PATHINFO_EXTENSION)); 
-          
+           $fileType = ".".strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
            //printf("<h2> fileFormat: %s</h2>", $fileFormat);
            //printf("<h2> fileType: %s</h2>", $fileType);
            if($_FILES['fileUpload']['name']){
@@ -542,36 +542,36 @@
                  if(is_uploaded_file($_FILES['fileUpload']['tmp_name'])){
                      if(strcasecmp($fileFormat, $fileType) != 0){
                          print("<h2>File Types must match!</h2>");
-                         $createTask = false; 
+                         $createTask = false;
                      }
                   }
               }else{
                  print("<h2>Error with upload!</h2>");
-                 $createTask = false; 
+                 $createTask = false;
               }
             }else{
               print("<h2>No file uploaded!</h2>");
-              $createTask = false; 
+              $createTask = false;
             }
-          if($createTask){              
+          if($createTask){
            try{
 	         $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
              $query = "INSERT INTO tasks VALUES(:username, NULL, :title, :type, :pageNum, :wordCount, :fileFormat, :description, :claimDeadline, :submissionDeadline, 0, :major)";
              $stmt = $dbh->prepare($query);
              $affectedRows = $stmt->execute(array(':username' => $username, ':title' => $title, ':type' => $type, ':pageNum' => $pageNum, ':wordCount' => $wordNum, ':fileFormat' => $fileFormat, ':description' => $description, ':claimDeadline' => $claimDeadline, ':submissionDeadline' => $submissionDeadline, ':major' => $major));
-               
+
              $query = "SELECT task_Id FROM tasks WHERE username = :username AND title = :title";
              $stmt = $dbh->prepare($query);
              $stmt->execute(array(':username' => $username, ':title' => $title));
              $taskID = $stmt->fetchColumn(0);
-             
+
              $stmt = $dbh->prepare("INSERT INTO task_status VALUES (?, 1)");
              $stmt->execute(array($taskID));
-             
+
              //using taskID to name uploaded file
              $newFileName = $taskID;
              move_uploaded_file($_FILES['fileUpload']['tmp_name'], $targetDirectory.$newFileName.$fileType);
-            
+
              //inserting tags
              foreach($tagArray as $tag){
                 $tag = htmlspecialchars(trim($tag));
@@ -596,13 +596,13 @@
                 $stmt->execute(array('taskID' => $taskID, ':tagID' => $tagID));
              }
            }catch(PDOException $exception){
-              print("<h2> Uh Oh1</h2>"); 
-           }            
+              print("<h2> Uh Oh1</h2>");
+           }
         }else{
-           print("<h2> Uh OhBottom</h2>");    
+           print("<h2> Uh OhBottom</h2>");
         }
       }
-      ?>   
+      ?>
     <form method="post" enctype="multipart/form-data">
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="title">Title</label>
@@ -628,7 +628,7 @@
         <label for="no-of-words">No of words</label>
         <input class=" form-control" type="number" id="No-of-words" minlength="100" maxlength="15000" name="wordNum" placeholder="12456">
       </div>
-    
+
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="Major">Major/Subject</label>
         <select class="form-control" id="sel1" name="major">
@@ -645,7 +645,7 @@
             <option>Engineering</option>
             <option>Journalism</option>
             <option>Buisness</option>
-            <option>Electrical Engineering</option> 
+            <option>Electrical Engineering</option>
             <option>Other</option>
          </select>
       </div>
@@ -667,36 +667,36 @@
         <input class=" form-control" type="text" maxlength="500" id="Description" name="description"  placeholder="Max 100 words">
       </div>
 
-      
-              
+
+
         <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
           <label for="re-password">Claimed deadline</label>
              <div>
-                  
-                 <p> Date: <input type="date" class="datepicker" name="claimDeadline"></p>              
+
+                 <p> Date: <input type="date" class="datepicker" name="claimDeadline"></p>
              </div>
         </div>
 
         <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
            <label for="re-password">Completion deadline</label>
            <div>
-               
-              <p> Date: <input type="date" class="datepicker" name="submissionDeadline"></p>  
+
+              <p> Date: <input type="date" class="datepicker" name="submissionDeadline"></p>
            </div>
          </div>
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
         <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
            <label for="re-password">File Upload (A short summary of your task)</label>
            <div>
-              <input type="file" name="fileUpload" id="fileToUpload"> 
+              <input type="file" name="fileUpload" id="fileToUpload">
            </div>
          </div>
-        
+
          <br>
          <button class="btn btn-primary center-block" type="submit" name="createTaskSubmit">Create</button>
          <br>
@@ -721,12 +721,12 @@
             $stmt = $dbh->prepare("SELECT task_Id, status_Id, title, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline , major FROM tasks JOIN task_status USING(task_Id) JOIN claimed_tasks USING(task_Id) WHERE claimed_tasks.username = ?");
             $stmt->execute(array($username));
             if($stmt->rowCount() == 0){
-                printf("<h2 class='description-of-page'> You have not claimed any tasks. </h2>", $username); 
-            }else{ 
+                printf("<h2 class='description-of-page'> You have not claimed any tasks. </h2>", $username);
+            }else{
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $taskID = $row['task_Id']; 
-                $status = $row['status_Id']; 
-                $title = $row['title'];              
+                $taskID = $row['task_Id'];
+                $status = $row['status_Id'];
+                $title = $row['title'];
                 $type = $row['type'];
                 $pageNo = $row['page_no'];
                 $wordCount = $row['word_Count'];
@@ -739,29 +739,29 @@
                 $target = "myModelClaimed";
                 $buttonIdentifier = "button";
                 $buttonID = $buttonIdentifier.$counter;
-                $targetID  = $targetIdentifier.$counter;               
+                $targetID  = $targetIdentifier.$counter;
                 $target = $target.$counter;
-                    
+
                   $ClaimDateFormat = explode("-", $claimDeadline);
                   $SubmissionDateFormat = explode("-", $submissionDeadline);
                   $claimDeadline = $ClaimDateFormat[2]."/".$ClaimDateFormat[1]."/".$ClaimDateFormat[0];
-                  $submissionDeadline = $SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]."/".$SubmissionDateFormat[0]; 
-                
+                  $submissionDeadline = $SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]."/".$SubmissionDateFormat[0];
+
                 $tags[0] = "";
                 $tags[1] = "";
-                $tags[2] = "";  
-                $tags[3] = "";  
+                $tags[2] = "";
+                $tags[3] = "";
                 $tagCounter = 0;
                 $stmt2 = $dbh->prepare("SELECT tag_Name FROM tag_ids JOIN assigned_tags USING(tag_Id) WHERE task_Id = ?");
                 $stmt2->execute(array($taskID));
                 while($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)){
                        if($tagCounter < 3){
-                          $tags[$tagCounter] = $row2['tag_Name'].","; 
+                          $tags[$tagCounter] = $row2['tag_Name'].",";
                        }else{
                           $tags[$tagCounter] = $row2['tag_Name'];
                        }
                        $tagCounter++;
-                   } 
+                   }
                 //this switch works off the status id's and are as follows
                 //2 - Claimed ( awaiting completion)
                 //3 - Expired
@@ -819,7 +819,7 @@
                                 </div>
                              </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $taskID, $taskID);
                     break;
-                    
+
                     case"3":
                         printf('<button type= %s class="btn btn-MyTasksExpired btn-lg" data-toggle="modal"
                         data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Expired </br> <b>Date:</b> </br>%s</button>
@@ -866,7 +866,7 @@
                                   </div>
                                </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $type, $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline);
                     break;
-                    
+
                     case"6":
                           printf('<button type= %s class="btn btn-MyTasksCancelled btn-lg"
                         data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Cancelled </br> <b>Date:</b> </br>%s</button>
@@ -883,7 +883,7 @@
                                     <div class="modal-body">
                                         <h2> This task has been cancelled by the owner.</h2>
                                         <h2> Please press the "Okay" button to acknowledge this.<h2>
-                                        
+
                                     </div>
                                     <div class="modal-footer">
                                         <form method="post">
@@ -902,8 +902,8 @@
         }catch(PDOException $exception){
             printf("Connection error: %s", $exception->getMessage());
         }
-    
-       if(isset($_POST['cancel'])){         
+
+       if(isset($_POST['cancel'])){
             $taskID = $_POST['cancel'];
             $stmt = $dbh->prepare("DELETE FROM claimed_tasks WHERE task_Id = ?");
             $stmt->execute(array($taskID));
@@ -911,11 +911,11 @@
             $stmt->execute(array($taskID));
 			$stmt = $dbh->prepare("UPDATE user_info SET points = points - 15 WHERE username = ?");
 			$stmt->execute(array($username));
-       }else if(isset($_POST['complete'])){         
+       }else if(isset($_POST['complete'])){
             $taskID = $_POST['complete'];
             $stmt = $dbh->prepare("UPDATE task_status SET status_Id = 5 WHERE task_Id = ?");
             $stmt->execute(array($taskID));
-       }else if(isset($_POST['acknowledge'])){         
+       }else if(isset($_POST['acknowledge'])){
             $taskID = $_POST['acknowledge'];
             $stmt = $dbh->prepare("DELETE FROM claimed_tasks WHERE task_Id = ?");
             $stmt->execute(array($taskID));
@@ -925,8 +925,8 @@
             $stmt->execute(array($taskID));
             $stmt = $dbh->prepare("DELETE FROM assigned_tags WHERE task_Id = ?");
        }
-    
-      
+
+
 ?>
 
     </div> <!-- panel-body -->
@@ -950,8 +950,8 @@
             $stmt = $dbh->prepare("SELECT DISTINCT(task_Id), title, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline ,major FROM tasks JOIN task_status USING(task_Id) JOIN assigned_tags USING(task_Id) WHERE username != ? AND status_Id = 1");
             $stmt->execute(array($username));
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $taskID = $row['task_Id'];  
-                $title = $row['title'];              
+                $taskID = $row['task_Id'];
+                $title = $row['title'];
                 $type = $row['type'];
                 $pageNo = $row['page_no'];
                 $wordCount = $row['word_Count'];
@@ -964,31 +964,31 @@
                 $target = "myModelAvailable";
                 $buttonIdentifier = "button";
                 $buttonID = $buttonIdentifier.$counter;
-                $targetID  = $targetIdentifier.$counter;               
+                $targetID  = $targetIdentifier.$counter;
                 $target = $target.$counter;
-                
+
                   $ClaimDateFormat = explode("-", $claimDeadline);
                   $SubmissionDateFormat = explode("-", $submissionDeadline);
                   $claimDeadline = $ClaimDateFormat[2]."/".$ClaimDateFormat[1]."/".$ClaimDateFormat[0];
-                  $submissionDeadline = $SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]."/".$SubmissionDateFormat[0]; 
-                
-                
+                  $submissionDeadline = $SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]."/".$SubmissionDateFormat[0];
+
+
                 $tags[0] = "";
                 $tags[1] = "";
-                $tags[2] = "";  
-                $tags[3] = "";  
+                $tags[2] = "";
+                $tags[3] = "";
                 $tagCounter = 0;
                 $stmt2 = $dbh->prepare("SELECT tag_Name FROM tag_ids JOIN assigned_tags USING(tag_Id) WHERE task_Id = ?");
                 $stmt2->execute(array($taskID));
                 while($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)){
                        if($tagCounter < 3){
-                          $tags[$tagCounter] = $row2['tag_Name'].","; 
+                          $tags[$tagCounter] = $row2['tag_Name'].",";
                        }else{
                           $tags[$tagCounter] = $row2['tag_Name'];
                        }
                        $tagCounter++;
-                   } 
-                
+                   }
+
                 printf('<button type= %s class="btn btn-MyTasksAvailable btn-lg" data-toggle="modal"
                 data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Available </br> <b>Date:</b> </br>%s</button>
 
@@ -1043,9 +1043,9 @@
                 $counter++;
             }
         }catch(PDOException $exception){
-             printf("Connection error: %s", $exception->getMessage());       
+             printf("Connection error: %s", $exception->getMessage());
         }
-        if(isset($_POST['claim'])){         
+        if(isset($_POST['claim'])){
            $taskID = $_POST['claim'];
            $stmt = $dbh->prepare("UPDATE task_status SET status_Id = 2 WHERE task_Id = ?");
            $stmt->execute(array($taskID));
@@ -1054,12 +1054,12 @@
 		   $stmt = $dbh->prepare("UPDATE user_info SET points = points + 10 WHERE username = ?");
 		   $stmt->execute(array($username));
         }else if(isset($_POST['flag'])){
-            
+
            $taskID = $_POST['flag'];
            $stmt = $dbh->prepare("SELECT flagged_count FROM tasks WHERE task_Id = ?");
            $stmt->execute(array($taskID));
            $flaggedCount = $stmt->fetchColumn(0) + 1;
-             
+
            $stmt = $dbh->prepare("UPDATE tasks SET flagged_count = :flaggedCount WHERE task_Id = :taskID");
            $stmt->execute(array(':flaggedCount' => $flaggedCount, ':taskID' => $taskID));
 		   $stmt = $dbh->prepare("UPDATE user_info SET points = points + 2 WHERE username = ?");
