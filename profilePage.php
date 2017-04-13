@@ -112,7 +112,37 @@
               <span></span>
               <input type="reset" class="btn btn-default" value="Cancel">
               <span></span>
-              <input type="button" class="btn btn-danger btn-deleteAccount" value="Delete Account">
+              <button type="button" class="btn btn-danger btn-deleteAccount" data-toggle="modal" data-target="#deleteAccount">Delete Account</button>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteAccount" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Are you sure you want to delete your account?</h4>
+      </div>
+      <div class="modal-body">
+          <p>Keep in mind that if you do, you will lose the opportunity to conect with UL students and staff that can help you reviewing your assignments.</p>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger btn-deleteAccount" data-dismiss="modal">Delete account</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
             </div>
           </div>
         </form>
