@@ -63,18 +63,6 @@
       </ul>
     </li>
 
-    <!--   Dropdown Languages -->
-    <!-- <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Language <span class="caret"></span></a>
-      <ul class="dropdown-menu">
-        <li><a href="#">Español</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#">Deutsche</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#">Gaeilge</a></li>
-      </ul>
-    </li> -->
-
     <ul class="nav navbar-nav">
       <li><a href="profilePage.php">Profile</a></li>
     </ul>
@@ -781,31 +769,7 @@
                                         </div>
                                         <div class="modal-body">
                                            <div class="type">
-                                              Type: %s
-                                           </div>
-                                           <div class="type">
-                                              Major: %s
-                                           </div>
-                                           <div class="tags">
-                                              Tags: %s %s %s %s
-                                           </div>
-                                           <div class="no-of-pages">
-                                              No of pages: %s
-                                           </div>
-                                           <div class="no-of-words">
-                                              No of word: %s
-                                           </div>
-                                           <div class="file-Format">
-                                              File Format: %s
-                                           </div>
-                                           <div class="description">
-                                              Description: %s
-                                           </div>
-                                           <div class="claimed-deadline">
-                                              Claim Deadline: %s
-                                           </div>
-                                           <div class="completion-deadline">
-                                              Completion Deadline: %s
+                                              Hello, I am ______  and I have claimed your task please send the file to my mail. 
                                            </div>
                                         </div>
                                         <div class="modal-footer">
