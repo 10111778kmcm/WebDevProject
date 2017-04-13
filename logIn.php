@@ -153,7 +153,7 @@
                 <label for="inputPassword3" class="col-sm-4  col-md-4 control-label"><?php echo $lang['menu_password']; ?> <small><?php echo $lang['menu_passwordDetails']; ?></small></label>
                 <div class="col-sm-5 col-md-5">
                   <!--<input pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength = "8" name="passwordInput" class="form-control" id="inputPassword3" placeholder="Password">-->
-                    <input name="passwordInput" class="form-control" id="inputPassword3" placeholder="Password" type="password">
+                    <input name="passwordInput" class="form-control" id="inputPassword3" value="Password" type="password">
                 </div>
               </div>
 
@@ -268,7 +268,7 @@
                 <option>Engineering</option>
                 <option>Journalism</option>
                 <option>Buisness</option>
-                <option>Electrical Engineering</option>                  
+                <option>Electrical Engineering</option>
               </select>
             </div>
 
@@ -279,12 +279,12 @@
 
             <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
               <label for="password"><?php echo $lang['menu_password']; ?> <small><?php echo $lang['menu_passwordDetails']; ?></small> </label>
-              <input class=" form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8" id="password" name="pass1" placeholder="xxxxxxxxx">
+              <input class=" form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8" id="password" name="pass1" type="password" value="xxxxxxxxx">
             </div>
 
             <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
               <label for="re-password"><?php echo $lang['menu_re-enterPassword']; ?></label>
-              <input class=" form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8" id="re-password" name="pass2" placeholder="xxxxxxxxx">
+              <input class=" form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8" id="re-password" name="pass2" type="password" value="xxxxxxxxx">
             </div>
             <br>
             <button class="btn btn-primary center-block" type="submit" name="register"><?php echo $lang['menu_registerTitle']; ?></button>
