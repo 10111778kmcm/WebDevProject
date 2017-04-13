@@ -163,6 +163,12 @@
                    $target = $target.$counter;
                    $relatedFile = "FileUploads/".$taskID.$fileFormat;
                    
+                    
+                  $ClaimDateFormat = explode("-", $claimDeadline);
+                  $SubmissionDateFormat = explode("-", $submissionDeadline);
+                  $claimDeadline = $ClaimDateFormat[3]."/".$ClaimDateFormat[2]."/".$ClaimDateFormat[1];
+                  $submissionDeadline = $SubmissionDateFormat[3]."/".$SubmissionDateFormat[2]."/".$SubmissionDateFormat[1];    
+                    
                    $tags[0] = "";
                    $tags[1] = "";
                    $tags[2] = "";  
@@ -524,8 +530,11 @@
            $fileFormat = htmlspecialchars(trim($_POST["fileFormat"]));
            $description = htmlspecialchars(trim($_POST["description"]));
            $major = $_POST["major"];
-	       $claimDeadline = str_ireplace("/","-",$_POST["claimDeadline"]);
-           $submissionDeadline = str_ireplace("/","-",$_POST["submissionDeadline"]);
+           $claimDeadline = $_POST["claimDeadline"];
+           $submissionDeadline = $_POST["submissionDeadline"];
+
+            
+            
             
            $username = $_SESSION['username'];
       
@@ -744,6 +753,11 @@
                 $buttonID = $buttonIdentifier.$counter;
                 $targetID  = $targetIdentifier.$counter;               
                 $target = $target.$counter;
+                    
+                  $ClaimDateFormat = explode("-", $claimDeadline);
+                  $SubmissionDateFormat = explode("-", $submissionDeadline);
+                  $claimDeadline = $ClaimDateFormat[3]."/".$ClaimDateFormat[2]."/".$ClaimDateFormat[1];
+                  $submissionDeadline = $SubmissionDateFormat[3]."/".$SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]; 
                 
                 $tags[0] = "";
                 $tags[1] = "";
@@ -961,6 +975,12 @@
                 $buttonID = $buttonIdentifier.$counter;
                 $targetID  = $targetIdentifier.$counter;               
                 $target = $target.$counter;
+                
+                  $ClaimDateFormat = explode("-", $claimDeadline);
+                  $SubmissionDateFormat = explode("-", $submissionDeadline);
+                  $claimDeadline = $ClaimDateFormat[3]."/".$ClaimDateFormat[2]."/".$ClaimDateFormat[1];
+                  $submissionDeadline = $SubmissionDateFormat[3]."/".$SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]; 
+                
                 
                 $tags[0] = "";
                 $tags[1] = "";
