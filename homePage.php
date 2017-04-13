@@ -166,8 +166,8 @@
                     
                   $ClaimDateFormat = explode("-", $claimDeadline);
                   $SubmissionDateFormat = explode("-", $submissionDeadline);
-                  $claimDeadline = $ClaimDateFormat[3]."/".$ClaimDateFormat[2]."/".$ClaimDateFormat[1];
-                  $submissionDeadline = $SubmissionDateFormat[3]."/".$SubmissionDateFormat[2]."/".$SubmissionDateFormat[1];    
+                  $claimDeadline = $ClaimDateFormat[2]."/".$ClaimDateFormat[1]."/".$ClaimDateFormat[0];
+                  $submissionDeadline = $SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]."/".$SubmissionDateFormat[0];    
                     
                    $tags[0] = "";
                    $tags[1] = "";
@@ -466,10 +466,8 @@
           }
     
           if(isset($_POST['cancel'])){         
-            $taskID = $_POST['cancel'];
-            $stmt = $dbh->prepare("DELETE FROM claimed_tasks WHERE task_Id = ?");
-            $stmt->execute(array($taskID));
-            $stmt = $dbh->prepare("UPDATE task_status SET status_Id = 1 WHERE task_Id = ?");
+            $taskID = $_POST['cancel'];        
+            $stmt = $dbh->prepare("UPDATE task_status SET status_Id = 6 WHERE task_Id = ?");
             $stmt->execute(array($taskID));
           }else if(isset($_POST['delete'])){         
             $taskID = $_POST['delete'];
@@ -480,27 +478,17 @@
             $stmt = $dbh->prepare("DELETE FROM assigned_tags WHERE task_Id = ?");
             $stmt->execute(array($taskID));
           }else if(isset($_POST['good'])){ 
-			$stmt = $dbh->prepare("UPDATE user_info SET points = points + 5 WHERE username = SELECT username FROM claimed_tasks WHERE taskID = ?");
+			$stmt = $dbh->prepare("UPDATE user_info SET points = points + 5 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
 			$stmt->execute(array($taskID));
           }else if(isset($_POST['middle'])){ 
-            $stmt = $dbh->prepare("UPDATE user_info SET points = points + 2 WHERE username = SELECT username FROM claimed_tasks WHERE taskID = ?");
+            $stmt = $dbh->prepare("UPDATE user_info SET points = points + 2 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
 			$stmt->execute(array($taskID));
           }else if(isset($_POST['bad'])){
-			$stmt = $dbh->prepare("UPDATE user_info SET points = points - 5 WHERE username = SELECT username FROM claimed_tasks WHERE taskID = ?");
+			$stmt = $dbh->prepare("UPDATE user_info SET points = points - 5 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
 			$stmt->execute(array($taskID));
           }
             
-          //$value = 0; 
-          //if($_GET){
-            // if(isset($_GET['bad'])){
-              //  $value = -5; 
-            // }elseif(isset($_GET['middle'])){
-              //  $value = 2; 
-            /// }elseif(isset($_GET['good'])){
-               /// $value = 5; 
-        //    }
-        //  }
-          //printf('<p>%s</p>', $value);
+          
     ?>
     </div> <!-- panel-body -->
   </div> <!-- panel panel-default -->
@@ -530,8 +518,8 @@
            $fileFormat = htmlspecialchars(trim($_POST["fileFormat"]));
            $description = htmlspecialchars(trim($_POST["description"]));
            $major = $_POST["major"];
-           $claimDeadline = $_POST["claimDeadline"];
-           $submissionDeadline = $_POST["submissionDeadline"];
+           $claimDeadline = str_ireplace("/","-",$_POST["claimDeadline"]);
+           $submissionDeadline = str_ireplace("/","-",$_POST["submissionDeadline"]);
 
             
             
@@ -756,8 +744,8 @@
                     
                   $ClaimDateFormat = explode("-", $claimDeadline);
                   $SubmissionDateFormat = explode("-", $submissionDeadline);
-                  $claimDeadline = $ClaimDateFormat[3]."/".$ClaimDateFormat[2]."/".$ClaimDateFormat[1];
-                  $submissionDeadline = $SubmissionDateFormat[3]."/".$SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]; 
+                  $claimDeadline = $ClaimDateFormat[2]."/".$ClaimDateFormat[1]."/".$ClaimDateFormat[0];
+                  $submissionDeadline = $SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]."/".$SubmissionDateFormat[0]; 
                 
                 $tags[0] = "";
                 $tags[1] = "";
@@ -879,39 +867,33 @@
                                </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $type, $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline);
                     break;
                     
-                    //this shouldnt be in here
-                    case"5":
-                         printf('<button type= %s class="btn btn-MyTasksCompleted btn-lg" data-toggle="modal"
-                         data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Completed </br> <b>Date:</b> </br>%s </button>
+                    case"6":
+                          printf('<button type= %s class="btn btn-MyTasksCancelled btn-lg"
+                        data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Cancelled </br> <b>Date:</b> </br>%s</button>
 
-                               <div class="modal fade" id= %s role="dialog">
-                                  <div class="modal-dialog">
-
-                                  <!-- Modal content-->
-                                      <div class="modal-content">
-                                         <div class="modal-header">
-                                            <button type= %s class="close" data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title">Rate this review</h4>
-                                         </div>
-                                         <div class="modal-body">
-                                            <form method="get">
-                                              <button name="good" class="btn btn-lg btn-info">
-                                                <img src="images/happy.jpg" alt="submit" width="120px" height="120px"> 
-                                              </button>
-                                              <button name="middle" class="btn btn-lg btn-info">
-                                                <img src="images/neutral.jpg" alt="submit" width="120px" height="120px"> 
-                                              </button>
-                                              <button name="bad" class="btn btn-lg btn-info">
-                                                <img src="images/sad.jpg" alt="submit" width="120px" height="120px"> 
-                                              </button>
-                                             </form>
-                                         </div>
-                                         <div class="modal-footer">
-                                           <p>Status: Claimed</p>
-                                         </div>
-                                       </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id= %s role="dialog">
+                            <div class="modal-dialog">
+                            <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type= %s class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title title">Title: %s</h4>
                                     </div>
-                                </div>', $buttonID, $targetID, $title, $submissionDeadline, $target, $buttonID);
+                                    <div class="modal-body">
+                                        <h2> This task has been cancelled by the owner.</h2>
+                                        <h2> Please press the "Okay" button to acknowledge this.<h2>
+                                        
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form method="post">
+                                           <button type="submit" class="btn btn-default" name="acknowledge" value= %s>Ok</button>
+                                        </form>
+                                        <p>Status: Cancelled by Claiment</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $taskID);
                     break;
                 }
                 $counter++;
@@ -933,6 +915,15 @@
             $taskID = $_POST['complete'];
             $stmt = $dbh->prepare("UPDATE task_status SET status_Id = 5 WHERE task_Id = ?");
             $stmt->execute(array($taskID));
+       }else if(isset($_POST['acknowledge'])){         
+            $taskID = $_POST['acknowledge'];
+            $stmt = $dbh->prepare("DELETE FROM claimed_tasks WHERE task_Id = ?");
+            $stmt->execute(array($taskID));
+            $stmt = $dbh->prepare("DELETE FROM tasks WHERE task_Id = ?");
+            $stmt->execute(array($taskID));
+            $stmt = $dbh->prepare("DELETE FROM task_status WHERE task_Id = ?");
+            $stmt->execute(array($taskID));
+            $stmt = $dbh->prepare("DELETE FROM assigned_tags WHERE task_Id = ?");
        }
     
       
@@ -978,8 +969,8 @@
                 
                   $ClaimDateFormat = explode("-", $claimDeadline);
                   $SubmissionDateFormat = explode("-", $submissionDeadline);
-                  $claimDeadline = $ClaimDateFormat[3]."/".$ClaimDateFormat[2]."/".$ClaimDateFormat[1];
-                  $submissionDeadline = $SubmissionDateFormat[3]."/".$SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]; 
+                  $claimDeadline = $ClaimDateFormat[2]."/".$ClaimDateFormat[1]."/".$ClaimDateFormat[0];
+                  $submissionDeadline = $SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]."/".$SubmissionDateFormat[0]; 
                 
                 
                 $tags[0] = "";
