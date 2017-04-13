@@ -138,6 +138,15 @@ footer{
     color:#fff;
 }
 
+.btn-deleteAccount{
+  color: #d9534f;
+}
+
+.btn-deleteAccount:hover{
+  color: #D93A32;
+}
+
+
 .btn-TasksIndex{
     align-self: center;
     background-color: #bce8f1;
