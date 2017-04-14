@@ -153,7 +153,7 @@
                 <label for="inputPassword3" class="col-sm-4  col-md-4 control-label"><?php echo $lang['menu_password']; ?> <small><?php echo $lang['menu_passwordDetails']; ?></small></label>
                 <div class="col-sm-5 col-md-5">
                   <!--<input pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength = "8" name="passwordInput" class="form-control" id="inputPassword3" placeholder="Password">-->
-                    <input name="passwordInput" class="form-control" id="inputPassword3" value="Password" type="password">
+                    <input name="passwordInput" class="form-control" id="inputPassword3" type="password">
                 </div>
               </div>
 
