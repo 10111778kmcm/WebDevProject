@@ -911,8 +911,8 @@
       <?php try {
             $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
 		    $counter = 0;
-            $stmt = $dbh->prepare("SELECT DISTINCT(task_Id), title, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline ,major FROM tasks JOIN task_status USING(task_Id) JOIN assigned_tags USING(task_Id) WHERE username != ? AND status_Id = 1");
-            $stmt->execute(array($username));
+             $stmt = $dbh->prepare("SELECT DISTINCT(task_Id), title, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline ,major FROM tasks JOIN task_status USING(task_Id) JOIN assigned_tags USING(task_Id) JOIN user_tags USING(tag_Id) WHERE tasks.username != :username1 AND status_Id = 1 AND user_tags.username = :username2");
+            $stmt->execute(array(':username1' => $username, ':username2' => $username));
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $taskID = $row['task_Id'];
                 $title = $row['title'];
@@ -931,11 +931,10 @@
                 $targetID  = $targetIdentifier.$counter;
                 $target = $target.$counter;
 
-                  $ClaimDateFormat = explode("-", $claimDeadline);
-                  $SubmissionDateFormat = explode("-", $submissionDeadline);
-                  $claimDeadline = $ClaimDateFormat[2]."/".$ClaimDateFormat[1]."/".$ClaimDateFormat[0];
-                  $submissionDeadline = $SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]."/".$SubmissionDateFormat[0];
-
+                $ClaimDateFormat = explode("-", $claimDeadline);
+                $SubmissionDateFormat = explode("-", $submissionDeadline);
+                $claimDeadline = $ClaimDateFormat[2]."/".$ClaimDateFormat[1]."/".$ClaimDateFormat[0];
+                $submissionDeadline = $SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]."/".$SubmissionDateFormat[0];
 
                 $tags[0] = "";
                 $tags[1] = "";
