@@ -66,86 +66,155 @@
 
         <h3>Personal info</h3>
 
-        <form class="form-horizontal" role="form">
+       <?php
+          if(isset($_POST['saveChanges'])){
+              $newFirstName = htmlspecialchars(ucfirst(trim($_POST["firstName"])));
+              $newSurname = htmlspecialchars(ucfirst(trim($_POST["surname"])));
+              $newEmail = htmlspecialchars(ucfirst(trim($_POST["email"])));
+              $newUsername = htmlspecialchars(trim($_POST["username"]));
+              $pass1 = htmlspecialchars(trim($_POST["password1"]));
+              $pass2 = htmlspecialchars(trim($_POST["password2"]));
+              
+              $stmt = $dbh->prepare("SELECT username FROM user_info WHERE email = ?" );
+	          $stmt->execute(array($newEmail));
+	          $emailTestRows = $stmt->rowCount();
+
+              $stmt = $dbh->prepare("SELECT email FROM user_info WHERE username = ?" );
+	          $stmt->execute(array($newUsername));
+	          $usernameTestRows = $stmt->rowCount();
+	          if($pass1 != $pass2) { //in case Javascript is disabled.
+		         printf("<h2> Passwords do not match. </h2>");
+	           }else{
+		          if($emailTestRows > 0) {
+			         printf("<h2> An account already exists with the given email.</h2>");
+		          }else if($usernameTestRows > 0){
+                     printf("<h2> An account already exists with the given username.</h2>");
+                  }else{
+			         $siteSalt  = "paperreview";
+			         $saltedHash = hash('sha256', $pass1.$siteSalt);
+                     
+                     $stmt = $dbh->prepare("UPDATE user_info SET first_Name = :firstName, surname = :surname, email = :email, password = :password WHERE username = :oldUserName");
+                     $stmt->execute(array(':firstName' => $newFirstName, ':surname' => $newSurname, ':email' => $newEmail, ':password' => $saltedHash, ':oldUserName' => $username));
+                     $stmt = $dbh->prepare("UPDATE tasks SET username = :newUsername WHERE username = :oldUserName" );
+	                 $stmt->execute(array(':newUserName' => $newUserName, ':oldUserName' => $username));
+                     
+                     $stmt = $dbh->prepare("UPDATE flagged_tasks SET username = :newUsername WHERE username = :oldUserName" );
+	                 $stmt->execute(array(':newUserName' => $newUserName, ':oldUserName' => $username));
+                     $stmt = $dbh->prepare("UPDATE flagged_tasks SET flaggedBy = :newUsername WHERE flaggedBy = :oldUserName" );
+	                 $stmt->execute(array(':newUserName' => $newUserName, ':oldUserName' => $username));
+                     
+                     //dont think this is necessary
+                     //$stmt = $dbh->prepare("UPDATE banned_user SET username = :newUsername WHERE username = :oldUserName" );
+	                 //$stmt->execute(array(':newUserName' => $newUserName, ':oldUserName' => $username));
+                      
+                     $stmt = $dbh->prepare("UPDATE claimed_tasks SET username = :newUsername WHERE username = :oldUserName" );
+	                 $stmt->execute(array(':newUserName' => $newUserName, ':oldUserName' => $username));
+                      
+                     $stmt = $dbh->prepare("UPDATE user_tags SET username = :newUsername WHERE username = :oldUserName" );
+	                 $stmt->execute(array(':newUserName' => $newUserName, ':oldUserName' => $username));
+                     
+                     $_SESSION['username'] = $newUserName;
+                  }
+              }
+          }elseif(isset($_POST['delete'])){
+               $stmt = $dbh->prepare("UPDATE task_status SET task_Id = 6 WHERE username = ?" );
+	           $stmt->execute(array($username));
+               $stmt = $dbh->prepare("UPDATE task_status SET task_Id = 6 FROM tasks JOIN claimed_tasks USING(task_Id) WHERE username = ?" );
+	           $stmt->execute(array($username));
+               $stmt = $dbh->prepare("DELETE FROM user_tags WHERE username = ?" );
+	           $stmt->execute(array($username));
+               $stmt = $dbh->prepare("DELETE FROM user_info WHERE username = ?" );
+	           $stmt->execute(array($username));
+               header("Location:./accountDeleted.php");
+          }
+    
+          try{
+              $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
+              $stmt = $dbh->prepare("SELECT first_Name, surname, email FROM user_info WHERE username = ?");
+              $stmt->execute(array($username));
+              $row = $stmt->fetch(PDO::FETCH_ASSOC); 
+              $firstName = $row['first_Name'];
+              $surname = $row['surname'];
+              $email = $row['email'];
+           }catch (PDOException $exception) {
+              printf("Connection error: %s", $exception->getMessage());
+           }
+           printf('<form class="form-horizontal" role="form" method="post">
           <div class="form-group">
             <label class="col-sm-4  col-md-4  control-label">First name:</label>
             <div class="col-sm-5 col-md-8 col-lg-8">
-              <input class="form-control" type="text" value="Jane">
+              <input class="form-control" type="text" value= %s name="firstName">
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-4  col-md-4  control-label">Surname:</label>
             <div class="col-sm-5 col-md-8 col-lg-8">
-              <input class="form-control" type="text" value="Bishop">
+              <input class="form-control" type="text" value= %s name="surname">
             </div>
           </div>
 
           <div class="form-group">
             <label class="col-sm-4  col-md-4  control-label">Email:</label>
             <div class="col-sm-5 col-md-8 col-lg-8">
-              <input class="form-control" type="text" value="janesemail@studentmail.ul.ie">
+              <input class="form-control" type="text" value=%s name="email">
             </div>
           </div>
 
           <div class="form-group">
             <label class="col-sm-4  col-md-4  control-label">Username:</label>
             <div class="col-sm-5 col-md-8 col-lg-8">
-              <input class="form-control" type="text" value="janeuser">
+              <input class="form-control" type="text" value=%s name="username">
             </div>
           </div>
+            
           <div class="form-group">
             <label class="col-sm-4  col-md-4  control-label">New Password:<small>(8 characters, 1 uppercase and 1 digit)</small></label>
             <div class="col-sm-5 col-md-8 col-lg-8">
-              <input class="form-control" type="password" value="11111122333">
+              <input class="form-control" type="password" name="password1">
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-4  col-md-4  control-label">Confirm new password:</label>
             <div class="col-sm-5 col-md-8 col-lg-8">
-              <input class="form-control" type="password" value="11111122333">
+              <input class="form-control" type="password" name="password2">
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-4  col-md-4  control-label"></label>
             <div class="col-sm-5 col-md-8 col-lg-8">
-              <input type="button" class="btn btn-default" value="Save Changes">
+              <input type="submit" class="btn btn-default" value="Save Changes" name="saveChanges">
               <span></span>
               <input type="reset" class="btn btn-default" value="Cancel">
               <span></span>
               <button type="button" class="btn btn-danger btn-deleteAccount" data-toggle="modal" data-target="#deleteAccount">Delete Account</button>
+              
 
-<!-- Modal -->
-<div class="modal fade" id="deleteAccount" role="dialog">
-  <div class="modal-dialog">
+              <!-- Modal -->
+              <div class="modal fade" id="deleteAccount" role="dialog">
+                <div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Are you sure you want to delete your account?</h4>
-      </div>
-      <div class="modal-body">
-          <p>Keep in mind that if you do, you will lose the opportunity to conect with UL students and staff that can help you reviewing your assignments.</p>
-        </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger btn-deleteAccount" data-dismiss="modal">Delete account</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-
-
-
-
-
-
-
+                 <!-- Modal content-->
+                 <div class="modal-content">
+                   <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Are you sure you want to delete your account?</h4>
+                   </div>
+                   <div class="modal-body">
+                      <p>Keep in mind that if you do, you will lose the opportunity to conect with UL students and staff that can help you reviewing your assignments.</p>
+                   </div>
+                   <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     <button type="submit" class="btn btn-danger btn-deleteAccount" data-dismiss="modal" name="delete">Delete Account</button>
+                   </div>
+                 </div>
+               </div>
             </div>
-          </div>
-        </form>
+         </div>
+    </div>
+    </form>', $firstName, $surname, $email, $username);
+          
+    
+?>
 </div>  <!-- container -->
 </div>  <!-- topSpace -->
 </div>
