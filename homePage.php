@@ -1013,7 +1013,7 @@
            $taskID = $_POST['claim'];
            $stmt = $dbh->prepare("UPDATE task_status SET status_Id = 2 WHERE task_Id = ?");
            $stmt->execute(array($taskID));
-           $stmt = $dbh->prepare("INSERT INTO claimed_tasks VALUES(:taskID, 2017-00-00, :username)");
+           $stmt = $dbh->prepare("INSERT INTO claimed_tasks VALUES(:taskID, CURRENT_TIMESTAMP, :username)");
            $stmt->execute(array(':taskID' => $taskID, ':username' => $username));
 		   $stmt = $dbh->prepare("UPDATE user_info SET points = points + 10 WHERE username = ?");
 		   $stmt->execute(array($username));
