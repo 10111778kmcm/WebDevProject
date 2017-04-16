@@ -227,7 +227,9 @@
                                         </div>
 
                                         <embed src= %s width="200px" height="360px" />
-
+                                        
+                                        <a href=%s download=%s>Download Preview</a>
+                                        
                                         <div class="modal-footer">
                                            <form method="post">
                                               <button type="submit" class="btn btn-default" name="delete" value= %s>Delete</button>
@@ -237,7 +239,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $taskID);
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $relatedFile, $title, $taskID);
                      break;
 
                      case "2":
@@ -284,7 +286,9 @@
                                         </div>
 
                                         <embed src= %s width="200px" height="500px" />
-
+                                        
+                                        <a href=%s download=%s>Download Preview</a>
+                                        
                                         <div class="modal-footer">
                                            <form method="post">
                                               <button type="submit" class="btn btn-default" name="cancel" value= %s>Cancel</button>
@@ -294,7 +298,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $taskID);
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $relatedFile, $title, $taskID);
                      break;
 
                      case "3":
@@ -340,6 +344,8 @@
                                         </div>
 
                                         <embed src= %s width="200px" height="500px" />
+                                        
+                                        <a href=%s download=%s>Download Preview</a>
 
                                     </div>
                                     <div class="modal-footer">
@@ -351,7 +357,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $taskID, $taskID);
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $relatedFile, $title, $taskID, $taskID);
                      break;
 
                      case "4":
@@ -398,6 +404,8 @@
                                         </div>
 
                                         <embed src= %s width="200px" height="500px" />
+                                        
+                                        <a href=%s download=%s>Download Preview</a>
 
                                     </div>
                                     <div class="modal-footer">
@@ -409,7 +417,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $taskID, $taskID);
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $relatedFile, $title, $taskID, $taskID);
                      break;
 
                      case "5":
@@ -911,7 +919,7 @@
       <?php try {
             $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
 		    $counter = 0;
-             $stmt = $dbh->prepare("SELECT DISTINCT(task_Id), title, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline ,major FROM tasks JOIN task_status USING(task_Id) JOIN assigned_tags USING(task_Id) JOIN user_tags USING(tag_Id) WHERE tasks.username != :username1 AND status_Id = 1 AND user_tags.username = :username2");
+            $stmt = $dbh->prepare("SELECT DISTINCT(task_Id), title, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline ,major FROM tasks JOIN task_status USING(task_Id) JOIN assigned_tags USING(task_Id) JOIN user_tags USING(tag_Id) WHERE tasks.username != :username1 AND status_Id = 1 AND user_tags.username = :username2");
             $stmt->execute(array(':username1' => $username, ':username2' => $username));
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $taskID = $row['task_Id'];
@@ -930,11 +938,13 @@
                 $buttonID = $buttonIdentifier.$counter;
                 $targetID  = $targetIdentifier.$counter;
                 $target = $target.$counter;
-
+                $relatedFile = "FileUploads/".$taskID.$fileFormat;
+                
                 $ClaimDateFormat = explode("-", $claimDeadline);
                 $SubmissionDateFormat = explode("-", $submissionDeadline);
                 $claimDeadline = $ClaimDateFormat[2]."/".$ClaimDateFormat[1]."/".$ClaimDateFormat[0];
                 $submissionDeadline = $SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]."/".$SubmissionDateFormat[0];
+
 
                 $tags[0] = "";
                 $tags[1] = "";
@@ -992,6 +1002,10 @@
                                         <div class="completion-deadline">
                                             Completion Deadline: %s
                                         </div>
+                                        
+                                        <embed src= %s width="200px" height="360px" />
+                                        
+                                        <a href=%s download=%s>Download Preview</a>
                                     </div>
                                     <div class="modal-footer">
                                         <form method="post">
@@ -1002,7 +1016,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $taskID, $taskID);
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $relatedFile, $title, $taskID, $taskID);
                 $counter++;
             }
         }catch(PDOException $exception){
