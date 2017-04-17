@@ -18,9 +18,9 @@
 
   <?php
      session_start();
-     if (!isset($_SESSION['username'])) {
-       header("Location:/logIn.php");
-     }
+     //if (!isset($_SESSION['username'])) {
+       //header("Location:/logIn.php");
+    // }
   ?>
 
   <!-- Nav Bar -->
@@ -107,41 +107,43 @@
                      }else{
                         
                         if($pass1 == NULL){
-                           $stmt = $dbh->prepare("UPDATE user_info SET first_Name = :firstName, surname = :surname, email = :email, WHERE username = :oldUserName");
-                           $stmt->execute(array(':firstName' => $newFirstName, ':surname' => $newSurname, ':email' => $newEmail, ':oldUserName' => $username)); 
+                           $stmt = $dbh->prepare("UPDATE user_info SET first_Name = :firstName, surname = :surname, email = :email, username = :newUsername WHERE username = :oldUserName");
+                           $stmt->execute(array(':firstName' => $newFirstName, ':surname' => $newSurname, ':email' => $newEmail, ':newUsername' => $newUsername, ':oldUserName' => $username)); 
                         }else{
 			               $siteSalt  = "paperreview";
 			               $saltedHash = hash('sha256', $pass1.$siteSalt);
                      
-                           $stmt = $dbh->prepare("UPDATE user_info SET first_Name = :firstName, surname = :surname, email = :email, password = :password WHERE username = :oldUserName");
-                           $stmt->execute(array(':firstName' => $newFirstName, ':surname' => $newSurname, ':email' => $newEmail, ':password' => $saltedHash, ':oldUserName' => $username));
+                           $stmt = $dbh->prepare("UPDATE user_info SET first_Name = :firstName, surname = :surname, email = :email, username = :newUsername, password = :password WHERE username = :oldUserName");
+                           $stmt->execute(array(':firstName' => $newFirstName, ':surname' => $newSurname, ':email' => $newEmail, ':newUsername' => $newUsername,':password' => $saltedHash, ':oldUserName' => $username));
                         }
                         
                         $stmt = $dbh->prepare("UPDATE tasks SET username = :newUsername WHERE username = :oldUserName" );
-	                    $stmt->execute(array(':newUserName' => $newUserName, ':oldUserName' => $username));
+	                    $stmt->execute(array(':newUsername' => $newUsername, ':oldUserName' => $username));
                      
                         $stmt = $dbh->prepare("UPDATE flagged_tasks SET username = :newUsername WHERE username = :oldUserName" );
-	                    $stmt->execute(array(':newUserName' => $newUserName, ':oldUserName' => $username));
+	                    $stmt->execute(array(':newUsername' => $newUsername, ':oldUserName' => $username));
                         $stmt = $dbh->prepare("UPDATE flagged_tasks SET flaggedBy = :newUsername WHERE flaggedBy = :oldUserName" );
-	                    $stmt->execute(array(':newUserName' => $newUserName, ':oldUserName' => $username));
+	                    $stmt->execute(array(':newUsername' => $newUsername, ':oldUserName' => $username));
                      
                      //dont think this is necessary
                      //$stmt = $dbh->prepare("UPDATE banned_user SET username = :newUsername WHERE username = :oldUserName" );
 	                 //$stmt->execute(array(':newUserName' => $newUserName, ':oldUserName' => $username));
                       
                         $stmt = $dbh->prepare("UPDATE claimed_tasks SET username = :newUsername WHERE username = :oldUserName" );
-	                    $stmt->execute(array(':newUserName' => $newUserName, ':oldUserName' => $username));
+	                    $stmt->execute(array(':newUsername' => $newUsername, ':oldUserName' => $username));
                       
                         $stmt = $dbh->prepare("UPDATE user_tags SET username = :newUsername WHERE username = :oldUserName" );
-	                    $stmt->execute(array(':newUserName' => $newUserName, ':oldUserName' => $username));
+	                    $stmt->execute(array(':newUsername' => $newUsername, ':oldUserName' => $username));
                      
-                        $_SESSION['username'] = $newUserName;
+                        $_SESSION['username'] = $newUsername;
+                        header("Location:./homePage.php");
                      }
                  }
              }elseif(isset($_POST['delete'])){
-                $stmt = $dbh->prepare("UPDATE task_status SET task_Id = 6 WHERE username = ?" );
-	            $stmt->execute(array($username));
-                $stmt = $dbh->prepare("UPDATE task_status SET task_Id = 6 FROM tasks JOIN claimed_tasks USING(task_Id) WHERE username = ?" );
+                //$stmt = $dbh->prepare("UPDATE task_status SET task_Id = 6 WHERE username = ?" );
+	            //$stmt->execute(array($username));
+                //need to look at this query
+                $stmt = $dbh->prepare("UPDATE task_status SET status_Id = 6 FROM tasks JOIN claimed_tasks USING(task_Id) WHERE username = ?" );
 	            $stmt->execute(array($username));
                 $stmt = $dbh->prepare("DELETE FROM user_tags WHERE username = ?" );
 	            $stmt->execute(array($username));

@@ -436,13 +436,13 @@
                                  <div class="modal-body">
                                     <h3> Please rate the feedback you have recieved</h3>
                                     <form method="get">
-                                       <button name ="good" type="submit" class="btn btn-lg btn-info">
+                                       <button name ="good" type="submit" class="btn btn-lg btn-info" value = %s>
                                           <img src="images/happy.jpg" alt="submit" width="120px" height="120px">
                                        </button>
-                                       <button name ="middle" type="submit" class="btn btn-lg btn-info">
+                                       <button name ="middle" type="submit" class="btn btn-lg btn-info" value = %s>
                                           <img src="images/neutral.jpg" alt="submit" width="120px" height="120px">
                                        </button>
-                                       <button name ="bad" type="submit" class="btn btn-lg btn-info">
+                                       <button name ="bad" type="submit" class="btn btn-lg btn-info" value = %s>
                                           <img src="images/sad.jpg" alt="submit" width="120px" height="120px">
                                        </button>
                                     </form>
@@ -452,7 +452,7 @@
                                  </div>
                               </div>
                             </div>
-                         </div>', $buttonID, $targetID, $title, $submissionDeadline, $target, $buttonID, $title);
+                         </div>', $buttonID, $targetID, $title, $submissionDeadline, $target, $buttonID,  $title, $taskID,$taskID,$taskID);
                     }
                   $counter++;
                 }
@@ -474,12 +474,15 @@
             $stmt = $dbh->prepare("DELETE FROM assigned_tags WHERE task_Id = ?");
             $stmt->execute(array($taskID));
           }else if(isset($_POST['good'])){
+            $taskID = $_POST['good'];
 			$stmt = $dbh->prepare("UPDATE user_info SET points = points + 5 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
 			$stmt->execute(array($taskID));
           }else if(isset($_POST['middle'])){
+            $taskID = $_POST['middle'];
             $stmt = $dbh->prepare("UPDATE user_info SET points = points + 2 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
 			$stmt->execute(array($taskID));
           }else if(isset($_POST['bad'])){
+            $taskID = $_POST['bad'];
 			$stmt = $dbh->prepare("UPDATE user_info SET points = points - 5 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
 			$stmt->execute(array($taskID));
           }
@@ -919,7 +922,7 @@
       <?php try {
             $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
 		    $counter = 0;
-            $stmt = $dbh->prepare("SELECT DISTINCT(task_Id), title, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline ,major FROM tasks JOIN task_status USING(task_Id) JOIN assigned_tags USING(task_Id) JOIN user_tags USING(tag_Id) WHERE tasks.username != :username1 AND status_Id = 1 AND user_tags.username = :username2");
+            $stmt = $dbh->prepare("SELECT DISTINCT(task_Id), title, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline ,major FROM tasks JOIN task_status USING(task_Id) JOIN assigned_tags USING(task_Id) JOIN user_tags USING(tag_Id) WHERE tasks.username != :username1 AND status_Id = 1 AND user_tags.username = :username2 AND flagged_count = 0");
             $stmt->execute(array(':username1' => $username, ':username2' => $username));
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $taskID = $row['task_Id'];

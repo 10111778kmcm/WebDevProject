@@ -90,13 +90,33 @@
                 $description = $row['description'];
                 $claimDeadline = $row['claim_deadline'];
                 $submissionDeadline = $row['submission_deadline'];
-                $targetIdentifier = "#myModelAvailable";
-                $target = "myModelAvailable";
-                $buttonIdentifier = "buttonAvailable";
+                $targetIdentifier = "#myModelFlagged";
+                $target = "myModelFlagged";
+                $buttonIdentifier = "buttonFlagged";
                 $buttonID = $buttonIdentifier.$counter;
                 $targetID  = $targetIdentifier.$counter;               
                 $target = $target.$counter;
                 
+                $ClaimDateFormat = explode("-", $claimDeadline);
+                $SubmissionDateFormat = explode("-", $submissionDeadline);
+                $claimDeadline = $ClaimDateFormat[2]."/".$ClaimDateFormat[1]."/".$ClaimDateFormat[0];
+                $submissionDeadline = $SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]."/".$SubmissionDateFormat[0];
+
+                $tags[0] = "";
+                $tags[1] = "";
+                $tags[2] = "";
+                $tags[3] = "";
+                $tagCounter = 0;
+                $stmt2 = $dbh->prepare("SELECT tag_Name FROM tag_ids JOIN assigned_tags USING(tag_Id) WHERE task_Id = ?");
+                $stmt2->execute(array($taskID));
+                while($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)){
+                   if($tagCounter < 3){
+                      $tags[$tagCounter] = $row2['tag_Name'].",";
+                   }else{
+                      $tags[$tagCounter] = $row2['tag_Name'];
+                   }
+                      $tagCounter++;
+                }
                 //going to need to do some funny stuff to display tags
                 printf('<button type= %s class="btn btn-MyTasksAvailable btn-lg" data-toggle="modal" data-target= %s >Title: %s</br> No. of Flags: %s </br> Date: %s</button>
 
@@ -115,7 +135,7 @@
                                            Type: %s
                                         </div>
                                         <div class="tags">
-                                            Tags: need to work on this
+                                            Tags: %s %s %s %s
                                         </div>
                                         <div class="no-of-pages">
                                             No of pages: %s
@@ -138,14 +158,15 @@
                                     </div>
                                     <div class="modal-footer">
                                         <form method="post">
-                                           <button type="submit" class="btn btn-default" name="delete" value="%s">Delete</button>
+                                           <button type="submit" class="btn btn-default" name="delete" value="%s">Delete Task</button>
                                            <button type="submit" class="btn btn-default" name="unflag" value="%s">Unflag</button>
+                                           <button type="submit" class="btn btn-default" name="ban" value="%s">Ban User</button>
                                         </form>
                                         <p>Status: Flagged</p>
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $flagCount, $claimDeadline, $target, $buttonID, $title, $type, $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $taskID, $taskID);
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $flagCount, $claimDeadline, $target, $buttonID, $title, $type, $tags[0], $tags[1], $tags[2], $tags[3],$pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $taskID, $taskID, $taskID);
                 $counter++;
             }
         }catch(PDOException $exception){
@@ -153,17 +174,26 @@
         }
         
         if(isset($_POST['delete'])){
-           $val = $_POST['delete'];
+           $taskID = $_POST['delete'];
            $stmt = $dbh->prepare("DELETE FROM tasks WHERE task_Id = ?");
-           $stmt->execute(array($val));
+           $stmt->execute(array($taskID));
            $stmt = $dbh->prepare("DELETE FROM task_status WHERE task_Id = ?");
-           $stmt->execute(array($val));
+           $stmt->execute(array($taskID));
            $stmt = $dbh->prepare("DELETE FROM assigned_tags WHERE task_Id = ?");
-           $stmt->execute(array($val));
+           $stmt->execute(array($taskID));
+           $stmt = $dbh->prepare("UPDATE user_info SET points = points - 15 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
+			$stmt->execute(array($taskID));
         }else if(isset($_POST['unflag'])){
-           $val = $_POST['unflag'];
+           $taskID = $_POST['unflag'];
            $stmt = $dbh->prepare("UPDATE tasks SET flagged_count = 0 WHERE task_Id = ?");
-           $stmt->execute(array($val));
+           $stmt->execute(array($taskID));
+        }else if(isset($_POST['ban'])){
+           $taskID = $_POST['ban'];
+           $stmt = $dbh->prepare("SELECT username FROM tasks WHERE taskID = ?)");
+           $stmt->execute(array($taskID));
+           $username = $stmt->fetchColumn(0);
+           $stmt = $dbh->prepare("INSERT INTO banned_user VALUES (:username, CURRENT_TIMESTAMP)");
+           $stmt->execute(array(':username' => $username));
         }
 ?>
 
