@@ -511,7 +511,10 @@
         if (isset($_POST['createTaskSubmit'])) {
            $title = htmlspecialchars(ucfirst(trim($_POST["title"])));
            $type = htmlspecialchars(ucfirst(trim($_POST["type"])));
-           $tags = htmlspecialchars(ucfirst(trim($_POST["tags"])));
+           $tagArray[0] = htmlspecialchars(ucfirst(trim($_POST["tags1"])));
+           $tagArray[1] = htmlspecialchars(ucfirst(trim($_POST["tags2"])));
+           $tagArray[2]= htmlspecialchars(ucfirst(trim($_POST["tags3"])));
+           $tagArray[3] = htmlspecialchars(ucfirst(trim($_POST["tags4"])));
            $pageNum = htmlspecialchars(trim($_POST["pageNum"]));
            $wordNum = htmlspecialchars(trim($_POST["wordNum"]));
            $fileFormat = htmlspecialchars(trim($_POST["fileFormat"]));
@@ -525,7 +528,6 @@
 
            $username = $_SESSION['username'];
 
-           $tagArray = explode(",", $tags);
            $createTask = true;
 
            //file stuff $taskID taken from https://davidwalsh.name/basic-file-uploading-php and //https://www.w3schools.com/php/php_file_upload.asp
@@ -614,8 +616,23 @@
       </div>
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-        <label for="Tags">Tags</label>
-        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags"  placeholder="Amsterdam,Washington,Sydney,Beijing,Cairo">
+        <label for="Tags">Tag 1</label>
+        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags1"  placeholder="History">
+      </div>
+        
+      <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <label for="Tags">Tag 2</label>
+        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags2"  placeholder="Irish Literature">
+      </div>
+        
+      <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <label for="Tags">Tag 3</label>
+        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags3"  placeholder="Solo Composition">
+      </div>
+        
+      <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <label for="Tags">Tag 4</label>
+        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags4"  placeholder="Contract Law">
       </div>
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
