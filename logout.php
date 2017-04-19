@@ -12,6 +12,7 @@
 <body id="body">
     <?php 
         /*http://php.net/manual/en/function.session-unset.php*/
+        //destroying the seeion so the user to log the user out
         session_start();
         session_unset();
         session_destroy();
