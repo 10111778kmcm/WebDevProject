@@ -172,6 +172,14 @@
                        }
                        $tagCounter++;
                    }
+                   if($status == 2){
+                        $stmt3 = $dbh->prepare("SELECT first_Name, surname, email FROM user_info JOIN claimed_tasks USING(username) WHERE claimed_tasks.task_Id = ?");
+                        $stmt3->execute(array($taskID));
+                        $row = $stmt3->fetch(PDO::FETCH_ASSOC);
+                        $firstName = $row['first_Name'];
+                        $surname = $row['surname'];
+                        $claimentEmail = $row['email'];
+                   }
                     //need to add code for submit rating
 
                    //This switch works off the status id's and are as follows
@@ -260,9 +268,18 @@
                                         <div class="type">
                                            Type: %s
                                         </div>
-                                         <div class="type">
+                                        <div class="type">
                                            Major: %s
                                         </div>
+                                        
+                                        <div class="type">
+                                           Claiment Name: %s %s
+                                        </div>
+                                        
+                                        <div class="type">
+                                           Claiment Email: %s
+                                        </div>
+                                        
                                         <div class="tags">
                                             Tags: %s %s %s %s
                                         </div>
@@ -298,7 +315,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $relatedFile, $title, $taskID);
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major,$firstName, $surname, $claimentEmail,  $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $relatedFile, $title, $taskID);
                      break;
 
                      case "3":
@@ -734,7 +751,7 @@
             $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
 		    $counter = 0;
             $username = $_SESSION['username'];
-            $stmt = $dbh->prepare("SELECT task_Id, status_Id, title, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline , major FROM tasks JOIN task_status USING(task_Id) JOIN claimed_tasks USING(task_Id) WHERE claimed_tasks.username = ?");
+            $stmt = $dbh->prepare("SELECT task_Id, status_Id, title, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline , major FROM tasks JOIN task_status USING(task_Id) JOIN claimed_tasks USING(task_Id) WHERE claimed_tasks.username = ? ORDER BY submission_deadline ASC");
             $stmt->execute(array($username));
             if($stmt->rowCount() == 0){
                 printf("<h2 class='description-of-page'> You have not claimed any tasks. </h2>", $username);
@@ -785,7 +802,7 @@
                 switch($status){
                     case "2":
                        printf('<button type= %s class="btn btn-MyTasksClaimed btn-lg"
-                       data-target= %s data-toggle="modal"><b>Title:</b></br> %s</br> <b>Status:</b></br> Claimed </br> <b>Date:</b> </br>%s</button>
+                       data-target= %s data-toggle="modal"><b>Title:</b></br> %s</br> <b>Status:</b></br> Claimed </br> <b>Deadline:</b> </br>%s</button>
                                <!-- Modal -->
                                <div class="modal fade" id= %s role="dialog">
                                   <div class="modal-dialog">
@@ -809,12 +826,12 @@
                                        </div>
                                     </div>
                                 </div>
-                             </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $taskID, $taskID);
+                             </div> <!-- finish modal -->', $buttonID, $targetID, $title, $submissionDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $taskID, $taskID);
                     break;
 
                     case"3":
                         printf('<button type= %s class="btn btn-MyTasksExpired btn-lg" data-toggle="modal"
-                        data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Expired </br> <b>Date:</b> </br>%s</button>
+                        data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Expired </br> <b>Deadline:</b> </br>%s</button>
 
                                <!-- Modal -->
                                <div class="modal fade" id= %s role="dialog">
@@ -856,12 +873,12 @@
                                        </div>
                                     </div>
                                   </div>
-                               </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $type, $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline);
+                               </div> <!-- finish modal -->', $buttonID, $targetID, $title, $submissionDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $type, $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline);
                     break;
 
                     case"6":
                           printf('<button type= %s class="btn btn-MyTasksCancelled btn-lg"
-                        data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Cancelled </br> <b>Date:</b> </br>%s</button>
+                        data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Cancelled </br> <b>Deadline:</b> </br>%s</button>
 
                         <!-- Modal -->
                         <div class="modal fade" id= %s role="dialog">
@@ -885,7 +902,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $taskID);
+                        </div> <!-- finish modal -->', $buttonID, $targetID, $title, $submissionDeadline, $target, $buttonID, $title, $taskID);
                     break;
                 }
                 $counter++;
@@ -939,7 +956,7 @@
       <?php try {
             $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
 		    $counter = 0;
-            $stmt = $dbh->prepare("SELECT DISTINCT(task_Id), title, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline ,major FROM tasks JOIN task_status USING(task_Id) JOIN assigned_tags USING(task_Id) JOIN user_tags USING(tag_Id) WHERE tasks.username != :username1 AND status_Id = 1 AND user_tags.username = :username2 AND flagged_count = 0");
+            $stmt = $dbh->prepare("SELECT DISTINCT(task_Id), title, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline ,major FROM tasks JOIN task_status USING(task_Id) JOIN assigned_tags USING(task_Id) JOIN user_tags USING(tag_Id) WHERE tasks.username != :username1 AND status_Id = 1 AND user_tags.username = :username2 AND flagged_count = 0 ORDER BY claim_deadline ASC");
             $stmt->execute(array(':username1' => $username, ':username2' => $username));
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $taskID = $row['task_Id'];
