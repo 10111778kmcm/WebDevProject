@@ -13,6 +13,8 @@
 </head>
 <body>
   <?php 
+        //starting a session and checking if a user is logged in
+        //if a user isnt logged in they are redirected to the log in page
         session_start();
         if (!isset ($_SESSION['username'])) {
            header("Location: /logIn.php");					
@@ -40,42 +42,67 @@
 
     </br>
     <?php
+        //getting the username of the user that is logged in
         $username = $_SESSION['username'];
-        if (isset($_POST) && count($_POST) > 2) {
-           $topic1 = htmlspecialchars(ucfirst(trim($_POST["topic1"])));
-           $topic2 = htmlspecialchars(ucfirst(trim($_POST["topic2"])));
-           $topic3 = htmlspecialchars(ucfirst(trim($_POST["topic3"])));
-           $topic4 = htmlspecialchars(ucfirst(trim($_POST["topic4"])));
-           $topic5 = htmlspecialchars(ucfirst(trim($_POST["topic5"])));
-           $topic6 = htmlspecialchars(ucfirst(trim($_POST["topic6"])));
-           $topicArray = array($topic1, $topic2, $topic3, $topic4, $topic5, $topic6);
-           try{
-	         $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
-             foreach($topicArray as $topic){
-                if($topic != ''){
-                    $topic = htmlspecialchars(trim($topic));
-                    $stmt = $dbh->prepare("SELECT COUNT(*) FROM tag_ids WHERE tag_Name = ?" );
-			        $stmt->execute(array($topic));
-                    if ($stmt->fetchColumn(0) == 0 ){
-                       $stmt = $dbh->prepare("INSERT INTO tag_ids (tag_Name, tag_Id) VALUES (?, NULL)");
+        //checking if the form has been submitted
+        if (isset($_POST) {
+            //checking if the user has inserted 3 or more topics
+            if(count($_POST) > 2) {
+               //retriving the topics the user has submitted
+               $topicArray[0] = htmlspecialchars(ucfirst(trim($_POST["topic1"])));
+               $topicArray[1]  = htmlspecialchars(ucfirst(trim($_POST["topic2"])));
+               $topicArray[2]  = htmlspecialchars(ucfirst(trim($_POST["topic3"])));
+               $topicArray[3]  = htmlspecialchars(ucfirst(trim($_POST["topic4"])));
+               $topicArray[4]  = htmlspecialchars(ucfirst(trim($_POST["topic5"])));
+               $topicArray[5]  = htmlspecialchars(ucfirst(trim($_POST["topic6"])));
+               
+               //attempting to connect to the database
+               try{
+                 //connecting to the database
+	             $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
+                 
+                 //this enhanced for loop goes through the array of tags
+                 foreach($topicArray as $topic){
+                    //check if the topic is not empty
+                    if($topic != ''){
+                       //removing any html special characters if any
+                       $topic = htmlspecialchars(trim($topic));
+                       //checking if this topic is already in the topics that have been inserted into the database
+                       $stmt = $dbh->prepare("SELECT COUNT(*) FROM tag_ids WHERE tag_Name = ?" );
+			           $stmt->execute(array($topic));
+                    
+                       //if the count returns 0 - the topic is not already in the database
+                       if($stmt->fetchColumn(0) == 0 ){
+                          //inserting the topic into the database
+                          $stmt = $dbh->prepare("INSERT INTO tag_ids (tag_Name, tag_Id) VALUES (?, NULL)");
+                          $stmt->execute(array($topic));
+                       }
+                       //retriving the tag id of the topic the user has entered
+                       $stmt = $dbh->prepare("SELECT tag_Id FROM tag_ids WHERE tag_Name = ?");
                        $stmt->execute(array($topic));
-                    }
-                    $stmt = $dbh->prepare("SELECT tag_Id FROM tag_ids WHERE tag_Name = ?");
-                    $stmt->execute(array($topic));
-                    $tagID = $stmt->fetchColumn(0);
-                    $stmt = $dbh->prepare("INSERT INTO user_tags VALUES (:tagID, :username)");
-                    $affectedRows = $stmt->execute(array(':tagID' => $tagID, ':username' => $username));
-                    if($affectedRows > 0){
-                       header("Location:./homePage.php");
-                    }else{
-                       printf("<h2>ERROR</h2>");  
-                    } 
-                 }
-              }              
-           }catch(PDOException $exception){
-              print("<h2> Uh Oh</h2>"); 
-           }            
-        }else{
+                       $tagID = $stmt->fetchColumn(0);
+                       //inserting this tag id into the table that holds the tags that the user has been associated with
+                       $stmt = $dbh->prepare("INSERT INTO user_tags VALUES (:tagID, :username)");
+                       $affectedRows = $stmt->execute(array(':tagID' => $tagID, ':username' => $username));
+                       //checking that the tags have been entered so the user can be redirected to the home page
+                       if($affectedRows > 0){
+                          header("Location:./homePage.php");
+                       }else{
+                          //displaying an error
+                          printf("<h2>ERROR</h2>");  
+                       } 
+                   }
+                }              
+              }
+             //catching an error if there is a problem connecting to the database
+             catch(PDOException $exception){
+                 print("<h2> Uh Oh</h2>"); 
+              }            
+          }else{
+             // header to appear on page if the user has not entered enough topics
+             print("<h2> You must enter at least 3 topics</h2>");     
+          }
+       }
     ?>
     <form method="post">
     <div class="form-group col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
@@ -112,20 +139,10 @@
     <div class="btn-center">
     <button type="Submit" class="btn btn-primary center-block">Submit</button>
     </form>
-    <?php
-      }
-    ?>
     <br>
     <br>
     </div>
 
-    <!-- <footer>
-    <div class="container">
-    <div class="footer-text">
-      <p>Made in Ireland</p>
-    </div>
-    </div>
-    </footer> -->
     </div>
     </div>
   </div>

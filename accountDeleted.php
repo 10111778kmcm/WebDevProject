@@ -10,19 +10,23 @@
   <title>UL Review</title>
 </head>
 <body id="body">
-     <?php
-       session_start();
-       if (!isset($_SESSION['username'])) {
-         header("Location:/logIn.php");
-       }else{
-         /*http://php.net/manual/en/function.session-unset.php*/
-         session_start();
-         session_unset();
-         session_destroy();
-         session_write_close();
-         setcookie(session_name(),'',0,'/');
-         session_regenerate_id(true);	
-       }
+    <?php
+     //starting a session
+     session_start();
+     //checking if the username has been set to signify that a user is logged in
+     if (!isset($_SESSION['username'])) {
+       //if a user isnt logged in then redirect them to the log in page
+       header("Location:/logIn.php");
+     }else{
+        /*http://php.net/manual/en/function.session-unset.php*/
+        //loggin the user out
+        session_start();
+        session_unset();
+        session_destroy();
+        session_write_close();
+        setcookie(session_name(),'',0,'/');
+        session_regenerate_id(true);	
+     }
   ?>
     <nav class="navbar navbar-default">
     <div class="container">
