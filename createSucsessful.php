@@ -6,7 +6,6 @@
   <link href="https://fonts.googleapis.com/css?family=Lobster+Two:400,700|Roboto:400,700" rel="stylesheet">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link href="styles/ihover.css" rel="stylesheet">
   <title>UL Review</title>
 </head>
 <body id="body">
@@ -36,8 +35,8 @@
         </div>
     </div>
 
-<script src="js.functions.js"></script>
+<!-- <script src="js.functions.js"></script>
 <script src="js/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.min.js"></script> -->
 </body>
 </html>

@@ -5,22 +5,22 @@
   <meta charset="utf-8">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css?family=Lobster+Two:400,700|Roboto:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-  <?php 
+  <?php
         //starting a session and checking if a user is logged in
         //if a user isnt logged in they are redirected to the log in page
         session_start();
         if (!isset ($_SESSION['username'])) {
-           header("Location: /logIn.php");					
+           header("Location: /logIn.php");
         }
   ?>
-    
+
   <!-- Navbar -->
   <nav class="navbar navbar-info">
     <div class="container">
@@ -55,12 +55,12 @@
                $topicArray[3]  = htmlspecialchars(ucfirst(trim($_POST["topic4"])));
                $topicArray[4]  = htmlspecialchars(ucfirst(trim($_POST["topic5"])));
                $topicArray[5]  = htmlspecialchars(ucfirst(trim($_POST["topic6"])));
-               
+
                //attempting to connect to the database
                try{
                  //connecting to the database
 	             $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
-                 
+
                  //this enhanced for loop goes through the array of tags
                  foreach($topicArray as $topic){
                     //check if the topic is not empty
@@ -70,7 +70,7 @@
                        //checking if this topic is already in the topics that have been inserted into the database
                        $stmt = $dbh->prepare("SELECT COUNT(*) FROM tag_ids WHERE tag_Name = ?" );
 			           $stmt->execute(array($topic));
-                    
+
                        //if the count returns 0 - the topic is not already in the database
                        if($stmt->fetchColumn(0) == 0 ){
                           //inserting the topic into the database
@@ -89,18 +89,18 @@
                           header("Location:./homePage.php");
                        }else{
                           //displaying an error
-                          printf("<h2>ERROR</h2>");  
-                       } 
+                          printf("<h2>ERROR</h2>");
+                       }
                    }
-                }              
+                }
               }
              //catching an error if there is a problem connecting to the database
              catch(PDOException $exception){
-                 print("<h2> Uh Oh</h2>"); 
-              }            
+                 print("<h2> Uh Oh</h2>");
+              }
           }else{
              // header to appear on page if the user has not entered enough topics
-             print("<h2> You must enter at least 3 topics</h2>");     
+             print("<h2> You must enter at least 3 topics</h2>");
           }
        }
     ?>
@@ -135,7 +135,7 @@
       <input class=" form-control" type="text" id="Topic6" placeholder="Civil Engineering" name="topic6">
     </div>
     <br>
-    
+
     <div class="btn-center">
     <button type="Submit" class="btn btn-primary center-block">Submit</button>
     </form>
@@ -148,8 +148,8 @@
   </div>
 </div> <!-- div container -->
 
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<!-- <script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script> -->
 
 </body>
 </html>

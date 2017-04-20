@@ -6,11 +6,10 @@
   <link href="https://fonts.googleapis.com/css?family=Lobster+Two:400,700|Roboto:400,700" rel="stylesheet">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link href="styles/ihover.css" rel="stylesheet">
   <title>UL Review</title>
 </head>
 <body id="body">
-    <?php 
+    <?php
         /*http://php.net/manual/en/function.session-unset.php*/
         //destroying the seeion so the user to log the user out
         session_start();
@@ -18,9 +17,9 @@
         session_destroy();
         session_write_close();
         setcookie(session_name(),'',0,'/');
-        session_regenerate_id(true);	
+        session_regenerate_id(true);
     ?>
-    
+
   <nav class="navbar navbar-default">
     <div class="container">
       <!-- Brand and toggle get grouped for better mobile display -->
@@ -32,12 +31,12 @@
           <span class="icon-bar"></span>
         </button>
         <a href="logIn.php" target="_self"><img src="images/ULlogo-azul.png" alt="UL Review logo" style="width: 182px; height: 50px;"></a>
-      </div> 
+      </div>
      </div><!-- /.navbar-collapse  **need to look at these divs, too many end div tags-->
       </div><!-- /.container -->
     </nav>
 
-    
+
      <!-- Welcome panel -->
     <div class="container">
        <br>
@@ -52,9 +51,9 @@
            </div>
         </div>
     </div>
-             
-<script src="js/functions.js"></script>
+
+<!-- <script src="js/functions.js"></script>
 <script src="js/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.min.js"></script> -->
 </body>
 </html>

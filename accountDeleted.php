@@ -6,7 +6,6 @@
   <link href="https://fonts.googleapis.com/css?family=Lobster+Two:400,700|Roboto:400,700" rel="stylesheet">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link href="styles/ihover.css" rel="stylesheet">
   <title>UL Review</title>
 </head>
 <body id="body">
@@ -25,7 +24,7 @@
         session_destroy();
         session_write_close();
         setcookie(session_name(),'',0,'/');
-        session_regenerate_id(true);	
+        session_regenerate_id(true);
      }
   ?>
     <nav class="navbar navbar-default">
@@ -55,8 +54,5 @@
         </div>
     </div>
 
-<script src="js.functions.js"></script>
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
