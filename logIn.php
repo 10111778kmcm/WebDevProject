@@ -105,7 +105,13 @@
                       }else{
                           $_SESSION['moderator'] = 0;
                       }
-
+                       
+                      //checking if any tasks are expired so we can change their status
+                      $stmt = $dbh->prepare("UPDATE tasks JOIN task_status USING(task_Id) SET status_Id = 3 WHERE CURRENT_TIMESTAMP > claim_deadline");
+	                  $stmt->execute();                  
+                      $stmt = $dbh->prepare("UPDATE tasks JOIN task_status USING(task_Id) SET status_Id = 3 WHERE CURRENT_TIMESTAMP > submission_deadline");
+	                  $stmt->execute();
+                       
                       //checking if the user has enough tags associated with them
                       $stmt = $dbh->prepare("SELECT username FROM user_tags WHERE username = ?" );
 	                  $stmt->execute(array($username));
