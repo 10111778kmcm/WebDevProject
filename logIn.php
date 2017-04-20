@@ -285,7 +285,7 @@
                 <option>Maths</option>
                 <option>Engineering</option>
                 <option>Journalism</option>
-                <option>Buisness</option>
+                <option>Business</option>
                 <option>Electrical Engineering</option>
               </select>
             </div>

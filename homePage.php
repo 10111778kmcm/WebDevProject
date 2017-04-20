@@ -6,13 +6,14 @@
   <link href="https://fonts.googleapis.com/css?family=Lobster+Two:400,700|Roboto:400,700" rel="stylesheet">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script src="js/jquery.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.validate.js"></script>
+  <script src="js/createTaskValidateScript.js"></script>
 <title>UL Review</title>
 </head>
 
 <body id="body">
-  <script src="js/functions.js"></script>
-  <script src="js/jquery.js"></script>
-  <script src="js/bootstrap.min.js"></script>
 
   <?php
     //creating a session and checking a user is loggedin, if there isnt then the user is brough back to the log in page
@@ -736,7 +737,7 @@
         }
       }
       ?>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" id="createTaskForm">
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="title">Title</label>
         <input class=" form-control" type="text" id="title" name="title"  placeholder="World War II">
@@ -749,32 +750,32 @@
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="Tags">Tag 1</label>
-        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags1"  placeholder="History">
+        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags1" placeholder="History">
       </div>
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="Tags">Tag 2</label>
-        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags2"  placeholder="Irish Literature">
+        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags2" placeholder="Irish Literature">
       </div>
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="Tags">Tag 3</label>
-        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags3"  placeholder="Solo Composition">
+        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags3" placeholder="Solo Composition">
       </div>
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="Tags">Tag 4</label>
-        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags4"  placeholder="Contract Law">
+        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags4" placeholder="Contract Law">
       </div>
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="no-of-pages">No of pages</label>
-        <input class=" form-control" type="number" id="No-of-pages" minlength="1" maxlength="50" name="pageNum" placeholder="20">
+        <input class=" form-control" type="number" id="No-of-pages" name="pageNum" placeholder="20">
       </div>
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="no-of-words">No of words</label>
-        <input class=" form-control" type="number" id="No-of-words" minlength="100" maxlength="15000" name="wordNum" placeholder="12456">
+        <input class=" form-control" type="number" id="No-of-words" name="wordNum" placeholder="12456">
       </div>
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -812,7 +813,7 @@
 
       <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
          <label for="description">Description</label>
-         <input class=" form-control" type="text" maxlength="500" id="Description" name="description"  placeholder="Max 100 words">
+         <input class=" form-control" type="text" maxlength="500" id="Description" name="description"  placeholder="Max 500 characters">
       </div>
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
