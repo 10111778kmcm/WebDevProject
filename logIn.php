@@ -156,8 +156,7 @@
               <div class="form-group row">
                 <label for="inputPassword3" class="col-sm-4  col-md-4 control-label">Password<small>(8 characters, 1 uppercase and 1 digit)</small></label>
                 <div class="col-sm-5 col-md-5">
-                  <input pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength = "8" name="passwordInput" class="form-control" id="inputPassword3" placeholder="Password">
-                    <input name="passwordInput" class="form-control" id="inputPassword3" type="password">
+                  <input pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength = "8" name="passwordInput" class="form-control" id="inputPassword3" type="Password">
                 </div>
               </div>>
 
