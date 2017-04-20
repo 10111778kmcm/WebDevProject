@@ -309,6 +309,19 @@ footer{
      color: #888888;
 }
 
+.modal-body{
+  padding:30px 50px;
+}
+
+}
+.modal-footer {
+  text-align: left;
+}
+
+.btn-bottom-modals {
+  text-align: right;
+}
+
 footer{
 position: absolute;
 bottom: 0;

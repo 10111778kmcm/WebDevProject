@@ -231,9 +231,11 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type= %s class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title title">Title: %s</h4>
+                                        <h4 class="modal-title">Title: %s</h4>
                                     </div>
-                                    <div class="modal-body">
+                                    <div class="modal-footer">
+                                    <form role="form">
+                                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                         <div class="type">
                                            Type: %s
                                         </div>
@@ -245,35 +247,45 @@
                                         <div class="tags">
                                             Tags: %s %s %s %s
                                         </div>
+
                                         <div class="no-of-pages">
                                             No of pages: %s
                                         </div>
+
                                         <div class="no-of-words">
                                             No of word: %s
                                         </div>
+
                                         <div class="file-Format">
                                             File Format: %s
                                         </div>
+
                                         <div class="description">
                                             Description: %s
                                         </div>
+
                                         <div class="claimed-deadline">
                                             Claim Deadline: %s
                                         </div>
+
                                         <div class="completion-deadline">
                                             Completion Deadline: %s
                                         </div>
+                                    </div>
 
-                                        <embed src= %s width="200px" height="360px" />
-
-                                        <a href=%s download=%s>Download Preview</a>
-
-                                        <div class="modal-footer">
-                                           <form method="post">
-                                              <button type="submit" class="btn btn-default" name="delete" value= %s>Delete</button>
-                                           </form>
-                                           <p>Status: Pending Claim</p>
-                                        </div>
+                                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                      <embed src= %s width="200px" height="330px" />
+                                      </br>
+                                      <a href=%s download=%s>Download Preview</a>
+                                      </br>
+                                      <div class="btn-bottom-modals">
+                                      <form method="post">
+                                         <button type="submit" class="btn btn-default" name="delete" value= %s>Delete</button>
+                                      </form>
+                                      <p>Status: Pending Claim</p>
+                                      </div>
+                                    </div>
+                                    </form>
                                     </div>
                                 </div>
                             </div>
@@ -294,10 +306,13 @@
                                         <button type= %s class="close" data-dismiss="modal">&times;</button>
                                         <h4 class="modal-title title">Title: %s</h4>
                                     </div>
-                                    <div class="modal-body">
+                                    <div class="modal-footer">
+                                    <form role="form">
+                                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 pull-left">
                                         <div class="type">
                                            Type: %s
                                         </div>
+
                                         <div class="type">
                                            Major: %s
                                         </div>
@@ -331,17 +346,22 @@
                                         <div class="completion-deadline">
                                             Completion Deadline: %s
                                         </div>
+                                      </div>
+
+                                      <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
 
                                         <embed src= %s width="200px" height="500px" />
 
                                         <a href=%s download=%s>Download Preview</a>
-
-                                        <div class="modal-footer">
+                                        </br>
+                                        <div class="btn-bottom-modals">
                                            <form method="post">
                                               <button type="submit" class="btn btn-default" name="cancel" value= %s>Cancel</button>
                                            </form>
                                            <p>Status: Claimed</p>
                                         </div>
+                                    </div>
+                                    </form>
                                     </div>
                                 </div>
                             </div>
@@ -359,9 +379,11 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type= %s class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title title">Title: %s</h4>
+                                        <h4 class="modal-title">Title: %s</h4>
                                     </div>
-                                    <div class="modal-body">
+                                    <div class="modal-footer">
+                                    <form role="form">
+                                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                         <div class="type">
                                            Type: %s
                                         </div>
@@ -389,21 +411,24 @@
                                         <div class="completion-deadline">
                                             Completion Deadline: %s
                                         </div>
-
+                                        <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                         <embed src= %s width="200px" height="500px" />
-
+                                        </br>
                                         <a href=%s download=%s>Download Preview</a>
+                                        </br>
 
-                                    </div>
-                                    <div class="modal-footer">
+                                    <div class="btn-bottom-modals">
                                         <form method="post">
                                            <button type="submit" class="btn btn-default" name="delete" value= %s>Delete</button>
                                            <button type="submit" class="btn btn-default" name="reupload" value= %s>Re-Upload</button>
                                         </form>
                                         <p>Status: Expired</p>
-                                    </div>
-                                </div>
-                            </div>
+                                        </div>
+                                      </div>
+                                      </form>
+                                      </div>
+                                  </div>
+                              </div>
                         </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $relatedFile, $title, $taskID, $taskID);
                      break;
 
@@ -419,9 +444,11 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type= %s class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title title">Title: %s</h4>
+                                        <h4 class="modal-title">Title: %s</h4>
                                     </div>
-                                    <div class="modal-body">
+                                    <div class="modal-footer">
+                                    <form role="form">
+                                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                         <div class="type">
                                            Type: %s
                                         </div>
@@ -449,21 +476,24 @@
                                         <div class="completion-deadline">
                                             Completion Deadline: %s
                                         </div>
-
+                                        <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                         <embed src= %s width="200px" height="500px" />
-
+                                        </br>
                                         <a href=%s download=%s>Download Preview</a>
+                                        </br>
 
-                                    </div>
-                                    <div class="modal-footer">
+                                    <div class="btn-bottom-modals">
                                         <form method="post">
                                            <button type="submit" class="btn btn-default" name="delete" value= %s>Delete</button>
                                            <button type="submit" class="btn btn-default" name="reupload" value= %s>Re-Upload</button>
                                         </form>
                                         <p>Status: Cancelled by Claiment</p>
-                                    </div>
-                                </div>
-                            </div>
+                                        </div>
+                                      </div>
+                                      </form>
+                                      </div>
+                                  </div>
+                              </div>
                         </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $relatedFile, $title, $taskID, $taskID);
                      break;
 
@@ -1149,9 +1179,11 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type= %s class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title title">Title: %s</h4>
+                                        <h4 class="modal-title">Title: %s</h4>
                                     </div>
-                                    <div class="modal-body">
+                                    <div class="modal-footer">
+                                    <form role="form">
+                                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                         <div class="type">
                                             Type: %s
                                         </div>
@@ -1179,20 +1211,27 @@
                                         <div class="completion-deadline">
                                             Completion Deadline: %s
                                         </div>
+                                        </div>
 
+                                        <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                         <embed src= %s width="200px" height="360px" />
+                                        </br>
 
                                         <a href=%s download=%s>Download Preview</a>
-                                    </div>
-                                    <div class="modal-footer">
+                                        </br>
+
+                                    <div class="btn-bottom-modals">
                                         <form method="post">
                                             <button type="submit" class="btn btn-default" name="claim" value="%s">Claim</button>
                                             <button type="submit" class="btn btn-default" name="flag" value="%s">Flag</button>
                                         </form>
                                         <p>Status: Available</p>
-                                    </div>
-                                </div>
-                            </div>
+                                        </div>
+                                      </div>
+                                      </form>
+                                      </div>
+                                  </div>
+                              </div>
                         </div> <!-- finish modal -->', $buttonID, $targetID, $title, $claimDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $relatedFile, $relatedFile, $title, $taskID, $taskID);
                 $counter++;
             }
