@@ -254,7 +254,7 @@
 	           }
 	       }
            ?>
-          <form method="post">
+          <form method="post" id="createAccountForm">
             <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
               <label for="name">First Name</label>
               <input class=" form-control" type="text" id="name" name="firstname" placeholder="Jack">
