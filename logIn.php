@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="js/jquery.validate.js"></script>
+  <script src="js/createAccountValidateScript.js"></script>
 </head>
 
 
@@ -290,7 +292,7 @@
 
             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <label for="email">UL Email</label>
-              <input class=" form-control" name="email" pattern=".+@studentmail.ul.ie" id="email" placeholder="12345678@studentmail.ul.ie">
+              <input class=" form-control" name="email" pattern=".+@studentmail.ul.ie" id="email" placeholder="12345678@studentmail.ul.ie" type="email">
             </div>
 
             <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
