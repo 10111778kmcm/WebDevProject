@@ -77,7 +77,7 @@
 		    $counter = 0;
 
             //querying the database to return all relevant information for flagged tasks
-            $stmt = $dbh->query("SELECT task_Id, title, flagged_count, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline FROM tasks WHERE flagged_count > 0 order by flagged_count ASC");
+            $stmt = $dbh->query("SELECT task_Id, title, flagged_count, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline FROM tasks JOIN task_status USING(task_Id) WHERE flagged_count > 0 AND status_Id <> 6 ORDER BY flagged_count ASC");
 
             //this while loop with go through the resulting rows and create the boxes and pop windows for each task
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -196,17 +196,32 @@
         if(isset($_POST['delete'])){
            //the task id for the relevant task is stored in the button that is used
            $taskID = $_POST['delete'];
-           //deleting the task from the task table
-           $stmt = $dbh->prepare("DELETE FROM tasks WHERE task_Id = ?");
-           $stmt->execute(array($taskID));
-           //deleting the task from the task status table
-           $stmt = $dbh->prepare("DELETE FROM task_status WHERE task_Id = ?");
-           $stmt->execute(array($taskID));
-           //deleting the tag entries that are related to the task int the assigned tags table
-           $stmt = $dbh->prepare("DELETE FROM assigned_tags WHERE task_Id = ?");
-           $stmt->execute(array($taskID));
+           //getting the status of the task being deleted
+            $stmt3 = $dbh->prepare("SELECT status_Id FROM task_status WHERE task_Id = ?");
+            $stmt3->execute(array($taskID));
+            $row = $stmt3->fetch(PDO::FETCH_ASSOC);
+            $status = $row['Status_Id'];
+            
+            //checking if the task has been claimed yet
+            if($status == 1){
+               //deleteing tasks created by the user that have not being claimed yet
+               $stmt = $dbh->prepare("DELETE tasks FROM tasks JOIN task_status USING(task_Id) WHERE tasks.username = :username AND task_status.status_Id = 1 AND tasks.task_Id = :taskID");
+	           $stmt->execute(array(':username' => $username, ':taskID' => $taskID));
+              
+              //deleting information on tags associated to this task
+              $stmt = $dbh->prepare("DELETE FROM task_status WHERE task_Id = ?");
+              $stmt->execute(array($taskID));
+            }
+
+            //updating database so the status of any tasks the deleted user has uploaded that has been claimed will be changed to 'Cancelled by Uploader"
+            $stmt = $dbh->prepare("UPDATE task_status JOIN tasks USING(task_Id) SET status_Id = 6 WHERE tasks.username = ? AND status_Id = 2" );
+	        $stmt->execute(array($username));
+
+            //deleting information on tags associated to this task
+            $stmt = $dbh->prepare("DELETE FROM assigned_tags WHERE task_Id = ?");
+            $stmt->execute(array($taskID));
            //penalising the user for creating a task the moderator had to delete
-           $stmt = $dbh->prepare("UPDATE user_info SET points = points - 15 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
+           $stmt = $dbh->prepare("UPDATE user_info SET points = points - 15 WHERE username = (SELECT username FROM claimed_tasks WHERE task_Id = ?)");
            $stmt->execute(array($taskID));
         }
           //this query will run if the moderator has decided to unflag the task
@@ -220,12 +235,17 @@
            //the task id for the relevant task is stored in the button that is used
            $taskID = $_POST['ban'];
            //getting the username of the user to be banned
-           $stmt = $dbh->prepare("SELECT username FROM tasks WHERE taskID = ?)");
+           $stmt = $dbh->prepare("SELECT username FROM tasks WHERE task_Id = ?");
            $stmt->execute(array($taskID));
-           $username = $stmt->fetchColumn(0);
+           $row = $stmt->fetch(PDO::FETCH_ASSOC);
+           $banUsername = $row['username'];         
            //inserting that user into the banned user table
-           $stmt = $dbh->prepare("INSERT INTO banned_user VALUES (:username, CURRENT_TIMESTAMP)");
-           $stmt->execute(array(':username' => $username));
+           $stmt = $dbh->prepare("INSERT INTO banned_user VALUES (?, CURRENT_TIMESTAMP)");
+           $stmt->execute(array($banUsername));
+            
+           //updating database so the status of any tasks the deleted user has uploaded that has been claimed will be changed to 'Cancelled by Uploader" - the status can be changed whenthe user becomes un banned
+           $stmt = $dbh->prepare("UPDATE task_status JOIN tasks USING(task_Id) SET status_Id = 6 WHERE tasks.username = ?" );
+	       $stmt->execute(array($username));
         }
 ?>
 

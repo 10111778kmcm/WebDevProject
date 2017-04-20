@@ -421,7 +421,6 @@
                                     <div class="btn-bottom-modals">
                                         <form method="post">
                                            <button type="submit" class="btn btn-default" name="delete" value= %s>Delete</button>
-                                           <button type="submit" class="btn btn-default" name="reupload" value= %s>Re-Upload</button>
                                         </form>
                                         <p>Status: Expired</p>
                                         </div>
@@ -486,7 +485,6 @@
                                     <div class="btn-bottom-modals">
                                         <form method="post">
                                            <button type="submit" class="btn btn-default" name="delete" value= %s>Delete</button>
-                                           <button type="submit" class="btn btn-default" name="reupload" value= %s>Re-Upload</button>
                                         </form>
                                         <p>Status: Cancelled by Claiment</p>
                                         </div>
@@ -550,16 +548,23 @@
           //if the user decides to delete a task then the following queries are ran
           else if(isset($_POST['delete'])){
             $taskID = $_POST['delete'];
-
-            //deleteing tasks created by the deleted user that have not being claimed yet
-            $stmt = $dbh->prepare("DELETE FROM tasks JOIN task_status USING(task_Id) WHERE username = ? AND status_Id = 1");
-	        $stmt->execute(array($username));
-
-            //updating database so the status of any tasks the deleted user has claimed will be changed to 'Cancelled by Claiment"
-            $stmt = $dbh->prepare("UPDATE task_status JOIN claimed_tasks USING(task_Id) SET status_Id = 4 WHERE claimed_tasks.username = ?" );
-            $stmt->execute(array($username));
-
-
+            
+            //getting the status of the task being deleted
+            $stmt3 = $dbh->prepare("SELECT status_Id FROM task_status WHERE task_Id = ?");
+            $stmt3->execute(array($taskID));
+            $row = $stmt3->fetch(PDO::FETCH_ASSOC);
+            $status = $row['Status_Id'];
+            
+            //checking if the task has been claimed yet
+            if($status == 1){
+               //deleteing tasks created by the user that have not being claimed yet
+               $stmt = $dbh->prepare("DELETE tasks FROM tasks JOIN task_status USING(task_Id) WHERE tasks.username = :username AND task_status.status_Id = 1 AND tasks.task_Id = :taskID");
+	           $stmt->execute(array(':username' => $username, ':taskID' => $taskID));
+              
+              //deleting information on tags associated to this task
+              $stmt = $dbh->prepare("DELETE FROM task_status WHERE task_Id = ?");
+              $stmt->execute(array($taskID));
+            }
             //updating database so the status of any tasks the deleted user has uploaded that has been claimed will be changed to 'Cancelled by Uploader"
             $stmt = $dbh->prepare("UPDATE task_status JOIN tasks USING(task_Id) SET status_Id = 6 WHERE tasks.username = ? AND status_Id = 2" );
 	        $stmt->execute(array($username));
@@ -572,21 +577,21 @@
           else if(isset($_POST['good'])){
             $taskID = $_POST['good'];
             //adding 5 points to the users score
-			$stmt = $dbh->prepare("UPDATE user_info SET points = points + 5 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
+			$stmt = $dbh->prepare("UPDATE user_info SET points = points + 5 WHERE username = (SELECT username FROM claimed_tasks WHERE task_Id = ?)");
 			$stmt->execute(array($taskID));
           }
           //if the user rates the task feedback as ok then the following queries are ran
           else if(isset($_POST['middle'])){
             $taskID = $_POST['middle'];
             //adding 2 points to the users score
-            $stmt = $dbh->prepare("UPDATE user_info SET points = points + 2 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
+            $stmt = $dbh->prepare("UPDATE user_info SET points = points + 2 WHERE username = (SELECT username FROM claimed_tasks WHERE task_Id = ?)");
 			$stmt->execute(array($taskID));
           }
           //if the user rates the task feedback as bad then the following queries are ran
           else if(isset($_POST['bad'])){
             $taskID = $_POST['bad'];
             //taking away five points from the users score
-			$stmt = $dbh->prepare("UPDATE user_info SET points = points - 5 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
+			$stmt = $dbh->prepare("UPDATE user_info SET points = points - 5 WHERE username = (SELECT username FROM claimed_tasks WHERE task_Id = ?)");
 			$stmt->execute(array($taskID));
           }
 
