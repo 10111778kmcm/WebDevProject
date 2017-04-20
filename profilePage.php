@@ -6,15 +6,13 @@
   <link href="https://fonts.googleapis.com/css?family=Lobster+Two:400,700|Roboto:400,700" rel="stylesheet">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-
-
-
+  <script src="js/jquery.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.validate.js"></script>
+  <script src="js/changeProfileValidateScript.js"></script>
   <title>Profile</title>
 </head>
 <body id="body">
-  <script src="js/functions.js"></script>
-  <script src="js/jquery.js"></script>
-  <script src="js/bootstrap.min.js"></script>
 
   <?php
     //starting the sessaion and checking if a user is logged in, 
@@ -85,7 +83,7 @@
               //if the user has made changes and wishes to chenge them
               if(isset($_POST['saveChanges'])){
                  //trimming and ensuring the inputted values do not have html tags in them
-                 $newFirstName = htmlspecialchars(ucfirst(trim($_POST["firstName"])));
+                 $newFirstName = htmlspecialchars(ucfirst(trim($_POST["firstname"])));
                  $newSurname = htmlspecialchars(ucfirst(trim($_POST["surname"])));
                  $newEmail = htmlspecialchars(trim($_POST["email"]));
                  $newUsername = htmlspecialchars(trim($_POST["username"]));
@@ -203,7 +201,7 @@
                         <div class="form-group">
                            <label class="col-sm-4  col-md-4  control-label">First name:</label>
                            <div class="col-sm-5 col-md-8 col-lg-8">
-                              <input class="form-control" type="text" value= %s name="firstName">
+                              <input class="form-control" type="text" value= %s name="firstname">
                            </div>
                         </div>
                         <div class="form-group">
