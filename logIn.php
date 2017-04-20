@@ -5,8 +5,8 @@
   <title>UL-Review Home Page</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css?family=Lobster+Two:400,700|Roboto:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -18,7 +18,7 @@
         //creating a session if there isnt one already created
         if (!isset ($_SESSION)) {
            session_start();
-           
+
         }
         //destrying a session so a user is automatically logged out if the move to this page
         else{
@@ -27,7 +27,7 @@
             session_destroy();
             session_write_close();
             setcookie(session_name(),'',0,'/');
-            session_regenerate_id(true);	
+            session_regenerate_id(true);
         }
     ?>
   <!-- Navbar -->
@@ -46,40 +46,40 @@
   <div class="container">
     <?php
          //**This is the php code for the log in functionality**
-      
+
          //checking that the email and password fields have been filled in and are not empty
          if (isset($_POST["emailInput"]) && isset($_POST["passwordInput"]) && trim($_POST["emailInput"]) !='' && trim($_POST["passwordInput"]) != ''  ){
             try {
                 //connecting to the database
                 $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
-                
+
                 //retriving the email that the user has entered
 			    $email = trim(strtolower($_POST["emailInput"]));
-                
+
                 //retriving the password that the user has entered
                 $password = $_POST["passwordInput"];
                 $passwordHash = "";
-                
+
                 //getting the username and password that is associated with the email entered
                 $stmt = $dbh->prepare("SELECT username, email, password FROM user_info WHERE email = ?" );
      	        $stmt->execute(array($email));
-                
+
                 //setting the username variable to null - will be used in a test later
                 $username = null;
-                
+
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                   //getting the username and hashed password from the database from the query
                   $username = $row['username'];
                   $passwordHash = $row['password'];
                 }
-                
-                //this string is appeneded to the password 
+
+                //this string is appeneded to the password
 		        $siteSalt  = "paperreview";
-                
+
                 //the inputted password is appended with the site salt and hashed
 		        $saltedHash = hash('sha256', $password.$siteSalt);
-                
-                //if the entered hashed password is equal to the hashed password 
+
+                //if the entered hashed password is equal to the hashed password
                 //retrived from the database and the username has been set
                 if ($passwordHash == $saltedHash && !is_null($username)) {
                     //checking if the user is on the banned user list
@@ -95,7 +95,7 @@
                       //statement to check if the user has enough points to be considered a moderator
                       $stmt = $dbh->prepare("SELECT points FROM user_info WHERE username = ?" );
 		              $stmt->execute(array($username));
-                      
+
                       //if they do have enough points then set a session variable equal to 1
                       //to signify that they are a moderator - else set the same session variable to 0
                       if($stmt->fetchColumn(0) >= 40){
@@ -107,7 +107,7 @@
                       //checking if the user has enough tags associated with them
                       $stmt = $dbh->prepare("SELECT username FROM user_tags WHERE username = ?" );
 	                  $stmt->execute(array($username));
-                      
+
                       //variable to store the count of tags they have been associated with
                       $count = $stmt->rowCount();
 
@@ -120,7 +120,7 @@
                         header("Location:./homePage.php");
                       }
                    }
-                   
+
 		       }else {
                   //displaying that the information the entered is not correct
 			      printf("<h2> Password incorrect or account not found. </h2>");
@@ -182,10 +182,10 @@
           </br>
           <?php
             //**This is the php code for creating an account**
-            
+
             //checking if the user has submitted the form
             if (isset($_POST['register'])) {
-               
+
                //retriving the values from the form that the user has submitted and removing
                //any html tags that they may have inserted
 	           $firstname = htmlspecialchars(ucfirst(trim($_POST["firstname"])));
@@ -203,21 +203,21 @@
                    //catching an error if there is a problem connecting to the database
                    print("<h2> Uh Oh1</h2>");
                }
-                
+
                //query to check if the email they have inputted is already in the database
 	           $stmt = $dbh->prepare("SELECT username FROM user_info WHERE email = ?" );
 	           $stmt->execute(array($email));
                //returns a count of the amount of usernames that have that email
                //if it return any number above 0 then it is not unique
 	           $emailTestRows = $stmt->rowCount();
-               
+
                //query to check if the username they have inputted is already in the database
                $stmt = $dbh->prepare("SELECT email FROM user_info WHERE username = ?" );
 	           $stmt->execute(array($username));
                //returns a count of the amount of emails that have that username
                //if it return any number above 0 then it is not unique
 	           $usernameTestRows = $stmt->rowCount();
-                
+
                //test to check if the passwords that they entered match
 	           if ($pass1 != $pass2) {
                  //error to display if they do not match

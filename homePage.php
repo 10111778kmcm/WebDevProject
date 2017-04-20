@@ -6,11 +6,9 @@
   <link href="https://fonts.googleapis.com/css?family=Lobster+Two:400,700|Roboto:400,700" rel="stylesheet">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-
-
-
-  <title>UL Review</title>
+<title>UL Review</title>
 </head>
+
 <body id="body">
   <script src="js/functions.js"></script>
   <script src="js/jquery.js"></script>
@@ -127,27 +125,27 @@
         try{
             //connecting to the databse
             $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
-            
-            //this counter is used to distinguish between tasks so the pop ups that 
+
+            //this counter is used to distinguish between tasks so the pop ups that
             //appear when a task is clicked on will be associated with the correct task
 		    $counter = 0;
-            
+
             //setting the username equal to the username that us stored in the session
             $username = $_SESSION['username'];
-            
+
             //this query retrives al relevant information on the tasks that the user has created
             $stmt = $dbh->prepare("SELECT task_Id, title, flagged_count, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline, major, status_Id FROM tasks JOIN task_status USING(task_Id) WHERE username = ?");
             $stmt->execute(array($username));
-            
+
             //if no task information is returned then this message is displayed
             if($stmt->rowCount() == 0){
                 printf("<h2 class='description-of-page'>You have not created any tasks yet.</h2>", $username);
             }else{
-                
-                //this while loop retirives the task information from the rown 
+
+                //this while loop retirives the task information from the rown
                 //returned by the query and displays the task button and the task pop up windows
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    
+
                    //retriving task information from each row returned by the query
                    $taskID = $row['task_Id'];
                    $title = $row['title'];
@@ -161,7 +159,7 @@
                    $submissionDeadline = $row['submission_deadline'];
                    $major = $row['major'];
                    $status = $row['status_Id'];
-                    
+
                    //these variables are used as unique identifiers for each task button and task pop up
                    $targetIdentifier = "#myModel";
                    $target = "myModel";
@@ -169,7 +167,7 @@
                    $buttonID = $buttonIdentifier.$counter;
                    $targetID  = $targetIdentifier.$counter;
                    $target = $target.$counter;
-                    
+
                    //this is the file address for the file that is associated with the task
                    $relatedFile = "FileUploads/".$taskID.$fileFormat;
 
@@ -178,20 +176,20 @@
                   $SubmissionDateFormat = explode("-", $submissionDeadline);
                   $claimDeadline = $ClaimDateFormat[2]."/".$ClaimDateFormat[1]."/".$ClaimDateFormat[0];
                   $submissionDeadline = $SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]."/".$SubmissionDateFormat[0];
-                 
+
                   //tag array for the tags associated with each task
                   $tags[0] = "";
                   $tags[1] = "";
                   $tags[2] = "";
                   $tags[3] = "";
-                
+
                   //variable to keep count of how many tags are retrived
                   $tagCounter = 0;
-                
+
                   //query returning the tags linked to each task
                   $stmt2 = $dbh->prepare("SELECT tag_Name FROM tag_ids JOIN assigned_tags USING(tag_Id) WHERE task_Id = ?");
                   $stmt2->execute(array($taskID));
-                
+
                   //this while loop appends some of the tags with a comma so they look better when being displayed
                   while($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)){
                        if($tagCounter < 3){
@@ -201,7 +199,7 @@
                        }
                        $tagCounter++;
                    }
-                
+
                    //if the users task has been claimed then we need to retrive some information on the user who claimed it
                    if($status == 2){
                         $stmt3 = $dbh->prepare("SELECT first_Name, surname, email FROM user_info JOIN claimed_tasks USING(username) WHERE claimed_tasks.task_Id = ?");
@@ -218,7 +216,7 @@
                    *3 - Expired
                    *4 - Cancelled By Claiment
                    *5 - Completed
-                   * The switch displays all of the tasks that the has created and thei associated pop up box 
+                   * The switch displays all of the tasks that the has created and thei associated pop up box
                    */
                    switch($status){
                      case "1":
@@ -267,9 +265,9 @@
                                         </div>
 
                                         <embed src= %s width="200px" height="360px" />
-                                        
+
                                         <a href=%s download=%s>Download Preview</a>
-                                        
+
                                         <div class="modal-footer">
                                            <form method="post">
                                               <button type="submit" class="btn btn-default" name="delete" value= %s>Delete</button>
@@ -303,15 +301,15 @@
                                         <div class="type">
                                            Major: %s
                                         </div>
-                                        
+
                                         <div class="type">
                                            Claiment Name: %s %s
                                         </div>
-                                        
+
                                         <div class="type">
                                            Claiment Email: %s
                                         </div>
-                                        
+
                                         <div class="tags">
                                             Tags: %s %s %s %s
                                         </div>
@@ -335,9 +333,9 @@
                                         </div>
 
                                         <embed src= %s width="200px" height="500px" />
-                                        
+
                                         <a href=%s download=%s>Download Preview</a>
-                                        
+
                                         <div class="modal-footer">
                                            <form method="post">
                                               <button type="submit" class="btn btn-default" name="cancel" value= %s>Cancel</button>
@@ -393,7 +391,7 @@
                                         </div>
 
                                         <embed src= %s width="200px" height="500px" />
-                                        
+
                                         <a href=%s download=%s>Download Preview</a>
 
                                     </div>
@@ -453,7 +451,7 @@
                                         </div>
 
                                         <embed src= %s width="200px" height="500px" />
-                                        
+
                                         <a href=%s download=%s>Download Preview</a>
 
                                     </div>
@@ -510,7 +508,7 @@
                 //catches an error if there is an issue connecting to the database
                 printf("Connection error: %s", $exception->getMessage());
           }
-           
+
           //if the user decides to cancel a task then the following queries are ran
           if(isset($_POST['cancel'])){
             $taskID = $_POST['cancel'];
@@ -521,20 +519,20 @@
           //if the user decides to delete a task then the following queries are ran
           else if(isset($_POST['delete'])){
             $taskID = $_POST['delete'];
-            
+
             //deleteing tasks created by the deleted user that have not being claimed yet
             $stmt = $dbh->prepare("DELETE FROM tasks JOIN task_status USING(task_Id) WHERE username = ? AND status_ID = 1");
 	        $stmt->execute(array($username));
- 
+
             //updating database so the status of any tasks the deleted user has claimed will be changed to 'Cancelled by Claiment"
-            $stmt = $dbh->prepare("UPDATE task_status JOIN claimed_tasks USING(task_Id) SET status_Id = 4 WHERE claimed_tasks.username = ?" ); 
+            $stmt = $dbh->prepare("UPDATE task_status JOIN claimed_tasks USING(task_Id) SET status_Id = 4 WHERE claimed_tasks.username = ?" );
             $stmt->execute(array($username));
-                
-                  
+
+
             //updating database so the status of any tasks the deleted user has uploaded that has been claimed will be changed to 'Cancelled by Uploader"
             $stmt = $dbh->prepare("UPDATE task_status JOIN tasks USING(task_Id) SET status_Id = 6 WHERE tasks.username = ? AND status_Id = 2" );
 	        $stmt->execute(array($username));
-              
+
             //deleting information on tags associated to this task
             $stmt = $dbh->prepare("DELETE FROM assigned_tags WHERE task_Id = ?");
             $stmt->execute(array($taskID));
@@ -614,12 +612,12 @@
            $target_file = $targetDirectory.basename($_FILES["fileUpload"]["name"]);
            //getting the file extension from the file upload
            $fileType = ".".strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-            
-            
+
+
            //checking if the file exists
            if($_FILES['fileUpload']['name']){
              //checking if there are no errors
-             if(!$_FILES['fileUpload']['error']){ 
+             if(!$_FILES['fileUpload']['error']){
                  //checking if the file was uploaded
                  if(is_uploaded_file($_FILES['fileUpload']['tmp_name'])){
                      //checking if the file types match
@@ -643,7 +641,7 @@
            try{
              //connecting to the database
 	         $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
-             
+
              //query to insert new task into the database
              $stmt = $dbh->prepare("INSERT INTO tasks VALUES(:username, NULL, :title, :type, :pageNum, :wordCount, :fileFormat, :description, :claimDeadline, :submissionDeadline, 0, :major)");
              $affectedRows = $stmt->execute(array(':username' => $username, ':title' => $title, ':type' => $type, ':pageNum' => $pageNum, ':wordCount' => $wordNum, ':fileFormat' => $fileFormat, ':description' => $description, ':claimDeadline' => $claimDeadline, ':submissionDeadline' => $submissionDeadline, ':major' => $major));
@@ -666,11 +664,11 @@
              foreach($tagArray as $tag){
                 //trimming and checking if the tag contains and html tags
                 $tag = htmlspecialchars(trim($tag));
-                 
+
                 //checking if this tag is already in the tags that have been inserted into the database
                 $stmt = $dbh->prepare("SELECT COUNT(*) FROM tag_ids WHERE tag_Name = ?" );
                 $stmt->execute(array($tag));
-                 
+
                 //if the count returns 0 - the topic is not already in the database
                 if($stmt->fetchColumn(0) == 0 ){
                    //inserting the topic into the database
@@ -681,11 +679,11 @@
                 $stmt = $dbh->prepare("SELECT tag_Id FROM tag_ids WHERE tag_Name = ?");
                 $stmt->execute(array($tag));
                 $tagID = $stmt->fetchColumn(0);
-                
+
                 //inserting this tag id into the table that holds the tags that the user has been associated with
                 $stmt = $dbh->prepare("INSERT INTO user_tags VALUES (:tagID, :username)");
                 $affectedRows = $stmt->execute(array(':tagID' => $tagID, ':username' => $username));
-                 
+
                 //checking that the tags have been entered
                 if($affectedRows == 0){
                     printf("<h2>ERROR</h2>");
@@ -693,7 +691,7 @@
                     //header("Refresh:0");
                     //need a way to refresh the page so that the new task will appear in my tasks straight away
                 }
-                
+
                 //inserting the tag ids into a table with their related task id
                 $stmt = $dbh->prepare("INSERT INTO assigned_tags VALUES(:taskID, :tagID)");
                 $stmt->execute(array('taskID' => $taskID, ':tagID' => $tagID));
@@ -723,17 +721,17 @@
         <label for="Tags">Tag 1</label>
         <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags1"  placeholder="History">
       </div>
-        
+
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="Tags">Tag 2</label>
         <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags2"  placeholder="Irish Literature">
       </div>
-        
+
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="Tags">Tag 3</label>
         <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags3"  placeholder="Solo Composition">
       </div>
-        
+
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="Tags">Tag 4</label>
         <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags4"  placeholder="Contract Law">
@@ -826,32 +824,32 @@
     <div class="panel-body">
       <?php
         //**This is the php for the claimed tasks stream**
-        
+
         try {
             //connecting to the database
             $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
-            
-            //this counter is used to distinguish between tasks so the pop ups that 
+
+            //this counter is used to distinguish between tasks so the pop ups that
             //appear when a task is clicked on will be associated with the correct task
 		    $counter = 0;
-            
+
             //retriving the username from the session variable
             $username = $_SESSION['username'];
-            
+
             //this query returns all of the information recquired for each task
             $stmt = $dbh->prepare("SELECT task_Id, status_Id, title, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline , major FROM tasks JOIN task_status USING(task_Id) JOIN claimed_tasks USING(task_Id) WHERE claimed_tasks.username = ? ORDER BY submission_deadline ASC");
             $stmt->execute(array($username));
-            
+
             //checking if any rows were returned
             if($stmt->rowCount() == 0){
                 //displaying this message if the user has not claimed any tasks
                 printf("<h2 class='description-of-page'> You have not claimed any tasks. </h2>", $username);
             }else{
-                
-                //this while loop retrives all of the information for each task and dispalys 
+
+                //this while loop retrives all of the information for each task and dispalys
                 //them individually with their own pop up box when clicked on
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                
+
                 //retriving all of the information form the query rows
                 $taskID = $row['task_Id'];
                 $status = $row['status_Id'];
@@ -864,7 +862,7 @@
                 $claimDeadline = $row['claim_deadline'];
                 $submissionDeadline = $row['submission_deadline'];
                 $major = $row['major'];
-                
+
                 //these variables are used as unique identifiers for each task button and task pop up
                 $targetIdentifier = "#myModelClaimed";
                 $target = "myModelClaimed";
@@ -884,14 +882,14 @@
                 $tags[1] = "";
                 $tags[2] = "";
                 $tags[3] = "";
-                    
+
                 //variable to keep count of how many tags are retrived
                 $tagCounter = 0;
-                    
+
                 //query returning the tags linked to each task
                 $stmt2 = $dbh->prepare("SELECT tag_Name FROM tag_ids JOIN assigned_tags USING(tag_Id) WHERE task_Id = ?");
                 $stmt2->execute(array($taskID));
-                
+
                 //this while loop appends some of the tags with a comma so they look better when being displayed
                 while($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)){
                        if($tagCounter < 3){
@@ -922,7 +920,7 @@
                                         </div>
                                         <div class="modal-body">
                                            <div class="type">
-                                              Hello, I am ______  and I have claimed your task please send the file to my mail. 
+                                              Hello, I am ______  and I have claimed your task please send the file to my mail.
                                            </div>
                                         </div>
                                         <div class="modal-footer">
@@ -1019,7 +1017,7 @@
         }catch(PDOException $exception){
             printf("Connection error: %s", $exception->getMessage());
         }
-        
+
        //these queries are ran if the user cancels a task they've claimed
        if(isset($_POST['cancel'])){
             $taskID = $_POST['cancel'];
@@ -1073,21 +1071,21 @@
 
     <!-- Panel body -->
     <div class="panel-body">
-      <?php 
+      <?php
         //**This is the php code for the "Available Tasks" stream**
         try {
             //connecting to the database
             $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
-            
-            //this counter is used to distinguish between tasks so the pop ups that 
+
+            //this counter is used to distinguish between tasks so the pop ups that
             //appear when a task is clicked on will be associated with the correct task
 		    $counter = 0;
-            
+
             //this query returns all of the information recquired for each task
             $stmt = $dbh->prepare("SELECT DISTINCT(task_Id), title, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline ,major FROM tasks JOIN task_status USING(task_Id) JOIN assigned_tags USING(task_Id) JOIN user_tags USING(tag_Id) WHERE tasks.username != :username1 AND status_Id = 1 AND user_tags.username = :username2 AND flagged_count = 0 ORDER BY claim_deadline ASC");
             $stmt->execute(array(':username1' => $username, ':username2' => $username));
-            
-            //this while loop retrives all of the information for each task and dispalys 
+
+            //this while loop retrives all of the information for each task and dispalys
             //them individually with their own pop up box when clicked on
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 //retriving all of the information form the query rows
@@ -1101,7 +1099,7 @@
                 $claimDeadline = $row['claim_deadline'];
                 $submissionDeadline = $row['submission_deadline'];
                 $major = $row['major'];
-                
+
                 //these variables are used as unique identifiers for each task button and task pop up
                 $targetIdentifier = "#myModelAvailable";
                 $target = "myModelAvailable";
@@ -1110,7 +1108,7 @@
                 $targetID  = $targetIdentifier.$counter;
                 $target = $target.$counter;
                 $relatedFile = "FileUploads/".$taskID.$fileFormat;
-                
+
                 //these variables reformat the date so that it is easier to read for the user
                 $ClaimDateFormat = explode("-", $claimDeadline);
                 $SubmissionDateFormat = explode("-", $submissionDeadline);
@@ -1122,14 +1120,14 @@
                 $tags[1] = "";
                 $tags[2] = "";
                 $tags[3] = "";
-                
+
                 //variable to keep count of how many tags are retrived
                 $tagCounter = 0;
-                
+
                 //query returning the tags linked to each task
                 $stmt3 = $dbh->prepare("SELECT tag_Name FROM tag_ids JOIN assigned_tags USING(tag_Id) WHERE task_Id = ?");
                 $stmt3->execute(array($taskID));
-                
+
                 //this while loop appends some of the tags with a comma so they look better when being displayed
                 while($row3 = $stmt3->fetch(PDO::FETCH_ASSOC)){
                        if($tagCounter < 3){
@@ -1181,9 +1179,9 @@
                                         <div class="completion-deadline">
                                             Completion Deadline: %s
                                         </div>
-                                        
+
                                         <embed src= %s width="200px" height="360px" />
-                                        
+
                                         <a href=%s download=%s>Download Preview</a>
                                     </div>
                                     <div class="modal-footer">
@@ -1201,18 +1199,18 @@
         }catch(PDOException $exception){
              printf("Connection error: %s", $exception->getMessage());
         }
-        
+
         //these queries are ran if a user decides to claim a task
         if(isset($_POST['claim'])){
            $taskID = $_POST['claim'];
            //updates the task status of the task
            $stmt = $dbh->prepare("UPDATE task_status SET status_Id = 2 WHERE task_Id = ?");
            $stmt->execute(array($taskID));
-            
+
            //inserts the task id into the claimed tasks table
            $stmt = $dbh->prepare("INSERT INTO claimed_tasks VALUES(:taskID, CURRENT_TIMESTAMP, :username)");
            $stmt->execute(array(':taskID' => $taskID, ':username' => $username));
-         
+
            //gives the user 10 points for claiming a task
 		   $stmt = $dbh->prepare("UPDATE user_info SET points = points + 10 WHERE username = ?");
 		   $stmt->execute(array($username));

@@ -6,7 +6,6 @@
   <link href="https://fonts.googleapis.com/css?family=Lobster+Two:400,700|Roboto:400,700" rel="stylesheet">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link href="styles/ihover.css" rel="stylesheet">
   <title>UL Review</title>
 </head>
 <body id="body">
@@ -15,7 +14,7 @@
         //if a user isnt logged in or they are not a moderator then they are redirected to the log in page
         session_start();
         if (!isset($_SESSION['username']) && $_SESSION['moderator'] != 1) {
-			header("Location:./logIn.php");					
+			header("Location:./logIn.php");
         }
     ?>
   <nav class="navbar navbar-default">
@@ -68,24 +67,24 @@
           <script src="js/jquery.js"></script>
           <script src="js/bootstrap.min.js"></script>
        <?php
-          
+
           try {
             //connecting to the database
             $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
-            
+
             //creating a variable to keep count of how many tasks are going to be displayed
             //this variable is used to trigger the relevant pop up to display the task information for each task
 		    $counter = 0;
-            
+
             //querying the database to return all relevant information for flagged tasks
             $stmt = $dbh->query("SELECT task_Id, title, flagged_count, type, page_no, word_Count, file_format, description, claim_deadline, submission_deadline FROM tasks WHERE flagged_count > 0 order by flagged_count ASC");
-            
+
             //this while loop with go through the resulting rows and create the boxes and pop windows for each task
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                
+
                 //variables used to display the task information
-                $taskID = $row['task_Id']; 
-                $title = $row['title'];              
+                $taskID = $row['task_Id'];
+                $title = $row['title'];
                 $flagCount = $row['flagged_count'];
                 $type = $row['type'];
                 $pageNo = $row['page_no'];
@@ -94,36 +93,36 @@
                 $description = $row['description'];
                 $claimDeadline = $row['claim_deadline'];
                 $submissionDeadline = $row['submission_deadline'];
-                
-                //these variables are used to distinguish between each task so the 
+
+                //these variables are used to distinguish between each task so the
                 //pop up that appears is related to the task that is clicked on
                 $targetIdentifier = "#myModelFlagged";
                 $target = "myModelFlagged";
                 $buttonIdentifier = "buttonFlagged";
                 $buttonID = $buttonIdentifier.$counter;
-                $targetID  = $targetIdentifier.$counter;               
+                $targetID  = $targetIdentifier.$counter;
                 $target = $target.$counter;
-                
+
                 //these variables reformat the dates that are being stored in the databse so they are more readable for the user
                 $ClaimDateFormat = explode("-", $claimDeadline);
                 $SubmissionDateFormat = explode("-", $submissionDeadline);
                 $claimDeadline = $ClaimDateFormat[2]."/".$ClaimDateFormat[1]."/".$ClaimDateFormat[0];
                 $submissionDeadline = $SubmissionDateFormat[2]."/".$SubmissionDateFormat[1]."/".$SubmissionDateFormat[0];
-                
+
                 //variables to store tags being retrived in the following query
                 $tags[0] = "";
                 $tags[1] = "";
                 $tags[2] = "";
                 $tags[3] = "";
-                
+
                 //a variable to keep count of how many tags are goin to be displayed
                 $tagCounter = 0;
-                
+
                 //query to get the tags that are associated with the task being displayed
                 $stmt2 = $dbh->prepare("SELECT tag_Name FROM tag_ids JOIN assigned_tags USING(tag_Id) WHERE task_Id = ?");
                 $stmt2->execute(array($taskID));
-                
-                //populating the tag array and appending them with a comma except 
+
+                //populating the tag array and appending them with a comma except
                 //the last one so the appear more naturally in the pop up
                 while($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)){
                    if($tagCounter < 3){
@@ -133,7 +132,7 @@
                    }
                       $tagCounter++;
                 }
-                
+
                 //this printf will print out the html code to display each task
                 printf('<button type= %s class="btn btn-MyTasksAvailable btn-lg" data-toggle="modal" data-target= %s >Title: %s</br> No. of Flags: %s </br> Date: %s</button>
 
@@ -184,15 +183,15 @@
                                 </div>
                             </div>
                         </div> <!-- finish modal -->', $buttonID, $targetID, $title, $flagCount, $claimDeadline, $target, $buttonID, $title, $type, $tags[0], $tags[1], $tags[2], $tags[3],$pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline, $taskID, $taskID, $taskID);
-                
+
                 //incrementing the counter that us used to distinguish between each task being outputted
                 $counter++;
             }
         }catch(PDOException $exception){
               //catching any errors in connecting to the database
-             printf("Connection error: %s", $exception->getMessage());       
+             printf("Connection error: %s", $exception->getMessage());
         }
-        
+
         //these queries will run if the moderator has decided to delete the task
         if(isset($_POST['delete'])){
            //the task id for the relevant task is stored in the button that is used
