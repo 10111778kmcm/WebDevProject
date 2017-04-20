@@ -171,7 +171,7 @@
               //these queries will execute if the have decided to delete their account
               elseif(isset($_POST['delete'])){
                 //deleteing tasks created by the deleted user that have not being claimed yet
-                $stmt = $dbh->prepare("DELETE FROM tasks JOIN task_status USING(task_Id) WHERE username = ? AND status_ID = 1");
+                $stmt = $dbh->prepare("DELETE FROM tasks JOIN task_status USING(task_Id) WHERE username = ? AND status_Id = 1");
 	            $stmt->execute(array($username));
  
                 //updating database so the status of any tasks the deleted user has claimed will be changed to 'Cancelled by Claiment"

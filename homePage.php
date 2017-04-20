@@ -552,7 +552,7 @@
             $taskID = $_POST['delete'];
 
             //deleteing tasks created by the deleted user that have not being claimed yet
-            $stmt = $dbh->prepare("DELETE FROM tasks JOIN task_status USING(task_Id) WHERE username = ? AND status_ID = 1");
+            $stmt = $dbh->prepare("DELETE FROM tasks JOIN task_status USING(task_Id) WHERE username = ? AND status_Id = 1");
 	        $stmt->execute(array($username));
 
             //updating database so the status of any tasks the deleted user has claimed will be changed to 'Cancelled by Claiment"
@@ -1162,9 +1162,9 @@
                 //this while loop appends some of the tags with a comma so they look better when being displayed
                 while($row3 = $stmt3->fetch(PDO::FETCH_ASSOC)){
                        if($tagCounter < 3){
-                          $tags[$tagCounter] = $row2['tag_Name'].",";
+                          $tags[$tagCounter] = $row3['tag_Name'].",";
                        }else{
-                          $tags[$tagCounter] = $row2['tag_Name'];
+                          $tags[$tagCounter] = $row3['tag_Name'];
                        }
                        $tagCounter++;
                    }
