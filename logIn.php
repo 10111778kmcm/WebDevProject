@@ -249,7 +249,7 @@
 			          $saltedHash = hash('sha256', $pass1.$siteSalt);
                       //executing the query and inserting the variables into they query
 			          $affectedRows = $stmt->execute(array(':username' => $username, ':email' => $email, ':password' => $saltedHash, ':first_Name' => $firstname, ':surname' => $surname, ':major' => $major));
-			          //http://stackoverflow.com/questions/27123470/redirect-in-php-without-use-of-header-method
+			          
                       ?>
                       <!--Javascript used to redirect the user to the create sucsessful page -->
                       <script type="text/javascript">
