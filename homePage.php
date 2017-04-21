@@ -514,14 +514,14 @@
                                  <div class="modal-body">
                                     <h3> Please rate the feedback you have recieved</h3>
                                     <form method="get">
-                                       <button name ="good" type="submit" class="btn btn-lg btn-info" value = %s>
-                                          <img src="images/happy.jpg" alt="submit" width="120px" height="120px">
+                                       <button name ="good" type="submit" class="btn btn-lg btn-info img-responsive" value = %s>
+                                          <img src="images/happy.png" alt="submit" width="80px" height="80px">
                                        </button>
-                                       <button name ="middle" type="submit" class="btn btn-lg btn-info" value = %s>
-                                          <img src="images/neutral.jpg" alt="submit" width="120px" height="120px">
+                                       <button name ="middle" type="submit" class="btn btn-lg btn-info img-responsive" value = %s>
+                                          <img src="images/neutral.png" alt="submit" width="80px" height="80px">
                                        </button>
-                                       <button name ="bad" type="submit" class="btn btn-lg btn-info" value = %s>
-                                          <img src="images/sad.jpg" alt="submit" width="120px" height="120px">
+                                       <button name ="bad" type="submit" class="btn btn-lg btn-info img-responsive" value = %s>
+                                          <img src="images/sad.png" alt="submit" width="80px" height="80px">
                                        </button>
                                     </form>
                                  </div>
@@ -1075,7 +1075,7 @@
             //penalising the claiment for not submitting the task in time
             $stmt = $dbh->prepare("UPDATE user_info SET points = points - 30 WHERE username = ?");
 			$stmt->execute(array($username));
-            
+
        }
 ?>
 
