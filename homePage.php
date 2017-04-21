@@ -418,7 +418,7 @@
                                         <a href=%s download=%s>Download Preview</a>
                                         </br>
 
-                                    <div class="btn-bottom-modals">
+                                        <div class="btn-bottom-modals">
                                         <form method="post">
                                            <button type="submit" class="btn btn-default" name="delete" value= %s>Delete</button>
                                            <button type="submit" class="btn btn-default" name="reupload" value= %s>Re-Upload</button>
@@ -635,7 +635,7 @@
            //creating a boolean that will turn to true when the task can be created
            $createTask = true;
 
-           //file stuff $taskID taken from https://davidwalsh.name/basic-file-uploading-php and //https://www.w3schools.com/php/php_file_upload.asp
+           //code taken from https://davidwalsh.name/basic-file-uploading-php and referenced in write-up
 
            //setting the target directory folder
            $targetDirectory = "FileUploads/";
@@ -970,7 +970,7 @@
                         printf('<button type= %s class="btn btn-MyTasksExpired btn-lg" data-toggle="modal"
                         data-target= %s><b>Title:</b></br> %s</br> <b>Status:</b></br> Expired </br> <b>Deadline:</b> </br>%s</button>
 
-                               <!-- Modal -->
+                                <!-- Modal -->
                                <div class="modal fade" id= %s role="dialog">
                                   <div class="modal-dialog">
                                      <!-- Modal content-->
@@ -980,37 +980,18 @@
                                            <h4 class="modal-title title">Title: %s</h4>
                                         </div>
                                         <div class="modal-body">
-                                           <div class="type">
-                                              Type: %s
-                                           </div>
-                                           <div class="type">
-                                              Major: %s
-                                           </div>
-                                           <div class="tags">
-                                              Tags: %s %s %s %s
-                                           </div>
-                                           <div class="no-of-pages">
-                                              No of pages: %s
-                                           </div>
-                                           <div class="no-of-words">
-                                              No of word: %s
-                                           </div>
-                                           <div class="file-Format">
-                                              File Format: %s
-                                           </div>
-                                           <div class="description">
-                                              Description: %s
-                                           </div>
-                                           <div class="claimed-deadline">
-                                              Claim Deadline: %s
-                                           </div>
-                                           <div class="completion-deadline">
-                                              Completion Deadline: %s
-                                           </div>
+                                           <h2> The deadline to submit this task has passed.</h2>
+                                           <h2> You have been penalised for this.<h2>
                                        </div>
+                                       <div class="modal-footer">
+                                        <form method="post">
+                                           <button type="submit" class="btn btn-default" name="expired" value= %s>Ok</button>
+                                        </form>
+                                        <p>Status: Expired</p>
+                                    </div>
                                     </div>
                                   </div>
-                               </div> <!-- finish modal -->', $buttonID, $targetID, $title, $submissionDeadline, $target, $buttonID, $title, $type, $major, $tags[0],  $tags[1], $tags[2], $tags[3], $type, $pageNo, $wordCount, $fileFormat, $description, $claimDeadline, $submissionDeadline);
+                               </div> <!-- finish modal -->', $buttonID, $targetID, $title, $submissionDeadline, $target, $buttonID, $title, $taskID);
                     break;
 
                     case"6":
@@ -1084,6 +1065,17 @@
             //deletes the tag information on the tags that were associated to the task
             $stmt = $dbh->prepare("DELETE FROM assigned_tags WHERE task_Id = ?");
             $stmt->execute(array($taskID));
+       }
+       //these queries will run if a task the user has claimed is now expired
+       else if(isset($_POST['expired'])){
+            $taskID = $_POST['expired'];
+            //changing the status of the task to "Cancelled by Claiment"
+            $stmt = $dbh->prepare("UPDATE task_status SET status_Id = 4 WHERE task_Id = ?");
+            $stmt->execute(array($taskID));
+            //penalising the claiment for not submitting the task in time
+            $stmt = $dbh->prepare("UPDATE user_info SET points = points - 30 WHERE username = ?");
+			$stmt->execute(array($username));
+            
        }
 ?>
 
