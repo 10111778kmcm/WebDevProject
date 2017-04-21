@@ -6,14 +6,14 @@
   <link href="https://fonts.googleapis.com/css?family=Lobster+Two:400,700|Roboto:400,700" rel="stylesheet">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <script src="js/jquery.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery.validate.js"></script>
-  <script src="js/createTaskValidateScript.js"></script>
 <title>UL Review</title>
 </head>
 
 <body id="body">
+  <script src="js/jquery.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+
+
 
   <?php
     //creating a session and checking a user is loggedin, if there isnt then the user is brough back to the log in page
@@ -421,6 +421,7 @@
                                     <div class="btn-bottom-modals">
                                         <form method="post">
                                            <button type="submit" class="btn btn-default" name="delete" value= %s>Delete</button>
+                                           <button type="submit" class="btn btn-default" name="reupload" value= %s>Re-Upload</button>
                                         </form>
                                         <p>Status: Expired</p>
                                         </div>
@@ -485,6 +486,7 @@
                                     <div class="btn-bottom-modals">
                                         <form method="post">
                                            <button type="submit" class="btn btn-default" name="delete" value= %s>Delete</button>
+                                           <button type="submit" class="btn btn-default" name="reupload" value= %s>Re-Upload</button>
                                         </form>
                                         <p>Status: Cancelled by Claiment</p>
                                         </div>
@@ -548,23 +550,16 @@
           //if the user decides to delete a task then the following queries are ran
           else if(isset($_POST['delete'])){
             $taskID = $_POST['delete'];
-            
-            //getting the status of the task being deleted
-            $stmt3 = $dbh->prepare("SELECT status_Id FROM task_status WHERE task_Id = ?");
-            $stmt3->execute(array($taskID));
-            $row = $stmt3->fetch(PDO::FETCH_ASSOC);
-            $status = $row['Status_Id'];
-            
-            //checking if the task has been claimed yet
-            if($status == 1){
-               //deleteing tasks created by the user that have not being claimed yet
-               $stmt = $dbh->prepare("DELETE tasks FROM tasks JOIN task_status USING(task_Id) WHERE tasks.username = :username AND task_status.status_Id = 1 AND tasks.task_Id = :taskID");
-	           $stmt->execute(array(':username' => $username, ':taskID' => $taskID));
-              
-              //deleting information on tags associated to this task
-              $stmt = $dbh->prepare("DELETE FROM task_status WHERE task_Id = ?");
-              $stmt->execute(array($taskID));
-            }
+
+            //deleteing tasks created by the deleted user that have not being claimed yet
+            $stmt = $dbh->prepare("DELETE FROM tasks JOIN task_status USING(task_Id) WHERE username = ? AND status_ID = 1");
+	        $stmt->execute(array($username));
+
+            //updating database so the status of any tasks the deleted user has claimed will be changed to 'Cancelled by Claiment"
+            $stmt = $dbh->prepare("UPDATE task_status JOIN claimed_tasks USING(task_Id) SET status_Id = 4 WHERE claimed_tasks.username = ?" );
+            $stmt->execute(array($username));
+
+
             //updating database so the status of any tasks the deleted user has uploaded that has been claimed will be changed to 'Cancelled by Uploader"
             $stmt = $dbh->prepare("UPDATE task_status JOIN tasks USING(task_Id) SET status_Id = 6 WHERE tasks.username = ? AND status_Id = 2" );
 	        $stmt->execute(array($username));
@@ -577,21 +572,21 @@
           else if(isset($_POST['good'])){
             $taskID = $_POST['good'];
             //adding 5 points to the users score
-			$stmt = $dbh->prepare("UPDATE user_info SET points = points + 5 WHERE username = (SELECT username FROM claimed_tasks WHERE task_Id = ?)");
+			$stmt = $dbh->prepare("UPDATE user_info SET points = points + 5 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
 			$stmt->execute(array($taskID));
           }
           //if the user rates the task feedback as ok then the following queries are ran
           else if(isset($_POST['middle'])){
             $taskID = $_POST['middle'];
             //adding 2 points to the users score
-            $stmt = $dbh->prepare("UPDATE user_info SET points = points + 2 WHERE username = (SELECT username FROM claimed_tasks WHERE task_Id = ?)");
+            $stmt = $dbh->prepare("UPDATE user_info SET points = points + 2 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
 			$stmt->execute(array($taskID));
           }
           //if the user rates the task feedback as bad then the following queries are ran
           else if(isset($_POST['bad'])){
             $taskID = $_POST['bad'];
             //taking away five points from the users score
-			$stmt = $dbh->prepare("UPDATE user_info SET points = points - 5 WHERE username = (SELECT username FROM claimed_tasks WHERE task_Id = ?)");
+			$stmt = $dbh->prepare("UPDATE user_info SET points = points - 5 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
 			$stmt->execute(array($taskID));
           }
 
@@ -742,7 +737,7 @@
         }
       }
       ?>
-    <form method="post" enctype="multipart/form-data" id="createTaskForm">
+    <form method="post" enctype="multipart/form-data">
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="title">Title</label>
         <input class=" form-control" type="text" id="title" name="title"  placeholder="World War II">
@@ -755,32 +750,32 @@
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="Tags">Tag 1</label>
-        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags1" placeholder="History">
+        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags1"  placeholder="History">
       </div>
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="Tags">Tag 2</label>
-        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags2" placeholder="Irish Literature">
+        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags2"  placeholder="Irish Literature">
       </div>
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="Tags">Tag 3</label>
-        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags3" placeholder="Solo Composition">
+        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags3"  placeholder="Solo Composition">
       </div>
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="Tags">Tag 4</label>
-        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags4" placeholder="Contract Law">
+        <input class=" form-control" data-role="tagsinput" type="text" id="Tags" name="tags4"  placeholder="Contract Law">
       </div>
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="no-of-pages">No of pages</label>
-        <input class=" form-control" type="number" id="No-of-pages" name="pageNum" placeholder="20">
+        <input class=" form-control" type="number" id="No-of-pages" minlength="1" maxlength="50" name="pageNum" placeholder="20">
       </div>
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <label for="no-of-words">No of words</label>
-        <input class=" form-control" type="number" id="No-of-words" name="wordNum" placeholder="12456">
+        <input class=" form-control" type="number" id="No-of-words" minlength="100" maxlength="15000" name="wordNum" placeholder="12456">
       </div>
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -818,22 +813,22 @@
 
       <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
          <label for="description">Description</label>
-         <input class=" form-control" type="text" maxlength="500" id="Description" name="description"  placeholder="Max 500 characters">
+         <input class=" form-control" type="text" maxlength="500" id="Description" name="description"  placeholder="Max 100 words">
       </div>
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-         <label for="re-password">Claimed deadline</label>
-            <div>
-                <p> Date: <input type="date" class="datepicker" name="claimDeadline"></p>
+               <label for="re-password">Claimed deadline</label>
+                  <div>
+                      <input type="date" value="2017-05-23" class="form-control" name="claimDeadline" id='datetimepicker1' ></input>
+                  </div>
             </div>
-      </div>
 
-      <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-         <label for="re-password">Completion deadline</label>
-            <div>
-               <p> Date: <input type="date" class="datepicker" name="submissionDeadline"></p>
+            <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+               <label for="re-password">Completion deadline</label>
+                  <div>
+                     <input type="date" value="2017-05-23" class="form-control" name="submissionDeadline" id='datetimepicker2' ></input>
+                  </div>
             </div>
-      </div>
 
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
          <label for="re-password">File Upload (A short summary of your task)</label>
@@ -1167,9 +1162,9 @@
                 //this while loop appends some of the tags with a comma so they look better when being displayed
                 while($row3 = $stmt3->fetch(PDO::FETCH_ASSOC)){
                        if($tagCounter < 3){
-                          $tags[$tagCounter] = $row3['tag_Name'].",";
+                          $tags[$tagCounter] = $row2['tag_Name'].",";
                        }else{
-                          $tags[$tagCounter] = $row3['tag_Name'];
+                          $tags[$tagCounter] = $row2['tag_Name'];
                        }
                        $tagCounter++;
                    }
@@ -1272,10 +1267,15 @@
 		   $stmt->execute(array($username));
         }
 ?>
+
+
+
     </div> <!-- panel-body -->
   </div> <!-- panel panel-default -->
 </div> <!-- container -->
     </div> <!-- topSpace -->
 </div>
+
+
 </body>
 </html>
