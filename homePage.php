@@ -574,6 +574,14 @@
             //adding 5 points to the users score
 			$stmt = $dbh->prepare("UPDATE user_info SET points = points + 5 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
 			$stmt->execute(array($taskID));
+              
+            //deleting this task
+            $stmt = $dbh->prepare("DELETE FROM tasks WHERE task_Id = ?");
+            $stmt->execute(array($taskID));
+              
+            //deleting information on tags associated to this task
+            $stmt = $dbh->prepare("DELETE FROM task_status WHERE task_Id = ?");
+            $stmt->execute(array($taskID));
           }
           //if the user rates the task feedback as ok then the following queries are ran
           else if(isset($_POST['middle'])){
@@ -581,6 +589,14 @@
             //adding 2 points to the users score
             $stmt = $dbh->prepare("UPDATE user_info SET points = points + 2 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
 			$stmt->execute(array($taskID));
+              
+            //deleting this task
+            $stmt = $dbh->prepare("DELETE FROM tasks WHERE task_Id = ?");
+            $stmt->execute(array($taskID));
+              
+            //deleting information on tags associated to this task
+            $stmt = $dbh->prepare("DELETE FROM task_status WHERE task_Id = ?");
+            $stmt->execute(array($taskID));
           }
           //if the user rates the task feedback as bad then the following queries are ran
           else if(isset($_POST['bad'])){
@@ -588,6 +604,14 @@
             //taking away five points from the users score
 			$stmt = $dbh->prepare("UPDATE user_info SET points = points - 5 WHERE username = (SELECT username FROM claimed_tasks WHERE taskID = ?)");
 			$stmt->execute(array($taskID));
+              
+            //deleting this task
+            $stmt = $dbh->prepare("DELETE FROM tasks WHERE task_Id = ?");
+            $stmt->execute(array($taskID));
+              
+            //deleting information on tags associated to this task
+            $stmt = $dbh->prepare("DELETE FROM task_status WHERE task_Id = ?");
+            $stmt->execute(array($taskID));
           }
 
 
