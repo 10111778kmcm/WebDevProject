@@ -17,6 +17,10 @@ body{
 
 .navbar{
     background-color: #fff;
+    border-radius: 0;
+	  border: none;
+	  margin-bottom: 0;
+
 }
 
 h1{
@@ -38,6 +42,10 @@ h1 p{
 .tasks-main{
     display: block;
 
+}
+
+.topSpace{
+  margin-top: 70px;
 }
 
 .white-card{
@@ -94,22 +102,16 @@ footer{
     background-color: #182E40;
 }
 
-.btn-stickyNav{
-    background-color: #E15BE3;
-    color: #fff;
-}
-
-.btn-stickyNav:hover{
-    background-color: #3B7194;
-    color: #fff;
-}
 
 .btn-FlaggedTasks{
-    background-color:#31E3E3;
+    background-color:#F5F715;
+    border-radius: 10px;
+    height: 10%;
+
 }
 
-.btn-FlaggedTasks:hoover{
-    background-color: #2A9DE3;
+.btn-FlaggedTasks:hover{
+    background-color: #8CD3FF;
     color: #fff;
 }
 
@@ -135,6 +137,15 @@ footer{
     background-color:#428bca;
     color:#fff;
 }
+
+.btn-deleteAccount{
+  color: #d9534f;
+}
+
+.btn-deleteAccount:hover{
+  color: #D93A32;
+}
+
 
 .btn-TasksIndex{
     align-self: center;
@@ -164,120 +175,151 @@ footer{
     border-style: double;
     border-width: 4px;
     border-color: #28B4FA;
-    align-self: center;
     background-color:#fff;
-    width: 180px;
-    height: 120px;
+    width: 185px;
+    height: 140px;
     font-color:#3A738F;
     border-radius: 20px;
     margin: 15px;
+    padding: 10px;
     box-shadow: 8px 8px 25px #BFC2C2;
     -webkit-transition: all 0.1s ease-in-out;
-    font-size: 15px;
+    font-size: 13px;
+    text-align: left;
+    overflow: hidden;
 }
 
 .btn-MyTasksAvailable:hover{
      -webkit-transform: scale(1.1);
+     color: #888888;
 }
 
 .btn-MyTasksExpired{
     border-style: double;
     border-width: 4px;
     border-color: #FA2828;
-    align-self: center;
     background-color:#fff;
-    width: 180px;
-    height: 120px;
+    width: 185px;
+    height: 140px;
     font-color:#3A738F;
     border-radius: 20px;
     margin: 15px;
+    padding: 10px;
     box-shadow: 8px 8px 25px #BFC2C2;
     -webkit-transition: all 0.1s ease-in-out;
-    font-size: 15px;
+    font-size: 13px;
+    text-align: left;
+    overflow: hidden;
 }
 
 .btn-MyTasksExpired:hover{
      -webkit-transform: scale(1.1);
+     color: #888888;
 }
 
 .btn-MyTasksPending{
     border-style: double;
     border-width: 4px;
     border-color: #804B94;
-    align-self: center;
     background-color: #fff;
-    width: 180px;
-    height: 120px;
+    width: 185px;
+    height: 140px;
     font-color:#3A738F;
     border-radius: 20px;
     margin: 15px;
+    padding: 10px;
     box-shadow: 8px 8px 25px #BFC2C2;
     -webkit-transition: all 0.1s ease-in-out;
-    font-size: 15px;
+    font-size: 13px;
+    text-align: left;
+    overflow: hidden;
 }
 
 .btn-MyTasksPending:hover{
      -webkit-transform: scale(1.1);
+     color: #888888;
 }
 
 .btn-MyTasksClaimed{
     border-style: double;
     border-width: 4px;
     border-color: #FAB028;
-    align-self: center;
     background-color: #fff;
-    width: 180px;
-    height: 120px;
+    width: 185px;
+    height: 140px;
     font-color:#3A738F;
     border-radius: 20px;
     margin: 15px;
+    padding: 10px;
     box-shadow: 8px 8px 25px #BFC2C2;
     -webkit-transition: all 0.1s ease-in-out;
-    font-size: 15px;
+    font-size: 13px;
+    text-align: left;
+    overflow: hidden;
 }
 
 .btn-MyTasksClaimed:hover{
      -webkit-transform: scale(1.1);
+     color: #888888;
 }
 
 .btn-MyTasksCancelled{
     border-style: double;
     border-width: 4px;
     border-color: #FA2828;
-    align-self: center;
     background-color: #fff;
-    width: 180px;
-    height: 120px;
+    width: 185px;
+    height: 140px;
     font-color:#3A738F;
     border-radius: 20px;
     margin: 15px;
+    padding: 10px;
     box-shadow: 8px 8px 25px #BFC2C2;
     -webkit-transition: all 0.1s ease-in-out;
-    font-size: 15px;
+    font-size: 13px;
+    text-align: left;
+    overflow: hidden;
 }
 
 .btn-MyTasksCancelled:hover{
      -webkit-transform: scale(1.1);
+     color: #888888;
 }
 
 .btn-MyTasksCompleted{
     border-style: double;
     border-width: 4px;
     border-color: #16BA34;
-    align-self: center;
     background-color: #fff;
-    width: 180px;
-    height: 120px;
+    width: 185px;
+    height: 140px;
     font-color:#3A738F;
     border-radius: 20px;
     margin: 15px;
+    padding: 10px;
     box-shadow: 8px 8px 25px #BFC2C2;
     -webkit-transition: all 0.1s ease-in-out;
-    font-size: 15px;
+    font-size: 13px;
+    text-align: left;
+    overflow: hidden;
 }
 
 .btn-MyTasksCompleted:hover{
      -webkit-transform: scale(1.1);
+     color: #888888;
+}
+
+.modal-body{
+  padding:30px 50px;
+}
+
+}
+.modal-footer {
+  text-align: left;
+}
+
+.btn-bottom-modals {
+  text-align: right;
 }
 
 footer{
