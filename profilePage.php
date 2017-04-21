@@ -274,9 +274,12 @@
                     </form>', $firstName, $surname, $email, $username);
           
           }catch (PDOException $exception) {
-              //catching any errors that may occur connecting to the database
-              printf("Connection error: %s", $exception->getMessage());
-          }
+               //Javascript used to redirect the user to the databse error page
+                     ?>
+                <script type="text/javascript">
+                    window.location.href = './errorConnectionDB.php';
+                </script>
+                      <?php
 ?>
           
           

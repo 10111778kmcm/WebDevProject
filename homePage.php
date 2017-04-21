@@ -536,8 +536,12 @@
                 }
              }
            } catch (PDOException $exception) {
-                //catches an error if there is an issue connecting to the database
-                printf("Connection error: %s", $exception->getMessage());
+                 //Javascript used to redirect the user to the databse error page
+                     ?>
+                <script type="text/javascript">
+                    window.location.href = './errorConnectionDB.php';
+                </script>
+                      <?php
           }
 
           //if the user decides to cancel a task then the following queries are ran
@@ -752,8 +756,12 @@
                 $stmt->execute(array('taskID' => $taskID, ':tagID' => $tagID));
              }
            }catch(PDOException $exception){
-              //catching an issue connecting the database
-              print("<h2> Uh Oh1</h2>");
+               //Javascript used to redirect the user to the databse error page
+                     ?>
+                      <script type="text/javascript">
+                        window.location.href = './errorConnectionDB.php';
+                      </script>
+                      <?php
            }
         }else{
            //issue with creating task
@@ -1051,7 +1059,12 @@
              }
           }
         }catch(PDOException $exception){
-            printf("Connection error: %s", $exception->getMessage());
+             //Javascript used to redirect the user to the databse error page
+                     ?>
+                <script type="text/javascript">
+                    window.location.href = './errorConnectionDB.php';
+                </script>
+                      <?php
         }
 
        //these queries are ran if the user cancels a task they've claimed
@@ -1253,7 +1266,12 @@
                 $counter++;
             }
         }catch(PDOException $exception){
-             printf("Connection error: %s", $exception->getMessage());
+              //Javascript used to redirect the user to the databse error page
+                     ?>
+                <script type="text/javascript">
+                    window.location.href = './errorConnectionDB.php';
+                </script>
+                      <?php
         }
 
         //these queries are ran if a user decides to claim a task

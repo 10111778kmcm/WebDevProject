@@ -188,8 +188,12 @@
                 $counter++;
             }
         }catch(PDOException $exception){
-              //catching any errors in connecting to the database
-             printf("Connection error: %s", $exception->getMessage());
+               //Javascript used to redirect the user to the databse error page
+                     ?>
+                      <script type="text/javascript">
+                        window.location.href = './errorConnectionDB.php';
+                      </script>
+                      <?php
         }
 
         //these queries will run if the moderator has decided to delete the task

@@ -96,7 +96,12 @@
               }
              //catching an error if there is a problem connecting to the database
              catch(PDOException $exception){
-                 print("<h2> Uh Oh</h2>");
+                  //Javascript used to redirect the user to the databse error page
+                     ?>
+                      <script type="text/javascript">
+                        window.location.href = './errorConnectionDB.php';
+                      </script>
+                      <?php
               }
           }else{
              // header to appear on page if the user has not entered enough topics

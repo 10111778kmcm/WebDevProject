@@ -134,8 +134,12 @@
 			      printf("<h2> Password incorrect or account not found. </h2>");
 		      }
           }catch (PDOException $exception) {
-              //displaying an error if there is a problem connecting to the database
-              printf("Connection error: %s", $exception->getMessage());
+              //Javascript used to redirect the user to the databse error page
+                     ?>
+                      <script type="text/javascript">
+                        window.location.href = './errorConnectionDB.php';
+                      </script>
+                      <?php
 	      }
        }
     ?>
@@ -207,8 +211,12 @@
                  //connecting to the database
 	             $dbh = new PDO("mysql:host=localhost;dbname=Project", "root", "");
                }catch(PDOException $exception){
-                   //catching an error if there is a problem connecting to the database
-                   print("<h2> Uh Oh1</h2>");
+                    //Javascript used to redirect the user to the databse error page
+                     ?>
+                      <script type="text/javascript">
+                        window.location.href = './errorConnectionDB.php';
+                      </script>
+                      <?php
                }
 
                //query to check if the email they have inputted is already in the database
