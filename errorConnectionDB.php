@@ -16,15 +16,6 @@
      if (!isset($_SESSION['username'])) {
        //if a user isnt logged in then redirect them to the log in page
        header("Location:/logIn.php");
-     }else{
-        /*http://php.net/manual/en/function.session-unset.php*/
-        //loggin the user out
-        session_start();
-        session_unset();
-        session_destroy();
-        session_write_close();
-        setcookie(session_name(),'',0,'/');
-        session_regenerate_id(true);
      }
   ?>
     <nav class="navbar navbar-default">
